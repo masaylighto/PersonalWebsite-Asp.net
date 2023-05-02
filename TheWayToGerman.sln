@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheWayToGerman", "TheWayToGerman\TheWayToGerman.csproj", "{D02042BD-8B6C-4A3D-8FCD-C359EE717A0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman", "TheWayToGerman\TheWayToGerman.csproj", "{D02042BD-8B6C-4A3D-8FCD-C359EE717A0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{15782BCF-EF01-4F8D-B610-D64861E5D5C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.DataKit", "Lib\Core.DataKit\Core.DataKit.csproj", "{50FE2BAE-9FC3-4C03-AEC0-CC3F16CDE0E0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Cqrs", "Lib\Core.Cqrs\Core.Cqrs.csproj", "{11AE861E-B323-4581-8A2D-73400084827C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{11DF57E9-66A5-477F-BD9A-39CA6BCA1A03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expressions", "Lib\Extensions\Expressions\Expressions.csproj", "{CE6CD178-CFAC-4463-BC4E-F6509DE4DE2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.HTTP", "Lib\Core.HTTP\Core.HTTP.csproj", "{189B8248-F514-4BEC-9110-847962AED57B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +27,32 @@ Global
 		{D02042BD-8B6C-4A3D-8FCD-C359EE717A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D02042BD-8B6C-4A3D-8FCD-C359EE717A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D02042BD-8B6C-4A3D-8FCD-C359EE717A0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50FE2BAE-9FC3-4C03-AEC0-CC3F16CDE0E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50FE2BAE-9FC3-4C03-AEC0-CC3F16CDE0E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50FE2BAE-9FC3-4C03-AEC0-CC3F16CDE0E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50FE2BAE-9FC3-4C03-AEC0-CC3F16CDE0E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11AE861E-B323-4581-8A2D-73400084827C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11AE861E-B323-4581-8A2D-73400084827C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11AE861E-B323-4581-8A2D-73400084827C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11AE861E-B323-4581-8A2D-73400084827C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE6CD178-CFAC-4463-BC4E-F6509DE4DE2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE6CD178-CFAC-4463-BC4E-F6509DE4DE2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE6CD178-CFAC-4463-BC4E-F6509DE4DE2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE6CD178-CFAC-4463-BC4E-F6509DE4DE2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{189B8248-F514-4BEC-9110-847962AED57B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{189B8248-F514-4BEC-9110-847962AED57B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{189B8248-F514-4BEC-9110-847962AED57B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{189B8248-F514-4BEC-9110-847962AED57B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{50FE2BAE-9FC3-4C03-AEC0-CC3F16CDE0E0} = {15782BCF-EF01-4F8D-B610-D64861E5D5C4}
+		{11AE861E-B323-4581-8A2D-73400084827C} = {15782BCF-EF01-4F8D-B610-D64861E5D5C4}
+		{11DF57E9-66A5-477F-BD9A-39CA6BCA1A03} = {15782BCF-EF01-4F8D-B610-D64861E5D5C4}
+		{CE6CD178-CFAC-4463-BC4E-F6509DE4DE2A} = {11DF57E9-66A5-477F-BD9A-39CA6BCA1A03}
+		{189B8248-F514-4BEC-9110-847962AED57B} = {15782BCF-EF01-4F8D-B610-D64861E5D5C4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1715B598-B667-4812-8598-BFE42AE81707}
