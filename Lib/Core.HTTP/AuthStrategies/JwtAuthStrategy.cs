@@ -11,7 +11,7 @@ public class JwtAuthStrategy : IAuthStrategy
     public JwtAuthStrategy(string jwtToken)
     {
         JwtToken = jwtToken;
-    }   
+    }
     public void ApplyAuth(HttpRequestHeaders headers)
     {
         headers.Authorization = new AuthenticationHeaderValue("Bearer", JwtToken);

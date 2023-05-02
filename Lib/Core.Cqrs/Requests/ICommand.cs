@@ -1,5 +1,4 @@
-﻿using Core.DataKit;
-using Core.DataKit.Result;
+﻿using Core.DataKit.Result;
 using MediatR;
 
 namespace Core.Cqrs.Requests;

@@ -1,5 +1,3 @@
-﻿using System.Runtime.InteropServices;
+﻿namespace Core.DataKit;
 
-namespace Core.DataKit;
-
-public struct OK{};
+public struct OK { };

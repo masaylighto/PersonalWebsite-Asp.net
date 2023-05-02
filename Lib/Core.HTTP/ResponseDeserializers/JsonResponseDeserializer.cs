@@ -1,5 +1,4 @@
-﻿using Core.DataKit;
-using Core.DataKit.Result;
+﻿using Core.DataKit.Result;
 using Core.HTTP.Interfaces;
 using System.Text.Json;
 
@@ -9,14 +8,14 @@ public class JsonResponseDeserializer<ReturnType> : IResponseDeserializer<Return
 {
     public async Task<Result<ReturnType>> Deserialize(HttpResponseMessage httpResponseMessage)
     {
-		try
-		{
+        try
+        {
             var result = await JsonSerializer.DeserializeAsync<ReturnType>(httpResponseMessage.Content.ReadAsStream());
-            return result is not null? result: new NullReferenceException("Empty json response after Deserializing");
+            return result is not null ? result : new NullReferenceException("Empty json response after Deserializing");
         }
-		catch (Exception ex)
-		{
+        catch (Exception ex)
+        {
             return ex;
-		}
+        }
     }
 }

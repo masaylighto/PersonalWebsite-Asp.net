@@ -1,8 +1,6 @@
-﻿using Core.DataKit;
-using Core.DataKit.Exceptions;
+﻿using Core.DataKit.Exceptions;
 using Core.DataKit.Result;
 using Core.HTTP.Interfaces;
-using System.Security.Cryptography;
 
 namespace Core.HTTP;
 
@@ -24,7 +22,7 @@ public class GenericHttpClient : IGenericHttpClient
         if (HttpClient.DefaultRequestHeaders.Contains(Key))
         {
             HttpClient.DefaultRequestHeaders.Remove(Key);
-        }       
+        }
         HttpClient.DefaultRequestHeaders.Add(Key, Value);
     }
     public void SetBaseUrl(string baseUrl)
@@ -55,7 +53,7 @@ public class GenericHttpClient : IGenericHttpClient
         httpRequestMessage.RequestUri = new Uri(endPoint);
         if (content is not null && HTTPContentBuilder is not null)
         {
-            var requestContent= await HTTPContentBuilder.BuildContent(content!);
+            var requestContent = await HTTPContentBuilder.BuildContent(content!);
             if (requestContent.ContainError())
             {
                 return requestContent.GetError();
@@ -77,7 +75,7 @@ public class GenericHttpClient : IGenericHttpClient
     }
 
     public async Task<Result<ReturnType>> PutAsync<ReturnType, RequestContent>(string endPoint, IResponseDeserializer<ReturnType> responseDeserializer, RequestContent? content = default, IRequestContentBuilder<RequestContent>? HTTPContentBuilder = null) where ReturnType : class where RequestContent : class
-    {   
+    {
         //build request if created send if not return the error
         var requestContent = await BuildMessageContent(endPoint, HttpMethod.Put, content, HTTPContentBuilder);
         if (requestContent.ContainError())
@@ -89,7 +87,7 @@ public class GenericHttpClient : IGenericHttpClient
     }
 
     public async Task<Result<ReturnType>> DeleteAsync<ReturnType, RequestContent>(string endPoint, IResponseDeserializer<ReturnType> responseDeserializer, RequestContent? content = default, IRequestContentBuilder<RequestContent>? HTTPContentBuilder = null) where ReturnType : class where RequestContent : class
-    {   
+    {
         //build request if created send if not return the error
         var requestContent = await BuildMessageContent(endPoint, HttpMethod.Delete, content, HTTPContentBuilder);
         if (requestContent.ContainError())

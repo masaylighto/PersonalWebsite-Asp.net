@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Cqrs.Handlers;
 
-public abstract class BaseHandler<Request, Response> : IRequestHandler<Request,Result<Response>> where Request : IRequest<Result<Response>>
+public abstract class BaseHandler<Request, Response> : IRequestHandler<Request, Result<Response>> where Request : IRequest<Result<Response>>
 {
     protected IValidator<Request>? Validator { get; set; }
 
