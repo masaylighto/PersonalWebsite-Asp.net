@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.Api", "TheWayToGerman\TheWayToGerman.Api.csproj", "{D02042BD-8B6C-4A3D-8FCD-C359EE717A0A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{15782BCF-EF01-4F8D-B610-D64861E5D5C4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.DataKit", "Lib\Core.DataKit\Core.DataKit.csproj", "{50FE2BAE-9FC3-4C03-AEC0-CC3F16CDE0E0}"
@@ -17,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expressions", "Lib\Extensio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.HTTP", "Lib\Core.HTTP\Core.HTTP.csproj", "{189B8248-F514-4BEC-9110-847962AED57B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheWayToGerman.Core", "Core\TheWayToGerman.Core.csproj", "{DCDC7163-0E22-4C34-B4D4-A5D0B1CD231C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.Core", "TheWayToGerman.Core\TheWayToGerman.Core.csproj", "{DCDC7163-0E22-4C34-B4D4-A5D0B1CD231C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheWayToGerman.Logic", "TheWayToGerman.Logic\TheWayToGerman.Logic.csproj", "{3E138A5A-B7CE-4E52-9093-9772D415EE8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.Logic", "TheWayToGerman.Logic\TheWayToGerman.Logic.csproj", "{3E138A5A-B7CE-4E52-9093-9772D415EE8E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.Api", "TheWayToGermanApi\TheWayToGerman.Api.csproj", "{37763AF1-55D3-4A62-9C46-236B22AF2708}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D02042BD-8B6C-4A3D-8FCD-C359EE717A0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D02042BD-8B6C-4A3D-8FCD-C359EE717A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D02042BD-8B6C-4A3D-8FCD-C359EE717A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D02042BD-8B6C-4A3D-8FCD-C359EE717A0A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{50FE2BAE-9FC3-4C03-AEC0-CC3F16CDE0E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{50FE2BAE-9FC3-4C03-AEC0-CC3F16CDE0E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50FE2BAE-9FC3-4C03-AEC0-CC3F16CDE0E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -55,6 +51,10 @@ Global
 		{3E138A5A-B7CE-4E52-9093-9772D415EE8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E138A5A-B7CE-4E52-9093-9772D415EE8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E138A5A-B7CE-4E52-9093-9772D415EE8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37763AF1-55D3-4A62-9C46-236B22AF2708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37763AF1-55D3-4A62-9C46-236B22AF2708}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37763AF1-55D3-4A62-9C46-236B22AF2708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37763AF1-55D3-4A62-9C46-236B22AF2708}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
