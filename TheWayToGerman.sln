@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.Core", "TheW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.Logic", "TheWayToGerman.Logic\TheWayToGerman.Logic.csproj", "{3E138A5A-B7CE-4E52-9093-9772D415EE8E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.Api", "TheWayToGermanApi\TheWayToGerman.Api.csproj", "{37763AF1-55D3-4A62-9C46-236B22AF2708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.Api", "TheWayToGerman.Api\TheWayToGerman.Api.csproj", "{37763AF1-55D3-4A62-9C46-236B22AF2708}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
