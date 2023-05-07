@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  postgresql:
+    image: postgres
+    restart: always
+    ports:
+        - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "Fgcey4J03ZRK4f2y79"
+      POSTGRES_USER: "KrqaJOvXGPmLBOPmNIVJ"
+  thewaytogerman.api:
+    depends_on:
+    - postgresql
+    image: thewaytogermanapi
+    restart: always
+    build:
+      context: .
+      dockerfile: TheWayToGerman.Api/Dockerfile

@@ -1,6 +1,10 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field warning. data in this class has ErrorExist to express if they are null
 
 namespace Core.DataKit.Result;
+/// <summary>
+/// Wrapper for values. it can implicitly receive a value or an exception or if the value is null it will set ArgumentNullException instead of it
+/// /// </summary>
+/// <typeparam name="DataType"></typeparam>
 public class Result<DataType>
 {
     //constructer 
@@ -16,10 +20,7 @@ public class Result<DataType>
         IsError = false;
     }
 
-    protected Result()
-    {
-
-    }
+    protected Result() { }
     //Fields
     protected DataType Data { get; set; }
     protected Exception Error { get; set; }
@@ -47,21 +48,17 @@ public class Result<DataType>
         IsError = true;
     }
 
-
     //Implict Conversation  
-    public static implicit operator Result<DataType>(DataType data)
+    public static implicit operator Result<DataType>(DataType? data)
     {
         Result<DataType> result = new();
         result.SetData(data);
         return result;
     }
-
     public static implicit operator Result<DataType>(Exception error)
     {
         Result<DataType> result = new();
         result.SetError(error);
         return result;
     }
-
-
 }
