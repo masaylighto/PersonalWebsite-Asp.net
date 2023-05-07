@@ -10,6 +10,7 @@ public class User : BaseEntity
 {
 
     public required string Name { get; set; }
+    public required string Username { get; set; }
     public required string Email { get; set; }
     private string? Password { get; set; }
     public UserType UserType { get; set; } = UserType.Admin;

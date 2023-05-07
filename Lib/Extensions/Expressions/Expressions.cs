@@ -1,4 +1,7 @@
-﻿using System.Linq.Expressions;
+﻿using System.Data.Common;
+using System.Linq.Expressions;
+using System.Reflection.Metadata;
+
 namespace Expressions;
 class RebindParameterVisitor : ExpressionVisitor
 {
@@ -11,15 +14,17 @@ public static class ExpressionsExtensions
 
     public static Expression<Func<T, bool>> Or<T>(this Expression<Func<T, bool>> sourceExpression, Expression<Func<T, bool>> additionalExpression)
     {
-        Expression rewrittenExpressionBody = additionalExpression.RebindBodyParamFrom(sourceExpression);
+        Expression rewrittenExpressionBody = additionalExpression.RebindBodyParamFrom(sourceExpression.Parameters.First());
         return LambdaFrom<T>(Expression.OrElse(sourceExpression.Body, rewrittenExpressionBody), sourceExpression.Parameters[0]);
     }
 
     public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> sourceExpression, Expression<Func<T, bool>> additionalExpression)
     {
-        Expression rewrittenExpressionBody = additionalExpression.RebindBodyParamFrom(sourceExpression);
+        Expression rewrittenExpressionBody = additionalExpression.RebindBodyParamFrom(sourceExpression.Parameters.First());
         return LambdaFrom<T>(Expression.AndAlso(sourceExpression.Body, rewrittenExpressionBody), sourceExpression.Parameters[0]);
     }
+
+
     public static Expression<Func<T, bool>> Not<T>(this Expression<Func<T, bool>> sourceExpression)
     {
         return Expression.Lambda<Func<T, bool>>(Expression.Not(sourceExpression.Body), sourceExpression.Parameters);
@@ -30,7 +35,10 @@ public static class ExpressionsExtensions
     {
         return Expression.Lambda<Func<T, bool>>(body, parameters);
     }
-
+    public static LambdaExpression BodyToLambda(this (Expression Body, ParameterExpression Parameter) exp)
+    {
+        return Expression.Lambda(exp.Body,exp.Parameter);
+    }
     /// <summary>
     /// Expressions differ in the name of the function parameter used inside of them,
     /// if we didn't rebind the parameter when we combine the expressions,
@@ -39,8 +47,13 @@ public static class ExpressionsExtensions
     /// </summary>
     /// <typeparam name="T">Expression Parameter</typeparam>
     /// <returns></returns>
-    private static Expression RebindBodyParamFrom<T>(this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
+    public static Expression RebindBodyParamFrom<T>(this Expression<Func<T, bool>> expr1, ParameterExpression parameter)
     {
-        return new RebindParameterVisitor(expr2.Parameters[0]).Visit(expr1.Body);
+        return new RebindParameterVisitor(parameter).Visit(expr1.Body);
+    }
+    public static (Expression Body,ParameterExpression Parameter) RebindBodyParamFrom<T>(this Expression<Func<T, bool>> exp, Type parameterType)
+    {
+        var parameter = Expression.Parameter(parameterType);
+        return (new RebindParameterVisitor(parameter).Visit(exp.Body),parameter);
     }
 }
