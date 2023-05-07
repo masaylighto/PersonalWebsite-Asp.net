@@ -1,26 +1,9 @@
 using TheWayToGerman.Core;
 using TheWayToGerman.Core.Entities;
+using TheWayToGerman.Core.Enums;
 using TheWayToGerman.DataAccess;
+using TheWayToGerman.DataAccess.Interfaces;
 using TheWayToGerman.Logic;
-
-
-
-
-
-bool fn(BaseEntity entity)
-{
-
-    return entity.DeleteDate == null;
-}
-
-
-var entites = typeof(BaseEntity).Assembly.GetTypes().Where(x => x.IsSubclassOf(typeof(BaseEntity)));
-
-foreach (var entite in entites)
-{
-    fn(new User() { Email="",Name="",Username="" });
-
-}
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,8 +16,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddRepositories();
 builder.Services.AddMediatR();
+builder.Services.AddJWTAuth(builder.Configuration);
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

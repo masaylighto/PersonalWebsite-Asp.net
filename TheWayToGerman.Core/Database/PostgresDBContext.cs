@@ -27,7 +27,8 @@ public class PostgresDBContext : DbContext
         {
                 // modify expression to handle correct child type               
                 var rebinded = SoftDelete.RebindBodyParamFrom(entityType.ClrType).BodyToLambda();               
-                entityType.SetQueryFilter(rebinded);            
+                entityType.SetQueryFilter(rebinded);    
+            
         }
         base.OnModelCreating(modelBuilder);
     }

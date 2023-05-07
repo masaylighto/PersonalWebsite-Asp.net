@@ -17,15 +17,15 @@ public class GetUserToAuthQueryHandler : QueryHandler<GetUserToAuthQuery, User>
             RuleFor(x => x.Password).MinimumLength(1);
         }
     }
-    public IUserRespository UserRespository { get; }
-    public GetUserToAuthQueryHandler(IUserRespository userRespository)
+    public IUnitOfWork UnitOfWork { get; }
+    public GetUserToAuthQueryHandler(IUnitOfWork unitOfWork)
     {
         Validator = new UserValidator();
-        UserRespository = userRespository;
+        UnitOfWork = unitOfWork;
     }
 
     protected override async Task<Result<User>> Fetch(GetUserToAuthQuery request, CancellationToken cancellationToken)
     {
-        return await UserRespository.GetUserAsync(x => x.Username == request.Username && x.IsPasswordEqual(request.Password));
+        return await UnitOfWork.UserRespository.GetUserAsync(x => x.Username == request.Username && x.IsPasswordEqual(request.Password));
     }
 }

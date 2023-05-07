@@ -12,7 +12,7 @@ using TheWayToGerman.Core.Database;
 namespace TheWayToGerman.Core.Migrations
 {
     [DbContext(typeof(PostgresDBContext))]
-    [Migration("20230506155424_addUserTable")]
+    [Migration("20230507180147_addUserTable")]
     partial class addUserTable
     {
         /// <inheritdoc />
@@ -42,6 +42,10 @@ namespace TheWayToGerman.Core.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
 

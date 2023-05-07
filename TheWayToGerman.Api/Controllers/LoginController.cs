@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TheWayToGerman.Api.DTO.Login;
 using TheWayToGerman.Api.ResponseObject;
+using TheWayToGerman.Api.ResponseObject.Login;
 using TheWayToGerman.Core.Cqrs.Queries;
 using TheWayToGerman.Logic.Authentication;
 
@@ -22,7 +23,7 @@ public class LoginController : ControllerBase
 
    
     [HttpPost]
-    [Route("auth")]
+    [Route("Auth")]
 
     public async Task<ActionResult> Authenticate(AuthenticateDTO authenticateDTO)
     {
@@ -44,7 +45,7 @@ public class LoginController : ControllerBase
                 Error = commandresult.GetError().Message
             });
         }
-        return Ok(tokenResult.GetData());
+        return Ok(new AuthenticateResponse() { JwtToken = tokenResult.GetData() });
 
     }
 }

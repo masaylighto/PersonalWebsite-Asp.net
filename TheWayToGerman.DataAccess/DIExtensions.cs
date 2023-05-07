@@ -10,5 +10,6 @@ public static class DIExtensions
     public static void AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IUserRespository, UserRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }
