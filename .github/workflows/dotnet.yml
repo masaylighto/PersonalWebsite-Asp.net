@@ -23,4 +23,4 @@ jobs:
     - name: Build
       run: dotnet build TheWayToGerman.sln
     - name: Test
-      run: dotnet test TheWayToGerman.sln --no-build --verbosity normal
+      run: dotnet test TheWayToGerman.sln
