@@ -17,7 +17,7 @@ public class LoginTest
       //execute
       var result = await client.PostAsJsonAsync("v1/login/auth", dto);
       //validate  
-      Assert.Equal(result.StatusCode,System.Net.HttpStatusCode.OK);
+      Assert.Equal(System.Net.HttpStatusCode.OK,result.StatusCode);
       var authenticateResponse = await result.Content.ReadFromJsonAsync<AuthenticateResponse>();
       Assert.NotNull(authenticateResponse.JwtToken);
     }
@@ -32,7 +32,7 @@ public class LoginTest
         //execute
         var result = await client.PostAsJsonAsync("v1/login/auth", dto);
         //validate  
-        Assert.Equal(result.StatusCode, System.Net.HttpStatusCode.Unauthorized);
+        Assert.Equal(System.Net.HttpStatusCode.Unauthorized,result.StatusCode);
         var errorResponse = await result.Content.ReadFromJsonAsync<ErrorResponse>();
         Assert.NotNull(errorResponse.Error);
     }
