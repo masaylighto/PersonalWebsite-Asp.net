@@ -14,10 +14,10 @@ namespace TheWayToGerman.Core.Attributes
     [AttributeUsage(AttributeTargets.Method)]
     public class AccessibleBy : Attribute, IResourceFilter
     {
-        private UserType[] UsersType { get; init; }
-        public AccessibleBy(params UserType[] usersType)
+        UserType[] AllowedUsersTypes { get; init; }
+        public AccessibleBy(params UserType[] allowedusersTypes)
         {
-            UsersType = usersType;
+            AllowedUsersTypes = allowedusersTypes;
         }
         public object? GetUserType(ResourceExecutingContext context)
         {
@@ -25,27 +25,34 @@ namespace TheWayToGerman.Core.Attributes
             context.HttpContext.Items.TryGetValue(Constants.UserTypeKey, out routeValue!);
             return routeValue;
         }
+        public bool IsUserTypeAllowed(object? userType)
+        {
+            if (userType is null)
+            {
+                return false;
+            }
+            UserType type;
+            if (!Enum.TryParse(userType.ToString(), out type))
+            {
+                return false;
+            } 
+            return AllowedUsersTypes.Contains(type);
 
+        }
         public void OnResourceExecuting(ResourceExecutingContext context)
         {
+
             object? UserType = GetUserType(context);
-            if (UserType is null)
-            {
-                context.HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
-                throw new UnauthorizedAccessException("Insufficient permissions");
-
-            }
-            if (!UsersType.Contains(Enum.Parse<UserType>(UserType.ToString()!)))
+            if (!IsUserTypeAllowed(UserType))
             {
                 context.HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
                 throw new UnauthorizedAccessException("Insufficient permissions");
             }
-
         }
 
         public void OnResourceExecuted(ResourceExecutedContext context)
         {
-
+           
         }
     }
 }

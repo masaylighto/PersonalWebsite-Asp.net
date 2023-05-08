@@ -18,8 +18,8 @@ public static class DIExtensions
         configuration = configuration.GetSection("JWT");
         var authConfig = new AuthConfig 
         {
-            MinutesToExpire = int.Parse(configuration["MinuteToExpire"]),
-            TokenKey = configuration["Token"]
+            MinutesToExpire = int.Parse(configuration["MinuteToExpire"]!), // if it is  null it will through and inform the developer (the dev not the user as it will happen on the first server run)
+            TokenKey = configuration["Token"] ?? throw new NullReferenceException("JWTToken is null")
         };
         services.AddSingleton(authConfig);
         services.AddScoped<IAuthService, JwtService>();

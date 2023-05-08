@@ -8,7 +8,9 @@ using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using System.Xml.Linq;
 using TheWayToGerman.Core.Entities;
+using TheWayToGerman.Core.Enums;
 
 namespace TheWayToGerman.Core.Database;
 
@@ -21,6 +23,7 @@ public class PostgresDBContext : DbContext
     /*-----------------------------Configuration--------------------------------*/
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new UserTableConfiguration());
         Expression<Func<BaseEntity, bool>> SoftDelete = X => X.DeleteDate == null;
         var entites = modelBuilder.Model.GetEntityTypes().Where(x => x.ClrType.IsAssignableTo(typeof(BaseEntity)));
         foreach (var entityType in entites)
@@ -32,6 +35,7 @@ public class PostgresDBContext : DbContext
         }
         base.OnModelCreating(modelBuilder);
     }
+
     private EntityEntry<T> SoftDelete<T>(object baseEntity) where T : class
     {
 
