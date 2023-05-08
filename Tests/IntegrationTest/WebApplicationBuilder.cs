@@ -18,12 +18,19 @@ public static class WebApplicationBuilder
     {
         webHostBuilder.ConfigureServices(services =>
         {
-            services.AddDbContextPool<PostgresDBContext>((x) => {
-                x.UseInMemoryDatabase("IntegrationTestDB");
-               
+            var DBservice = services.FirstOrDefault(x => x.ServiceType == typeof(DbContextOptions<PostgresDBContext>));
+            if (DBservice is not null)
+            {
+                services.Remove(DBservice);
+            }
+            var option = new DbContextOptionsBuilder<PostgresDBContext>().UseInMemoryDatabase("IntegrationTestDB").Options;
+            new PostgresDBContext(option).Database.EnsureCreated();
+            services.AddDbContextPool<PostgresDBContext>((x) => 
+            {
+                x.UseInMemoryDatabase("IntegrationTestDB");             
                 
-                });
-
+            });
+          
         });
 
     }
