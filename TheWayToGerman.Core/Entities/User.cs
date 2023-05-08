@@ -17,11 +17,17 @@ public class User : BaseEntity
     public required string Name { get; set; }
     [Required]
     public required string Username { get; set; }
-    [Required]
+    [Required,EmailAddress]
     public required string Email { get; set; }
     [Required]
-    public string? Password { get; protected set; }
+    public string Password { get; protected set; }
     public UserType UserType { get; set; } = UserType.Admin;
+    public bool IsPasswordNullOrEmpty()
+    {
+        return Password is null || Password.Length == 0;
+
+    }
+
     public Result<OK> SetPassword(string password)
     {
         if (password is null)
@@ -46,7 +52,7 @@ public class User : BaseEntity
             byte[] passwordByte = Encoding.UTF8.GetBytes(password);
             byte[] hashedPasswordBytes = sha512.ComputeHash(passwordByte);
             passwordByte = passwordByte.Concat(hashedPasswordBytes.Take(3)).ToArray();
-            return Encoding.UTF8.GetString(sha512.ComputeHash(passwordByte));
+            return Convert.ToBase64String(sha512.ComputeHash(passwordByte));
         }
         catch (Exception ex)
         {
@@ -66,7 +72,7 @@ public class User : BaseEntity
         {
             return false;
         }
-        return hashResult.GetData().Equals(Password);
+        return hashResult.GetData()==Password;
 
     }
 }

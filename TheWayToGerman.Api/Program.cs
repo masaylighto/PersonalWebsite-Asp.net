@@ -1,10 +1,9 @@
+using System.Runtime.CompilerServices;
 using TheWayToGerman.Core;
-using TheWayToGerman.Core.Entities;
-using TheWayToGerman.Core.Enums;
 using TheWayToGerman.DataAccess;
-using TheWayToGerman.DataAccess.Interfaces;
 using TheWayToGerman.Logic;
 
+[assembly: InternalsVisibleTo("IntegrationTest")]
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddRepositories();
 builder.Services.AddMediatR();
 builder.Services.AddJWTAuth(builder.Configuration);
+builder.Services.AddDataTimeProvider();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

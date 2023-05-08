@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core.DataKit.MockWrapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TheWayToGerman.Core.Database;
@@ -10,5 +11,9 @@ public static class DIExtensions
     public static void AddPostgresDB(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContextPool<PostgresDBContext>(option => option.UseNpgsql(configuration.GetConnectionString("PostgreSql")));
+    }
+    public static void AddDataTimeProvider(this IServiceCollection services)
+    {
+        services.AddScoped<IDateTimeProvider, DateTimeProvider>();
     }
 }
