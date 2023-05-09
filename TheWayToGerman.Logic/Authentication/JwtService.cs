@@ -17,16 +17,16 @@ namespace TheWayToGerman.Logic.Authentication
             AuthConfig = authConfig;
             DateTimeProvider = dateTimeProvider;
         }
-        IEnumerable<Claim> CreateClaim(params string[] claims)
+        IEnumerable<Claim> CreateClaim(params (string name,string value)[] claims)
         {
 
             foreach (var claim in claims)
             {
-                yield return new Claim(claim.GetType().Name, claim);
+                yield return new Claim(claim.name, claim.value);
             }
 
         }
-        public Result<string> GenerateToken(params string[] claimsValue)
+        public Result<string> GenerateToken(params (string name, string value)[] claimsValue)
         {
             try
             {
@@ -35,11 +35,13 @@ namespace TheWayToGerman.Logic.Authentication
                     return new ArgumentNullException(nameof(claimsValue));
                 }
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var jwtKey = Encoding.UTF8.GetBytes(AuthConfig.TokenKey);
+                var jwtKey = Encoding.UTF8.GetBytes(AuthConfig.SigningKey);
                 var tokenAttributes = new SecurityTokenDescriptor
                 {
                     //Claims
                     Subject = new ClaimsIdentity(CreateClaim(claimsValue)),
+                    Issuer= AuthConfig.Issuer,
+                    Audience= AuthConfig.Audience,
                     //The Expiration Date Of Token
                     Expires = DateTimeProvider.UtcNow.AddMinutes(AuthConfig.MinutesToExpire),
                     //Set cryptographic key and security algorithms that are used to generate a digital signature.
@@ -58,7 +60,7 @@ namespace TheWayToGerman.Logic.Authentication
         {
             try
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
+                var tokenHandler = new JwtSecurityTokenHandler();                 
                 var jwtToken = tokenHandler.ReadJwtToken(token);
                 return new DecryptedToken()
                 {

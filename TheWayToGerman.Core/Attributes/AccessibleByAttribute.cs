@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
-
+using Microsoft.AspNetCore.Routing;
 using TheWayToGerman.Core.Enums;
 using TheWayToGerman.Core.Helpers;
 
@@ -12,18 +12,16 @@ namespace TheWayToGerman.Core.Attributes
     /// by comparing the route required permissions to the one in the RouteValues which filed by the middleware that responsible for  AUTH process  
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
-    public class AccessibleBy : Attribute, IResourceFilter
+    public class AccessibleByAttribute : Attribute, IResourceFilter
     {
         UserType[] AllowedUsersTypes { get; init; }
-        public AccessibleBy(params UserType[] allowedusersTypes)
+        public AccessibleByAttribute(params UserType[] allowedusersTypes)
         {
             AllowedUsersTypes = allowedusersTypes;
         }
         public object? GetUserType(ResourceExecutingContext context)
         {
-            object routeValue;
-            context.HttpContext.Items.TryGetValue(Constants.UserTypeKey, out routeValue!);
-            return routeValue;
+            return context.HttpContext.GetRouteValue(Constants.UserTypeKey); 
         }
         public bool IsUserTypeAllowed(object? userType)
         {
@@ -46,13 +44,14 @@ namespace TheWayToGerman.Core.Attributes
             if (!IsUserTypeAllowed(UserType))
             {
                 context.HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
-                throw new UnauthorizedAccessException("Insufficient permissions");
+                context.HttpContext.Response.WriteAsync("Unauthorized access");
+                
             }
         }
 
         public void OnResourceExecuted(ResourceExecutedContext context)
         {
-           
+           //excuted after method call and we are in no need to do anything at that time
         }
     }
 }

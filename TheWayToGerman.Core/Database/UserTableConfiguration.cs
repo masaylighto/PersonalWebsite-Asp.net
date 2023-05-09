@@ -11,7 +11,7 @@ public class UserTableConfiguration : IEntityTypeConfiguration<User>
     {
 
         var user = new User {
-            Id= Guid.NewGuid(),
+            Id = new Guid("4413e488-a54e-43df-b381-f48fc81b7080"),
             Email = "masaylighto@gmail.com",
             Name = "mohammed",
             Username = "masaylighto",

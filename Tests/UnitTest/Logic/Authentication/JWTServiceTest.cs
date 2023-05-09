@@ -21,7 +21,9 @@ public class JWTServiceTest
         return new JwtService(new AuthConfig()
         {
             MinutesToExpire = 15,
-            TokenKey = "sadfsfsdgdfhfgjkl"
+            SigningKey = "sadfsfsdgdfhfgjkl",
+            Audience= "SomeAudience",
+            Issuer= "SomeIssuer"
         }, DateTimeMoq.Object);
     }
     [Fact]
@@ -38,7 +40,7 @@ public class JWTServiceTest
         //Prepare
         string username = FakeData.Internet.UserName();
         //execute
-        var result = JwtService.GenerateToken(username);
+        var result = JwtService.GenerateToken((nameof(username),username));
         //validate        
         Assert.True(result.ContainData());
     }
@@ -47,7 +49,7 @@ public class JWTServiceTest
     {
         //Prepare
         string username = FakeData.Internet.UserName();
-        var tokenResult = JwtService.GenerateToken(username);
+        var tokenResult = JwtService.GenerateToken((nameof(username), username));
 
         //execute
         var decryptResult = JwtService.DecryptToken(tokenResult.GetData());
@@ -61,7 +63,7 @@ public class JWTServiceTest
     {
         //Prepare
         string username = FakeData.Internet.UserName();
-        var tokenResult = JwtService.GenerateToken(username);
+        var tokenResult = JwtService.GenerateToken((nameof(username), username));
         var JwtServiceExpiredDate = CreateJwtService(MoqAble.CreateDateTimeProvider(DateTime.Now.AddMinutes(16), DateTime.UtcNow.AddMinutes(16))); // to set a fake time 
         //execute
         var decryptResult = JwtServiceExpiredDate.DecryptToken(tokenResult.GetData());
@@ -75,7 +77,7 @@ public class JWTServiceTest
     {
         //Prepare
         string username = FakeData.Internet.UserName();
-        var tokenResult = JwtService.GenerateToken(username);
+        var tokenResult = JwtService.GenerateToken((nameof(username), username));
 
         //execute
         var decryptResult = JwtService.DecryptToken(tokenResult.GetData());
@@ -89,7 +91,7 @@ public class JWTServiceTest
     {
         //Prepare
         string username = FakeData.Internet.UserName();
-        var tokenResult = JwtService.GenerateToken(username);
+        var tokenResult = JwtService.GenerateToken((nameof(username), username));
 
         //execute
         var decryptResult = JwtService.DecryptToken(tokenResult.GetData());
