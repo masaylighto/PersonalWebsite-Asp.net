@@ -3,7 +3,8 @@ namespace TheWayToGerman.Logic.Authentication;
 
 public class AuthConfig
 {
-
-    public required string TokenKey { get; set; }
-    public int MinutesToExpire { get; set; }
+    public required string SigningKey { get; set; }
+    public required int MinutesToExpire { get; set; }
+    public required string Issuer { get; set; }
+    public required string Audience { get; set; }
 }

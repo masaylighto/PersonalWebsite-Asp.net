@@ -2,10 +2,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using System.Reflection.Metadata;
 using TheWayToGerman.Api.DTO.Login;
 using TheWayToGerman.Api.ResponseObject;
 using TheWayToGerman.Api.ResponseObject.Login;
 using TheWayToGerman.Core.Cqrs.Queries;
+using TheWayToGerman.Core.Helpers;
 using TheWayToGerman.Logic.Authentication;
 
 namespace TheWayToGerman.Api.Controllers;
@@ -38,7 +40,11 @@ public class LoginController : ControllerBase
             });
         }
         var user = commandresult.GetData();
-        var tokenResult = AuthService.GenerateToken(user.UserType.ToString(), user.Id.ToString());
+        var tokenResult = AuthService.GenerateToken
+                        (
+                            (Constants.UserTypeKey , user.UserType.ToString()),
+                            (Constants.UserIDKey , user.Id.ToString())
+                        );
         if (tokenResult.ContainError())
         {
             return Unauthorized(new ErrorResponse()
