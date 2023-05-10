@@ -31,15 +31,15 @@ public class LoginController : ControllerBase
     public async Task<ActionResult> Authenticate(AuthenticateDTO authenticateDTO)
     {
         var command = authenticateDTO.Adapt<GetUserToAuthQuery>();
-        var commandresult = await Mediator.Send(command);
-        if (commandresult.ContainError())
+        var commandResult = await Mediator.Send(command);
+        if (commandResult.ContainError())
         {
             return Unauthorized(new ErrorResponse()
             {
-                Error = commandresult.GetError().Message
+                Error = commandResult.GetError().Message
             });
         }
-        var user = commandresult.GetData();
+        var user = commandResult.GetData();
         var tokenResult = AuthService.GenerateToken
                         (
                             (Constants.UserTypeKey , user.UserType.ToString()),
@@ -49,7 +49,7 @@ public class LoginController : ControllerBase
         {
             return Unauthorized(new ErrorResponse()
             {
-                Error = commandresult.GetError().Message
+                Error = commandResult.GetError().Message
             });
         }
         return Ok(new AuthenticateResponse() { JwtToken = tokenResult.GetData() });

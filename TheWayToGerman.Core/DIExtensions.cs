@@ -10,7 +10,7 @@ public static class DIExtensions
 {
     public static void AddPostgresDB(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContextPool<PostgresDBContext>(option => option.UseNpgsql(configuration.GetConnectionString("PostgreSql")));
+        services.AddDbContextPool<PostgresDBContext>(option => option.UseNpgsql(configuration.GetConnectionString("PostgreSql")),configuration.GetValue<int>("PostgreSqlPool"));
     }
     public static void AddDataTimeProvider(this IServiceCollection services)
     {

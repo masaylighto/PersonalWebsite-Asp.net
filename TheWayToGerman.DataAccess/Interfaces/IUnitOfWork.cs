@@ -6,6 +6,6 @@ namespace TheWayToGerman.DataAccess.Interfaces;
 
 public interface IUnitOfWork
 {
-    IUserRespository UserRespository { get; set; }
+    IUserRepository UserRespository { get; set; }
     Task<Result<bool>> SaveAsync();
 }

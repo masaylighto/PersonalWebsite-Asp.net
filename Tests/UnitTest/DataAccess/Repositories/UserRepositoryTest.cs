@@ -1,5 +1,6 @@
 ﻿
 using Bogus;
+using Core.DataKit.MockWrapper;
 using Microsoft.AspNetCore.SignalR.Protocol;
 using TheWayToGerman.Core.Database;
 using TheWayToGerman.Core.Entities;
@@ -24,11 +25,11 @@ public class UserRepositoryTest
         };
     });
     readonly PostgresDBContext postgresDB;
-    readonly IUserRespository UserRespository;
+    readonly IUserRepository UserRespository;
     public UserRepositoryTest()
     {
         postgresDB = FakeDBContext.Create();
-        UserRespository = new UserRepository(postgresDB);
+        UserRespository = new UserRepository(postgresDB,new DateTimeProvider());
     }
     [Fact]
     public async Task AddUser_CorrectInformation_ShouldBeAdded()
@@ -54,7 +55,7 @@ public class UserRepositoryTest
         var result = await UserRespository.AddUserAsync(user);
 
         //Validate
-        Assert.True(result.IsErrorOfType<ArgumentNullException>());
+        Assert.True(result.IsErrorOfType<NullValueException>());
         Assert.Equal(0, postgresDB.SaveChanges());
     }
     [Fact]
@@ -94,5 +95,47 @@ public class UserRepositoryTest
         //Validate
         Assert.True(result.IsErrorOfType<UniqueFieldException>());
         Assert.Equal(0, changes);
+    }
+
+
+    [Fact]
+    public async Task UpdateUser_MoreThanOneMatch_ShouldReturnNullValueException()
+    {   //Prepare
+        User user1 = FakeUser.Generate(), user2 = FakeUser.Generate() ,updatedUser = FakeUser.Generate();
+        user1.UserType = TheWayToGerman.Core.Enums.UserType.Owner;
+        user2.UserType = TheWayToGerman.Core.Enums.UserType.Owner;
+        updatedUser.UserType = TheWayToGerman.Core.Enums.UserType.Owner;
+        user1.SetPassword(FakeData.Internet.Password());
+        user2.SetPassword(FakeData.Internet.Password());
+        await UserRespository.AddUserAsync(user1);
+        await UserRespository.AddUserAsync(user2);
+        postgresDB.SaveChanges();
+        //Execute
+        var result= await UserRespository.UpdateUserAsync(updatedUser,x=>x.UserType==TheWayToGerman.Core.Enums.UserType.Owner);
+        int changes = postgresDB.SaveChanges();
+
+        //Validate
+        Assert.True(result.ContainError());
+        Assert.Equal(0, changes);
+    }
+    [Fact]
+    public async Task UpdateUser_OneMatch_ShouldReturnUpdate()
+    {   //Prepare
+        User user1 = FakeUser.Generate(), user2 = FakeUser.Generate(), updatedUser = FakeUser.Generate();
+        user1.UserType = TheWayToGerman.Core.Enums.UserType.Owner;
+        user2.UserType = TheWayToGerman.Core.Enums.UserType.Admin;
+        updatedUser.UserType = TheWayToGerman.Core.Enums.UserType.Owner;
+        user1.SetPassword(FakeData.Internet.Password());
+        user2.SetPassword(FakeData.Internet.Password());
+        await UserRespository.AddUserAsync(user1);
+        await UserRespository.AddUserAsync(user2);
+        postgresDB.SaveChanges();
+        //Execute
+        var result = await UserRespository.UpdateUserAsync(updatedUser, x => x.UserType == TheWayToGerman.Core.Enums.UserType.Owner);
+        int changes = postgresDB.SaveChanges();
+
+        //Validate
+        Assert.False(result.ContainError());
+        Assert.Equal(1, changes);
     }
 }
