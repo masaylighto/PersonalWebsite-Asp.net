@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="15.1">
-  <zoom_level>10</zoom_level>
+  <help_text>// Uncomment the following line to change the fontsize and font:
+fontsize=10
+// fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Welcome to UMLet!
+//
+// Double-click on elements to add them to the diagram, or to copy them
+// Edit elements by modifying the text in this panel
+// Hold Ctrl to select multiple elements
+// Use Ctrl+mouse to select via lasso
+//
+// Use +/- or Ctrl+mouse wheel to zoom
+// Drag a whole relation at its central square icon
+//
+// Press Ctrl+C to copy the whole diagram to the system clipboard (then just paste it to, eg, Word)
+// Edit the files in the "palettes" directory to create your own element palettes
+//
+// Select "Custom Elements &gt; New..." to create new element types
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// This text will be stored with each diagram;  use it for notes.</help_text>
+  <zoom_level>14</zoom_level>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>690</x>
-      <y>90</y>
-      <w>20</w>
-      <h>20</h>
+      <x>812</x>
+      <y>0</y>
+      <w>28</w>
+      <h>28</h>
     </coordinates>
     <panel_attributes>type=initial</panel_attributes>
     <additional_attributes/>
@@ -15,10 +39,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>690</x>
-      <y>90</y>
-      <w>30</w>
-      <h>70</h>
+      <x>812</x>
+      <y>0</y>
+      <w>42</w>
+      <h>98</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -26,10 +50,10 @@
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>600</x>
-      <y>140</y>
-      <w>210</w>
-      <h>40</h>
+      <x>686</x>
+      <y>70</y>
+      <w>294</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>Recieve User Request</panel_attributes>
     <additional_attributes/>
@@ -37,10 +61,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>690</x>
-      <y>170</y>
-      <w>30</w>
-      <h>70</h>
+      <x>812</x>
+      <y>112</y>
+      <w>42</w>
+      <h>98</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -48,10 +72,10 @@
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>600</x>
-      <y>220</y>
-      <w>210</w>
-      <h>40</h>
+      <x>686</x>
+      <y>182</y>
+      <w>294</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>Validate User Identity</panel_attributes>
     <additional_attributes/>
@@ -59,10 +83,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>690</x>
-      <y>250</y>
-      <w>30</w>
-      <h>70</h>
+      <x>812</x>
+      <y>224</y>
+      <w>42</w>
+      <h>98</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -70,10 +94,10 @@
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>680</x>
-      <y>300</y>
-      <w>40</w>
-      <h>40</h>
+      <x>798</x>
+      <y>294</y>
+      <w>56</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -81,10 +105,10 @@
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>830</x>
-      <y>720</y>
-      <w>210</w>
-      <h>40</h>
+      <x>1008</x>
+      <y>882</y>
+      <w>294</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>Reject User Request</panel_attributes>
     <additional_attributes/>
@@ -92,10 +116,10 @@
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>350</x>
-      <y>350</y>
-      <w>230</w>
-      <h>40</h>
+      <x>336</x>
+      <y>364</y>
+      <w>322</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>Validate Request Content</panel_attributes>
     <additional_attributes/>
@@ -103,10 +127,10 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>450</x>
-      <y>310</y>
-      <w>250</w>
-      <h>60</h>
+      <x>476</x>
+      <y>308</y>
+      <w>350</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=[Owner]</panel_attributes>
@@ -115,10 +139,10 @@ m1=[Owner]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>710</x>
-      <y>310</y>
-      <w>350</w>
-      <h>430</h>
+      <x>840</x>
+      <y>308</y>
+      <w>420</w>
+      <h>602</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=[Not Owner]</panel_attributes>
@@ -127,10 +151,10 @@ m1=[Not Owner]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>450</x>
-      <y>380</y>
-      <w>30</w>
-      <h>70</h>
+      <x>476</x>
+      <y>406</y>
+      <w>42</w>
+      <h>98</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
@@ -138,10 +162,10 @@ m1=[Not Owner]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>440</x>
-      <y>430</y>
-      <w>40</w>
-      <h>40</h>
+      <x>462</x>
+      <y>476</y>
+      <w>56</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -149,22 +173,22 @@ m1=[Not Owner]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
-      <y>440</y>
-      <w>250</w>
-      <h>80</h>
+      <x>266</x>
+      <y>490</y>
+      <w>224</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[Valid Request Content]</panel_attributes>
-    <additional_attributes>100.0;60.0;100.0;10.0;230.0;10.0</additional_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0;140.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>470</x>
-      <y>440</y>
-      <w>490</w>
-      <h>300</h>
+      <x>504</x>
+      <y>490</y>
+      <w>686</w>
+      <h>420</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[InValid Request Content]</panel_attributes>
@@ -173,21 +197,21 @@ m2=[InValid Request Content]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>200</x>
-      <y>800</y>
-      <w>230</w>
-      <h>40</h>
+      <x>126</x>
+      <y>994</y>
+      <w>322</w>
+      <h>56</h>
     </coordinates>
-    <panel_attributes>Create Admin</panel_attributes>
+    <panel_attributes>Create Owner</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>660</x>
-      <y>840</y>
-      <w>40</w>
-      <h>40</h>
+      <x>770</x>
+      <y>1050</y>
+      <w>56</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -195,10 +219,10 @@ m2=[InValid Request Content]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>300</x>
-      <y>830</y>
-      <w>380</w>
-      <h>50</h>
+      <x>266</x>
+      <y>1036</y>
+      <w>532</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>360.0;30.0;10.0;30.0;10.0;10.0</additional_attributes>
@@ -206,10 +230,10 @@ m2=[InValid Request Content]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>690</x>
-      <y>750</y>
-      <w>260</w>
-      <h>130</h>
+      <x>812</x>
+      <y>924</y>
+      <w>364</w>
+      <h>182</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;110.0;240.0;110.0;240.0;10.0</additional_attributes>
@@ -217,10 +241,10 @@ m2=[InValid Request Content]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>670</x>
-      <y>870</y>
-      <w>30</w>
-      <h>100</h>
+      <x>784</x>
+      <y>1092</y>
+      <w>42</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
@@ -228,10 +252,10 @@ m2=[InValid Request Content]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>580</x>
-      <y>950</y>
-      <w>210</w>
-      <h>40</h>
+      <x>658</x>
+      <y>1204</y>
+      <w>294</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>Respond to User</panel_attributes>
     <additional_attributes/>
@@ -239,10 +263,10 @@ m2=[InValid Request Content]</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>290</x>
-      <y>570</y>
-      <w>40</w>
-      <h>40</h>
+      <x>252</x>
+      <y>672</y>
+      <w>56</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -250,10 +274,10 @@ m2=[InValid Request Content]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>130</x>
-      <y>500</y>
-      <w>340</w>
-      <h>40</h>
+      <x>28</x>
+      <y>574</y>
+      <w>476</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>Check If Email is used by another user</panel_attributes>
     <additional_attributes/>
@@ -261,10 +285,10 @@ m2=[InValid Request Content]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>320</x>
-      <y>580</y>
-      <w>640</w>
-      <h>160</h>
+      <x>294</x>
+      <y>686</y>
+      <w>896</w>
+      <h>224</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[Email is already used]</panel_attributes>
@@ -273,10 +297,10 @@ m2=[Email is already used]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>300</x>
-      <y>530</y>
-      <w>30</w>
-      <h>60</h>
+      <x>266</x>
+      <y>616</y>
+      <w>42</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -284,10 +308,10 @@ m2=[Email is already used]</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>110</x>
-      <y>650</y>
-      <w>390</w>
-      <h>40</h>
+      <x>0</x>
+      <y>784</y>
+      <w>546</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>Check If Username is used by another user</panel_attributes>
     <additional_attributes/>
@@ -295,10 +319,10 @@ m2=[Email is already used]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>300</x>
-      <y>600</y>
-      <w>170</w>
-      <h>70</h>
+      <x>266</x>
+      <y>714</y>
+      <w>140</w>
+      <h>98</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 Email is not used</panel_attributes>
@@ -307,10 +331,10 @@ Email is not used</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>290</x>
-      <y>720</y>
-      <w>40</w>
-      <h>40</h>
+      <x>252</x>
+      <y>882</y>
+      <w>56</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
@@ -318,10 +342,10 @@ Email is not used</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>300</x>
-      <y>680</y>
-      <w>30</w>
-      <h>60</h>
+      <x>266</x>
+      <y>826</y>
+      <w>42</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -329,10 +353,10 @@ Email is not used</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>300</x>
-      <y>750</y>
-      <w>220</w>
-      <h>70</h>
+      <x>266</x>
+      <y>924</y>
+      <w>182</w>
+      <h>98</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 User name is not used</panel_attributes>
@@ -341,13 +365,13 @@ User name is not used</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>320</x>
-      <y>710</y>
-      <w>530</w>
-      <h>50</h>
+      <x>294</x>
+      <y>882</y>
+      <w>742</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 User Name is used</panel_attributes>
-    <additional_attributes>510.0;30.0;10.0;30.0</additional_attributes>
+    <additional_attributes>510.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>

@@ -10,8 +10,8 @@ namespace TheWayToGerman.DataAccess.Repositories;
 internal class UnitOfWork : IUnitOfWork
 {
     public PostgresDBContext PostgresDBContext { get; }
-    public IUserRespository UserRespository { get; set; }
-    public UnitOfWork(PostgresDBContext postgresDBContext,IUserRespository userRespository)
+    public IUserRepository UserRespository { get; set; }
+    public UnitOfWork(PostgresDBContext postgresDBContext,IUserRepository userRespository)
     {
         PostgresDBContext = postgresDBContext;
         UserRespository = userRespository;

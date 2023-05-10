@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using TheWayToGerman.Api.DTO;
 using TheWayToGerman.Api.DTO.Owner;
 using TheWayToGerman.Api.ResponseObject;
 using TheWayToGerman.Core.Attributes;
@@ -33,5 +34,19 @@ public class OwnerController : ControllerBase
             return BadRequest(new ErrorResponse() { Error = result.GetError().Message });
        }
        return Ok();
+    }
+
+    [HttpPut]
+    [Route("Self")]
+    [AccessibleBy(UserType.Owner)]
+    public async Task<ActionResult> UpdateInformation([FromBody] UpdateUserInformationDTO DTO)
+    {
+        var userCommand = DTO.Adapt<UpdateOwnerInformationCommand>();        
+        var result = await Mediator.Send(userCommand);
+        if (result.ContainError())
+        {
+            return BadRequest(new ErrorResponse() { Error = result.GetError().Message });
+        }
+        return Ok();
     }
 }

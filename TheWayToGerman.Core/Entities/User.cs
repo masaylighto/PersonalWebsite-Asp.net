@@ -1,7 +1,9 @@
 ﻿using Core.DataKit;
+using Core.DataKit.MockWrapper;
 using Core.DataKit.Result;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 using TheWayToGerman.Core.Enums;
 
@@ -73,6 +75,36 @@ public class User : BaseEntity
             return false;
         }
         return hashResult.GetData()==Password;
+
+    }
+    public void UpdateFrom(User user, DateTime updateDate)
+    {
+        bool isUserUpdated = false;
+        if (user.Name is not null && Name != user.Name)
+        {
+           
+            Name = user.Name;
+            isUserUpdated = true;
+        }
+        if (user.Password is not null && Password != user.Password)
+        {
+            Password = user.Password;
+            isUserUpdated = true;
+        }
+        if (user.Email is not null && Email != user.Email)
+        {
+            Email = user.Email;
+            isUserUpdated = true;
+        }
+        if (user.Username is not null && Username != user.Username)
+        {
+            Username = user.Username;
+            isUserUpdated = true;
+        }
+        if (isUserUpdated)
+        {
+            UpdateDate = updateDate;
+        }
 
     }
 }
