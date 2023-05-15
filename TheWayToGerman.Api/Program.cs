@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using TheWayToGerman.Api.Middleware;
 using TheWayToGerman.Core;
 using TheWayToGerman.DataAccess;
 using TheWayToGerman.Logic;
@@ -27,7 +26,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.AddAuthenticationMiddleware();
 app.MapControllers();
-
 app.Run();

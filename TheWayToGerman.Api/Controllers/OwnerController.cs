@@ -1,13 +1,14 @@
 ﻿using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using TheWayToGerman.Api.DTO;
 using TheWayToGerman.Api.DTO.Owner;
 using TheWayToGerman.Api.ResponseObject;
-using TheWayToGerman.Core.Attributes;
 using TheWayToGerman.Core.Cqrs.Commands;
 using TheWayToGerman.Core.Enums;
+using TheWayToGerman.Core.Helpers;
 
 namespace TheWayToGerman.Api.Controllers;
 
@@ -23,7 +24,7 @@ public class OwnerController : ControllerBase
 
     [HttpPost]
     [Route("Admin")]
-    [AccessibleBy(UserType.Owner)]
+    [Authorize(AuthPolicies.OwnerPolicy)]
     public async Task<ActionResult> CreateAdmins([FromBody]CreateAdminDTO DTO)
     {
        var userCommand = DTO.Adapt<CreateUserCommand>();
@@ -38,7 +39,7 @@ public class OwnerController : ControllerBase
 
     [HttpPut]
     [Route("Self")]
-    [AccessibleBy(UserType.Owner)]
+    [Authorize(AuthPolicies.OwnerPolicy)]
     public async Task<ActionResult> UpdateInformation([FromBody] UpdateUserInformationDTO DTO)
     {
         var userCommand = DTO.Adapt<UpdateOwnerInformationCommand>();        

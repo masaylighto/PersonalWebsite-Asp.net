@@ -19,7 +19,7 @@ namespace TheWayToGerman.Logic.Authentication
         }
         IEnumerable<Claim> CreateClaim(params (string name,string value)[] claims)
         {
-
+            
             foreach (var claim in claims)
             {
                 yield return new Claim(claim.name, claim.value);
