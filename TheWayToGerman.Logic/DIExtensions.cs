@@ -5,7 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
+using TheWayToGerman.Core.Enums;
 using TheWayToGerman.Core.Exceptions;
+using TheWayToGerman.Core.Helpers;
 using TheWayToGerman.Logic.Authentication;
 
 namespace TheWayToGerman.Logic;
@@ -26,6 +28,7 @@ public static class DIExtensions
         services.AddSingleton(authConfig);
         services.AddScoped<IAuthService, JwtService>();
 
+       
 
         services.AddAuthentication(auth =>
         {
@@ -45,7 +48,8 @@ public static class DIExtensions
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authConfig.SigningKey))
             };
         });
-
-
+        services.AddAuthorizationBuilder().AddPolicy(AuthPolicies.OwnerPolicy, p => p.RequireRole(nameof(UserType.Owner)));
+        services.AddAuthorizationBuilder().AddPolicy(AuthPolicies.AdminPolicy, p => p.RequireRole(nameof(UserType.Admin)));
+        services.AddAuthorizationBuilder().AddPolicy(AuthPolicies.AdminsAndOwners, p => p.RequireRole(nameof(UserType.Owner),nameof(UserType.Admin)));
     }
 }

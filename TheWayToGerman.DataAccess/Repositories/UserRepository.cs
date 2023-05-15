@@ -28,8 +28,8 @@ public class UserRepository : IUserRepository
         return await Task.Run<Result<User>>(() => 
         {
             try
-            {
-                var result = PostgresDBContext.Users.AsEnumerable().FirstOrDefault(Where);
+            {              
+                var result =  PostgresDBContext.Users.FirstOrDefault(Where);
                 return result;
             }
             catch (Exception ex)
@@ -73,7 +73,7 @@ public class UserRepository : IUserRepository
             var oldEntity = PostgresDBContext.Users.SingleOrDefault(Which);
             if (oldEntity is null)
             {
-                return new NullValueException("Updating User Error: Can't retrive old user information from db");
+                return new NullValueException("Updating User Error: Can't retrieve old user information from db");
             }
             if (oldEntity.Email != user.Email && PostgresDBContext.Users.Any(x => x.Email == user.Email))
             {
