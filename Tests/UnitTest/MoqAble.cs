@@ -1,11 +1,5 @@
-﻿
-using Core.Cqrs.Requests;
-using Core.DataKit.MockWrapper;
-using Core.DataKit.Result;
-using MediatR;
+﻿using Core.DataKit.MockWrapper;
 using Moq;
-using TheWayToGerman.Core.Cqrs.Queries;
-using TheWayToGerman.Logic.Authentication;
 
 namespace UnitTest;
 
@@ -18,5 +12,5 @@ public static class MoqAble
         dateTimeProviderMoq.Setup(x => x.UtcNow).Returns(ytcNow);
         return dateTimeProviderMoq;
     }
-   
+
 }

@@ -61,4 +61,10 @@ public class Result<DataType>
         result.SetError(error);
         return result;
     }
+    public static Result<DataType> From(DataType? data)
+    {
+        Result<DataType> result = new();
+        result.SetData(data);
+        return result;
+    }
 }

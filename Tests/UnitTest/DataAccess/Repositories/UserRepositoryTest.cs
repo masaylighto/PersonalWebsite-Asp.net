@@ -1,7 +1,6 @@
 ﻿
 using Bogus;
 using Core.DataKit.MockWrapper;
-using Microsoft.AspNetCore.SignalR.Protocol;
 using TheWayToGerman.Core.Database;
 using TheWayToGerman.Core.Entities;
 using TheWayToGerman.Core.Exceptions;
@@ -29,25 +28,25 @@ public class UserRepositoryTest
     public UserRepositoryTest()
     {
         postgresDB = FakeDBContext.Create();
-        UserRespository = new UserRepository(postgresDB,new DateTimeProvider());
+        UserRespository = new UserRepository(postgresDB, new DateTimeProvider());
     }
     [Fact]
     public async Task AddUser_CorrectInformation_ShouldBeAdded()
     {
-       //Prepare
-       User testUser= FakeUser.Generate();
-       testUser.SetPassword(FakeData.Internet.Password());
+        //Prepare
+        User testUser = FakeUser.Generate();
+        testUser.SetPassword(FakeData.Internet.Password());
 
         //Execute
         await UserRespository.AddUserAsync(testUser);
-       int changes = postgresDB.SaveChanges();
+        int changes = postgresDB.SaveChanges();
 
-       //Validate
-       Assert.Equal(1, changes);
+        //Validate
+        Assert.Equal(1, changes);
     }
     [Fact]
     public async Task AddUser_NullPassword_ShouldReturnArgumentNullException()
-    {  
+    {
         //Prepare
         User user = FakeUser.Generate();
 
@@ -60,7 +59,7 @@ public class UserRepositoryTest
     }
     [Fact]
     public async Task AddUser_DublicateEmail_ShouldReturnUniqueFieldException()
-    {  
+    {
         //Prepare
         User user1 = FakeUser.Generate(),
              user2 = FakeUser.Generate();
@@ -89,7 +88,7 @@ public class UserRepositoryTest
         //Execute
         await UserRespository.AddUserAsync(user1);
         postgresDB.SaveChanges();
-        var result  = await UserRespository.AddUserAsync(user2);
+        var result = await UserRespository.AddUserAsync(user2);
         int changes = postgresDB.SaveChanges();
 
         //Validate
@@ -101,7 +100,7 @@ public class UserRepositoryTest
     [Fact]
     public async Task UpdateUser_MoreThanOneMatch_ShouldReturnNullValueException()
     {   //Prepare
-        User user1 = FakeUser.Generate(), user2 = FakeUser.Generate() ,updatedUser = FakeUser.Generate();
+        User user1 = FakeUser.Generate(), user2 = FakeUser.Generate(), updatedUser = FakeUser.Generate();
         user1.UserType = TheWayToGerman.Core.Enums.UserType.Owner;
         user2.UserType = TheWayToGerman.Core.Enums.UserType.Owner;
         updatedUser.UserType = TheWayToGerman.Core.Enums.UserType.Owner;
@@ -111,7 +110,7 @@ public class UserRepositoryTest
         await UserRespository.AddUserAsync(user2);
         postgresDB.SaveChanges();
         //Execute
-        var result= await UserRespository.UpdateUserAsync(updatedUser,x=>x.UserType==TheWayToGerman.Core.Enums.UserType.Owner);
+        var result = await UserRespository.UpdateUserAsync(updatedUser, x => x.UserType == TheWayToGerman.Core.Enums.UserType.Owner);
         int changes = postgresDB.SaveChanges();
 
         //Validate
@@ -120,7 +119,8 @@ public class UserRepositoryTest
     }
     [Fact]
     public async Task UpdateUser_OneMatch_ShouldReturnUpdate()
-    {   //Prepare
+    {  
+        //Prepare
         User user1 = FakeUser.Generate(), user2 = FakeUser.Generate(), updatedUser = FakeUser.Generate();
         user1.UserType = TheWayToGerman.Core.Enums.UserType.Owner;
         user2.UserType = TheWayToGerman.Core.Enums.UserType.Admin;
@@ -138,4 +138,6 @@ public class UserRepositoryTest
         Assert.False(result.ContainError());
         Assert.Equal(1, changes);
     }
+
+   
 }

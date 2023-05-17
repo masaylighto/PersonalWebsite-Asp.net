@@ -1,16 +1,10 @@
 ﻿
 
-using Expressions;
+using Core.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Xml.Linq;
 using TheWayToGerman.Core.Entities;
-using TheWayToGerman.Core.Enums;
 
 namespace TheWayToGerman.Core.Database;
 
@@ -28,10 +22,10 @@ public class PostgresDBContext : DbContext
         var entites = modelBuilder.Model.GetEntityTypes().Where(x => x.ClrType.IsAssignableTo(typeof(BaseEntity)));
         foreach (var entityType in entites)
         {
-                // modify expression to handle correct child type               
-                var rebinded = SoftDelete.RebindBodyParamFrom(entityType.ClrType).BodyToLambda();               
-                entityType.SetQueryFilter(rebinded);    
-            
+            // modify expression to handle correct child type               
+            var rebinded = SoftDelete.RebindBodyParamFrom(entityType.ClrType).BodyToLambda();
+            entityType.SetQueryFilter(rebinded);
+
         }
         base.OnModelCreating(modelBuilder);
     }

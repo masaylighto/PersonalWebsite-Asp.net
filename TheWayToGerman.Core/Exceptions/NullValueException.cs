@@ -1,7 +1,7 @@
 ﻿
 namespace TheWayToGerman.Core.Exceptions;
 
-public class NullValueException:Exception
+public class NullValueException : Exception
 {
     public NullValueException() : base()
     {

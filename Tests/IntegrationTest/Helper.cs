@@ -10,6 +10,6 @@ public static class Helper
     public static StringContent CreateJsonContent<Type>(Type Data)
     {
 
-        return new StringContent(JsonConvert.SerializeObject(Data),new MediaTypeHeaderValue("application/json"));
+        return new StringContent(JsonConvert.SerializeObject(Data), new MediaTypeHeaderValue("application/json"));
     }
 }

@@ -1,12 +1,11 @@
 ﻿
 
 using Bogus;
-using Humanizer;
 using System.Net.Http.Json;
 using TheWayToGerman.Api.DTO;
-using TheWayToGerman.Api.DTO.Login;
 using TheWayToGerman.Api.DTO.Owner;
-using TheWayToGerman.Api.ResponseObject.Login;
+using TheWayToGerman.Core.Cqrs.Queries;
+using TheWayToGerman.Core.Entities;
 
 namespace IntegrationTest.Features;
 [Collection("Sequential")]
@@ -25,17 +24,17 @@ public class OwnerTest
         //prepare
         await client.Authenticate();
         CreateAdminDTO createAdminDTO = new()
-        { 
+        {
             Email = Faker.Internet.Email(),
-            Name= Faker.Name.FullName(),
-            Password= Faker.Internet.Password(8),
-            Username= Faker.Internet.UserName(),
-            
+            Name = Faker.Name.FullName(),
+            Password = Faker.Internet.Password(8),
+            Username = Faker.Internet.UserName(),
+
         };
 
         //execute
         var result = await client.PostAsJsonAsync("v1/Owner/Admin", createAdminDTO);
-        
+
         //validate
         Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
     }
@@ -62,11 +61,11 @@ public class OwnerTest
             Username = createAdminDTO.Username,
 
         };
-        
+
         //execute
-         await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO),HttpMethod.Post);
-        
-         var result = await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO2),HttpMethod.Post);
+        await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+
+        var result = await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO2), HttpMethod.Post);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -195,7 +194,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner/Self", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put); 
+        var result = await client.SendAsync("v1/Owner/Self", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
     }
@@ -359,5 +358,60 @@ public class OwnerTest
         var result = await client.SendAsync("v1/Owner/Self", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetAdmins_NonExistingName_ShouldReturnHttpOkWithEmptyArray()
+    {
+        //prepare
+        await client.Authenticate();
+        CreateAdminDTO createAdminDTO = new()
+        {
+            Email = Faker.Internet.Email(),
+            Name = Faker.Name.FullName(),
+            Password = Faker.Internet.Password(7),
+            Username = Faker.Internet.UserName(),
+
+        };
+        GetAdminsDTO GetAdminDTO = new()
+        {           
+            Name = "SomeRandomName",
+        };
+        await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        var result = await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(GetAdminDTO), HttpMethod.Get);
+        //execute
+        //validate
+        Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
+        var userlist =await result.Content.ReadFromJsonAsync<IEnumerable<GetAdminsQueryResponse>>();
+        Assert.NotNull(userlist);
+        Assert.Empty(userlist);
+    }
+    [Fact]
+    public async Task GetAdmins_ExistingName_ShouldReturnHttpOkWithArrayOfMatchedUser()
+    {
+        //prepare
+        await client.Authenticate();
+        CreateAdminDTO createAdminDTO = new()
+        {
+            Email = Faker.Internet.Email(),
+            Name = "SomeSpecificName",
+            Password = Faker.Internet.Password(8),
+            Username = Faker.Internet.UserName(),
+
+        };
+        GetAdminsDTO GetAdminDTO = new()
+        {
+            Name = "SomeSpecificName",
+        };
+        await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        var result = await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(GetAdminDTO), HttpMethod.Get);
+        //execute
+        //validate
+        Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
+        var userlist = await result.Content.ReadFromJsonAsync<IEnumerable<GetAdminsQueryResponse>>();
+        Assert.NotNull(userlist);
+        Assert.Contains(userlist, x => x.Email == createAdminDTO.Email);
+        Assert.Contains(userlist, x => x.Name  == createAdminDTO.Name);
+        Assert.Contains(userlist, x => x.Username  == createAdminDTO.Username);
     }
 }

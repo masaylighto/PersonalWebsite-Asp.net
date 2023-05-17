@@ -6,7 +6,6 @@ using Core.DataKit.Result;
 using FluentValidation;
 using Mapster;
 using TheWayToGerman.Core.Cqrs.Commands;
-using TheWayToGerman.Core.Cqrs.Queries;
 using TheWayToGerman.Core.Entities;
 using TheWayToGerman.Core.Exceptions;
 using TheWayToGerman.DataAccess.Interfaces;
@@ -35,9 +34,9 @@ public class UpdateOwnerCommandHandler : CommandHandler<UpdateOwnerInformationCo
     }
     protected override async Task<Result<OK>> Execute(UpdateOwnerInformationCommand request, CancellationToken cancellationToken)
     {
-        User user = request.Adapt<User>();        
+        User user = request.Adapt<User>();
         user.SetPassword(request.Password);
-        var getOwnerResult = await UnitOfWork.UserRespository.UpdateUserAsync(user,x => x.UserType == Core.Enums.UserType.Owner);
+        var getOwnerResult = await UnitOfWork.UserRespository.UpdateUserAsync(user, x => x.UserType == Core.Enums.UserType.Owner);
         if (getOwnerResult.ContainError())
         {
             return getOwnerResult.GetError();

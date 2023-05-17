@@ -18,17 +18,17 @@ public static class DIExtensions
     {
         services.AddMediatR(Assembly.GetExecutingAssembly());
     }
-    public static void AddJWTAuth(this IServiceCollection services,IConfiguration configuration)
-    {      
+    public static void AddJWTAuth(this IServiceCollection services, IConfiguration configuration)
+    {
         var authConfig = configuration.GetSection("JWT").Get<AuthConfig>();
         if (authConfig is null)
         {
-            throw new NullValueException("AuthConfig is null");           
+            throw new NullValueException("AuthConfig is null");
         }
         services.AddSingleton(authConfig);
         services.AddScoped<IAuthService, JwtService>();
 
-       
+
 
         services.AddAuthentication(auth =>
         {
@@ -50,6 +50,6 @@ public static class DIExtensions
         });
         services.AddAuthorizationBuilder().AddPolicy(AuthPolicies.OwnerPolicy, p => p.RequireRole(nameof(UserType.Owner)));
         services.AddAuthorizationBuilder().AddPolicy(AuthPolicies.AdminPolicy, p => p.RequireRole(nameof(UserType.Admin)));
-        services.AddAuthorizationBuilder().AddPolicy(AuthPolicies.AdminsAndOwners, p => p.RequireRole(nameof(UserType.Owner),nameof(UserType.Admin)));
+        services.AddAuthorizationBuilder().AddPolicy(AuthPolicies.AdminsAndOwners, p => p.RequireRole(nameof(UserType.Owner), nameof(UserType.Admin)));
     }
 }

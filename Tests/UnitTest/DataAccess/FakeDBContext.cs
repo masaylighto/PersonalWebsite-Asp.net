@@ -8,7 +8,7 @@ public static class FakeDBContext
 {
     public static PostgresDBContext Create()
     {
-        var dbContextOptionsBuilder =new  DbContextOptionsBuilder<PostgresDBContext>();
+        var dbContextOptionsBuilder = new DbContextOptionsBuilder<PostgresDBContext>();
         dbContextOptionsBuilder.UseInMemoryDatabase("UnitTestMemoryDB");
         return new PostgresDBContext(dbContextOptionsBuilder.Options);
     }

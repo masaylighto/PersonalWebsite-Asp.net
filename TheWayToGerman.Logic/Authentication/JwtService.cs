@@ -12,14 +12,14 @@ namespace TheWayToGerman.Logic.Authentication
         public AuthConfig AuthConfig { get; }
         public IDateTimeProvider DateTimeProvider { get; }
 
-        public JwtService(AuthConfig authConfig,IDateTimeProvider dateTimeProvider)
+        public JwtService(AuthConfig authConfig, IDateTimeProvider dateTimeProvider)
         {
             AuthConfig = authConfig;
             DateTimeProvider = dateTimeProvider;
         }
-        IEnumerable<Claim> CreateClaim(params (string name,string value)[] claims)
+        IEnumerable<Claim> CreateClaim(params (string name, string value)[] claims)
         {
-            
+
             foreach (var claim in claims)
             {
                 yield return new Claim(claim.name, claim.value);
@@ -30,7 +30,7 @@ namespace TheWayToGerman.Logic.Authentication
         {
             try
             {
-                if (claimsValue.Length==0)
+                if (claimsValue.Length == 0)
                 {
                     return new ArgumentNullException(nameof(claimsValue));
                 }
@@ -40,8 +40,8 @@ namespace TheWayToGerman.Logic.Authentication
                 {
                     //Claims
                     Subject = new ClaimsIdentity(CreateClaim(claimsValue)),
-                    Issuer= AuthConfig.Issuer,
-                    Audience= AuthConfig.Audience,
+                    Issuer = AuthConfig.Issuer,
+                    Audience = AuthConfig.Audience,
                     //The Expiration Date Of Token
                     Expires = DateTimeProvider.UtcNow.AddMinutes(AuthConfig.MinutesToExpire),
                     //Set cryptographic key and security algorithms that are used to generate a digital signature.
@@ -60,7 +60,7 @@ namespace TheWayToGerman.Logic.Authentication
         {
             try
             {
-                var tokenHandler = new JwtSecurityTokenHandler();                 
+                var tokenHandler = new JwtSecurityTokenHandler();
                 var jwtToken = tokenHandler.ReadJwtToken(token);
                 return new DecryptedToken()
                 {
