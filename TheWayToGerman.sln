@@ -15,13 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Expressions", "Lib\Ext
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.HTTP", "Lib\Core.HTTP\Core.HTTP.csproj", "{189B8248-F514-4BEC-9110-847962AED57B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.Core", "TheWayToGerman.Core\TheWayToGerman.Core.csproj", "{DCDC7163-0E22-4C34-B4D4-A5D0B1CD231C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.Core", "TheWayToGerman\TheWayToGerman.Core\TheWayToGerman.Core.csproj", "{DCDC7163-0E22-4C34-B4D4-A5D0B1CD231C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.Logic", "TheWayToGerman.Logic\TheWayToGerman.Logic.csproj", "{3E138A5A-B7CE-4E52-9093-9772D415EE8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.Logic", "TheWayToGerman\TheWayToGerman.Logic\TheWayToGerman.Logic.csproj", "{3E138A5A-B7CE-4E52-9093-9772D415EE8E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.Api", "TheWayToGerman.Api\TheWayToGerman.Api.csproj", "{37763AF1-55D3-4A62-9C46-236B22AF2708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.Api", "TheWayToGerman\TheWayToGerman.Api\TheWayToGerman.Api.csproj", "{37763AF1-55D3-4A62-9C46-236B22AF2708}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.DataAccess", "TheWayToGerman.DataAccess\TheWayToGerman.DataAccess.csproj", "{9AEE02B9-0A22-43E6-B8B1-F57962D7B4F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWayToGerman.DataAccess", "TheWayToGerman\TheWayToGerman.DataAccess\TheWayToGerman.DataAccess.csproj", "{9AEE02B9-0A22-43E6-B8B1-F57962D7B4F3}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2A955E68-4175-4AEB-8AC3-D5976D2FCABE}"
 EndProject
