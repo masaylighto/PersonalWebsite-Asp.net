@@ -6,7 +6,7 @@ namespace UnitTest.Core.Entities;
 
 public class UserTest
 {
-    readonly Faker FakeData= new Faker();
+    readonly Faker FakeData = new Faker();
 
     readonly Faker<User> FakeUser = new Faker<User>().CustomInstantiator((faker) =>
     {

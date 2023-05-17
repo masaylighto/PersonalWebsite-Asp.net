@@ -1,8 +1,6 @@
 ﻿using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
-using System.Reflection.Metadata;
 using System.Security.Claims;
 using TheWayToGerman.Api.DTO.Login;
 using TheWayToGerman.Api.ResponseObject;
@@ -25,7 +23,7 @@ public class LoginController : ControllerBase
         AuthService = authService;
     }
 
-   
+
     [HttpPost]
     [Route("Auth")]
 
@@ -43,8 +41,8 @@ public class LoginController : ControllerBase
         var user = commandResult.GetData();
         var tokenResult = AuthService.GenerateToken
                         (
-                            (ClaimTypes.Role     , user.UserType.ToString()),
-                            (Constants.UserIDKey , user.Id.ToString())
+                            (ClaimTypes.Role, user.UserType.ToString()),
+                            (Constants.UserIDKey, user.Id.ToString())
                         );
         if (tokenResult.ContainError())
         {

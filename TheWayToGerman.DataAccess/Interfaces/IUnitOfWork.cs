@@ -1,6 +1,4 @@
-﻿
-using Core.DataKit;
-using Core.DataKit.Result;
+﻿using Core.DataKit.Result;
 
 namespace TheWayToGerman.DataAccess.Interfaces;
 

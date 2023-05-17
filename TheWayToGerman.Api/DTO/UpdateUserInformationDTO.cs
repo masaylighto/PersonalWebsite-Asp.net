@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TheWayToGerman.Core.Enums;
 
 namespace TheWayToGerman.Api.DTO;
 

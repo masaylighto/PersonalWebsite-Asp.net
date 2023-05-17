@@ -2,8 +2,6 @@
 using Core.DataKit;
 using Core.DataKit.MockWrapper;
 using Core.DataKit.Result;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Linq.Expressions;
 using TheWayToGerman.Core.Database;
 using TheWayToGerman.Core.Entities;
@@ -17,7 +15,7 @@ public class UserRepository : IUserRepository
     public PostgresDBContext PostgresDBContext { get; }
     public IDateTimeProvider DateTimeProvider { get; }
 
-    public UserRepository(PostgresDBContext postgresDBContext,IDateTimeProvider dateTimeProvider)
+    public UserRepository(PostgresDBContext postgresDBContext, IDateTimeProvider dateTimeProvider)
     {
         PostgresDBContext = postgresDBContext;
         DateTimeProvider = dateTimeProvider;
@@ -25,11 +23,11 @@ public class UserRepository : IUserRepository
 
     public async Task<Result<User>> GetUserAsync(Func<User, bool> Where)
     {
-        return await Task.Run<Result<User>>(() => 
+        return await Task.Run<Result<User>>(() =>
         {
             try
-            {              
-                var result =  PostgresDBContext.Users.FirstOrDefault(Where);
+            {
+                var result = PostgresDBContext.Users.FirstOrDefault(Where);
                 return result;
             }
             catch (Exception ex)
@@ -62,7 +60,7 @@ public class UserRepository : IUserRepository
         {
             return ex;
         }
-        
+
     }
 
     public async Task<Result<OK>> UpdateUserAsync(User user, Func<User, bool> Which)
@@ -82,14 +80,30 @@ public class UserRepository : IUserRepository
             if (oldEntity.Username != user.Username && PostgresDBContext.Users.Any(x => x.Username == user.Username))
             {
                 return new UniqueFieldException("User Name is Used");
-            }            
+            }
             oldEntity.UpdateFrom(user, DateTimeProvider.UtcNow);
             return new OK();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return ex;
         }
-      
+
+    }
+
+    public async Task<Result<IEnumerable<T>>> GetUsersAsync<T>(Expression<Func<User, bool>> Where, Func<User, T> select)
+    {
+
+        try
+        {
+          
+            var result = PostgresDBContext.Users.AsEnumerable().Where(Where.Compile()).Select(select);
+            return Result<IEnumerable<T>>.From(result);
+        }
+        catch (Exception ex)
+        {
+            return ex;
+        }
+
     }
 }

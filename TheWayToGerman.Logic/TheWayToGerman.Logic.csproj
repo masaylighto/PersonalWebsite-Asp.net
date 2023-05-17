@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lib\Core.Cqrs\Core.Cqrs.csproj" />
+    <ProjectReference Include="..\Lib\Extensions\Expressions\Core.Expressions.csproj" />
     <ProjectReference Include="..\TheWayToGerman.DataAccess\TheWayToGerman.DataAccess.csproj" />
   </ItemGroup>
 

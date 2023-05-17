@@ -1,8 +1,6 @@
-﻿using System.Data.Common;
-using System.Linq.Expressions;
-using System.Reflection.Metadata;
+﻿using System.Linq.Expressions;
 
-namespace Expressions;
+namespace Core.Expressions;
 class RebindParameterVisitor : ExpressionVisitor
 {
     private readonly ParameterExpression _parameter;
@@ -37,7 +35,7 @@ public static class ExpressionsExtensions
     }
     public static LambdaExpression BodyToLambda(this (Expression Body, ParameterExpression Parameter) exp)
     {
-        return Expression.Lambda(exp.Body,exp.Parameter);
+        return Expression.Lambda(exp.Body, exp.Parameter);
     }
     /// <summary>
     /// Expressions differ in the name of the function parameter used inside of them,
@@ -51,9 +49,9 @@ public static class ExpressionsExtensions
     {
         return new RebindParameterVisitor(parameter).Visit(expr1.Body);
     }
-    public static (Expression Body,ParameterExpression Parameter) RebindBodyParamFrom<T>(this Expression<Func<T, bool>> exp, Type parameterType)
+    public static (Expression Body, ParameterExpression Parameter) RebindBodyParamFrom<T>(this Expression<Func<T, bool>> exp, Type parameterType)
     {
         var parameter = Expression.Parameter(parameterType);
-        return (new RebindParameterVisitor(parameter).Visit(exp.Body),parameter);
+        return (new RebindParameterVisitor(parameter).Visit(exp.Body), parameter);
     }
 }

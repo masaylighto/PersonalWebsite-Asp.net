@@ -4,7 +4,7 @@ namespace TheWayToGerman.Core.Exceptions;
 /// <summary>
 ///  Used to indecate that there is no changes on data happen to database
 /// </summary>
-public class DBNoChangesException:Exception
+public class DBNoChangesException : Exception
 {
     public DBNoChangesException() : base()
     {

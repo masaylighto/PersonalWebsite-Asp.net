@@ -29,3 +29,4 @@ public class GetUserToAuthQueryHandler : QueryHandler<GetUserToAuthQuery, User>
         return await UnitOfWork.UserRespository.GetUserAsync(x => x.Username == request.Username && x.IsPasswordEqual(request.Password));
     }
 }
+

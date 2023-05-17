@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -15,7 +14,7 @@ namespace TheWayToGerman.Core.Migrations
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: new Guid("402813df-0d72-4b3c-9645-3ad223c20f8f"));
-            
+
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CreateDate", "DeleteDate", "Email", "Name", "Password", "UpdateDate", "UserType", "Username" },
