@@ -3,6 +3,7 @@
 using Core.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Options;
 using System.Linq.Expressions;
 using TheWayToGerman.Core.Entities;
 
@@ -12,6 +13,8 @@ public class PostgresDBContext : DbContext
 {
     public PostgresDBContext(DbContextOptions<PostgresDBContext> dbContextOptions) : base(dbContextOptions)
     {
+        ChangeTracker.CascadeDeleteTiming = CascadeTiming.OnSaveChanges;
+        ChangeTracker.DeleteOrphansTiming = CascadeTiming.OnSaveChanges;
     }
     public DbSet<User> Users { get; set; }
     /*-----------------------------Configuration--------------------------------*/
@@ -29,7 +32,6 @@ public class PostgresDBContext : DbContext
         }
         base.OnModelCreating(modelBuilder);
     }
-
     private EntityEntry<T> SoftDelete<T>(object baseEntity) where T : class
     {
 
