@@ -1,10 +1,12 @@
 ﻿
+using Mapster;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using TheWayToGerman.Api.DTO.Login;
 using TheWayToGerman.Api.ResponseObject.Login;
 using TheWayToGerman.Core.Database;
@@ -63,13 +65,24 @@ public static class WebApplicationBuilder
     }
     public static async Task<HttpResponseMessage> SendAsync(this HttpClient httpClient, string url, HttpContent content, HttpMethod method)
     {
-        var req = new HttpRequestMessage()
+        var requestMessage = new HttpRequestMessage()
         {
             RequestUri = new Uri(httpClient.BaseAddress + url),
             Content = content,
             Method = method
         };
-        req.Headers.Authorization = httpClient.DefaultRequestHeaders.Authorization; // this fake client act very wired 
-        return await httpClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead);
+        requestMessage.Headers.Authorization = httpClient.DefaultRequestHeaders.Authorization; // this fake client act very wired 
+        return await httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead);
+    }
+    public static async Task<T> SendAsync<T>(this HttpClient httpClient, string url, HttpContent content, HttpMethod method)
+    {
+        var requestMessage = new HttpRequestMessage()
+        {
+            RequestUri = new Uri(httpClient.BaseAddress + url),
+            Content = content,
+            Method = method
+        };
+        requestMessage.Headers.Authorization = httpClient.DefaultRequestHeaders.Authorization; // this fake client act very wired 
+        return await (await httpClient.SendAsync(url,content,method)).Content.ReadFromJsonAsync<T>();
     }
 }

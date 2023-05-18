@@ -42,15 +42,7 @@ public class UpdateOwnerCommandHandler : CommandHandler<UpdateOwnerInformationCo
             return getOwnerResult.GetError();
         }
         var saveResult = await UnitOfWork.SaveAsync();
-        if (saveResult.ContainError())
-        {
-            return saveResult.GetError();
-        }
-        if (saveResult.GetData())
-        {
-            return new OK();
-        }
-        return new DBNoChangesException("Update user operation result in no changes in the database");
+        return saveResult;
 
     }
 }

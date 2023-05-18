@@ -1,5 +1,7 @@
-﻿using Core.DataKit.Result;
+﻿using Core.DataKit;
+using Core.DataKit.Result;
 using TheWayToGerman.Core.Database;
+using TheWayToGerman.Core.Exceptions;
 using TheWayToGerman.DataAccess.Interfaces;
 
 namespace TheWayToGerman.DataAccess.Repositories;
@@ -15,11 +17,15 @@ internal class UnitOfWork : IUnitOfWork
     }
 
 
-    public async Task<Result<bool>> SaveAsync()
+    public async Task<Result<OK>> SaveAsync()
     {
         try
         {
-            return await PostgresDBContext.SaveChangesAsync() > 0;
+            if (await PostgresDBContext.SaveChangesAsync() == 0)
+            {
+                return new DBNoChangesException("No Changes Applied");
+            }
+            return new OK();
         }
         catch (Exception ex)
         {

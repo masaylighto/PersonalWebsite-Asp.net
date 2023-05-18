@@ -1,6 +1,7 @@
 ﻿
 using Bogus;
 using Core.DataKit.MockWrapper;
+using System.Runtime.Intrinsics.X86;
 using TheWayToGerman.Core.Database;
 using TheWayToGerman.Core.Entities;
 using TheWayToGerman.Core.Exceptions;
@@ -138,6 +139,32 @@ public class UserRepositoryTest
         Assert.False(result.ContainError());
         Assert.Equal(1, changes);
     }
+    [Fact]
+    public async Task DeleteAdmin_AdminExist_ShouldReturnOK()
+    {
+        //Prepare
+        User user = FakeUser.Generate();
+        user.SetPassword(FakeData.Internet.Password(8));
+        await UserRespository.AddUserAsync(user);
+        postgresDB.SaveChanges();
+        //Execute
+        var result = await UserRespository.DeleteAdminById(user.Id);
+        int changes = postgresDB.SaveChanges();
 
-   
+        //Validate
+        Assert.False(result.ContainError());
+        Assert.Equal(1, changes);
+    }
+    [Fact]
+    public async Task DeleteAdmin_AdminNotExist_ShouldReturnOK()
+    {
+        //Prepare
+        //Execute
+        var result = await UserRespository.DeleteAdminById(Guid.NewGuid());
+        int changes = postgresDB.SaveChanges();
+
+        //Validate
+        Assert.True(result.ContainError());
+        Assert.Equal(0, changes);
+    }
 }

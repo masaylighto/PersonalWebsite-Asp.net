@@ -2,7 +2,9 @@
 using Core.DataKit;
 using Core.DataKit.MockWrapper;
 using Core.DataKit.Result;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using TheWayToGerman.Core.Database;
 using TheWayToGerman.Core.Entities;
 using TheWayToGerman.Core.Exceptions;
@@ -105,5 +107,16 @@ public class UserRepository : IUserRepository
             return ex;
         }
 
+    }
+
+    public async Task<Result<OK>> DeleteAdminById(Guid Id)
+    {
+        var user = PostgresDBContext.Users.Where(x => x.Id == Id && x.UserType == Core.Enums.UserType.Admin).FirstOrDefault();
+        if (user is null )
+        {
+            return new DataNotFoundException();
+        }
+        PostgresDBContext.Users.Remove(user);
+        return new OK();
     }
 }

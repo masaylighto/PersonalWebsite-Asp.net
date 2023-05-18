@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using TheWayToGerman.Api.DTO;
 using TheWayToGerman.Api.DTO.Owner;
 using TheWayToGerman.Api.ResponseObject;
+using TheWayToGerman.Api.ResponseObject.Owner;
 using TheWayToGerman.Core.Cqrs.Commands;
 using TheWayToGerman.Core.Cqrs.Queries;
 using TheWayToGerman.Core.Enums;
+using TheWayToGerman.Core.Exceptions;
 using TheWayToGerman.Core.Helpers;
 
 namespace TheWayToGerman.Api.Controllers;
@@ -50,8 +52,24 @@ public class OwnerController : ControllerBase
         var Admins = result.GetData().Select(x => x.Adapt<GetAdminsResponse>());
         return Ok(Admins);
     }
+    [HttpDelete]
+    [Route("Admin")]
+    [Authorize(AuthPolicies.OwnerPolicy)]
+    public async Task<ActionResult> DeleteAdmin([FromBody] DeleteAdminDTO DTO)
+    {
+        var userCommand = DTO.Adapt<DeleteAdminCommand>();
+        var result = await Mediator.Send(userCommand);
+        if (result.IsErrorOfType<DataNotFoundException>())
+        {
+            return NotFound();
+        }
+        if (result.ContainError())
+        {
+            return Problem(result.GetError().Message);
+        }
+        return NoContent();
+    }
     [HttpPut]
-    [Route("Self")]
     [Authorize(AuthPolicies.OwnerPolicy)]
     public async Task<ActionResult> UpdateInformation([FromBody] UpdateUserInformationDTO DTO)
     {
