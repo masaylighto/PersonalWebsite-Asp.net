@@ -42,15 +42,6 @@ public class CreateUserCommandHandler : CommandHandler<CreateUserCommand, OK>
             return addResult.GetError();
         }
         var saveResult = await UnitOfWork.SaveAsync();
-        if (saveResult.ContainError())
-        {
-            return saveResult.GetError();
-        }
-        if (saveResult.GetData())
-        {
-            return new OK();
-        }
-        return new DBNoChangesException("Create user opeartion result in no changes in the database");
-
+        return saveResult;       
     }
 }
