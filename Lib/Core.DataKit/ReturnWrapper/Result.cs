@@ -28,7 +28,7 @@ public class Result<DataType>
     //Polymorphism Method    
     public bool IsErrorOfType<Type>() => Error is Type;
     public bool ContainError() => IsError;
-    public bool ContainData() => Data is not null;
+    public bool ContainData() => !IsError;
     public DataType GetData() => Data;
     public Exception GetError() => Error;
     public void SetData(DataType? data)

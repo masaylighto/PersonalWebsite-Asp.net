@@ -3,8 +3,10 @@
 using Core.Cqrs.Handlers;
 using Core.DataKit;
 using Core.DataKit.Result;
+using Core.Expressions;
 using FluentValidation;
 using Mapster;
+using System.Linq.Expressions;
 using TheWayToGerman.Core.Cqrs.Commands;
 using TheWayToGerman.Core.Entities;
 using TheWayToGerman.Core.Exceptions;
@@ -34,6 +36,9 @@ public class CreateUserCommandHandler : CommandHandler<CreateUserCommand, OK>
     }
     protected override async Task<Result<OK>> Execute(CreateUserCommand request, CancellationToken cancellationToken)
     {
+        Expression<Func<string, bool>> expression = (text) => text.Contains('1') || text.Contains('2');
+
+        expression.Not();
         User user = request.Adapt<User>();
         user.SetPassword(request.Password);
         var addResult = await UnitOfWork.UserRespository.AddUserAsync(user);
