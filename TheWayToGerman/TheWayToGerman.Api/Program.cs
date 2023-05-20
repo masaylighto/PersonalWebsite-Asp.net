@@ -17,6 +17,7 @@ builder.Services.AddRepositories();
 builder.Services.AddMediatR();
 builder.Services.AddJWTAuth(builder.Configuration);
 builder.Services.AddDataTimeProvider();
+builder.Services.AddRateLimiters(builder.Configuration);
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -26,5 +27,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRateLimiter();
 app.MapControllers();
+
 app.Run();

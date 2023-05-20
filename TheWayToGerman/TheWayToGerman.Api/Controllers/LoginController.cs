@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Security.Claims;
 using TheWayToGerman.Api.DTO.Login;
 using TheWayToGerman.Api.ResponseObject;
@@ -26,7 +27,7 @@ public class LoginController : ControllerBase
 
     [HttpPost]
     [Route("Auth")]
-
+    [EnableRateLimiting("Auth")]
     public async Task<ActionResult> Authenticate(AuthenticateDTO authenticateDTO)
     {
         var command = authenticateDTO.Adapt<GetUserToAuthQuery>();

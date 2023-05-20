@@ -9,6 +9,10 @@ using TheWayToGerman.Core.Enums;
 using TheWayToGerman.Core.Exceptions;
 using TheWayToGerman.Core.Helpers;
 using TheWayToGerman.Logic.Authentication;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.AspNetCore.Builder;
+using System.Threading.RateLimiting;
+using TheWayToGerman.Core.Configuration;
 
 namespace TheWayToGerman.Logic;
 
@@ -52,4 +56,26 @@ public static class DIExtensions
         services.AddAuthorizationBuilder().AddPolicy(AuthPolicies.AdminPolicy, p => p.RequireRole(nameof(UserType.Admin)));
         services.AddAuthorizationBuilder().AddPolicy(AuthPolicies.AdminsAndOwners, p => p.RequireRole(nameof(UserType.Owner), nameof(UserType.Admin)));
     }
+
+    public static void AddRateLimiters(this IServiceCollection services, IConfiguration configuration)
+    {
+        var configurations = configuration.GetSection("Limiters").Get<IEnumerable<RateLimiterConfig>>();
+        if (configurations is null)
+        {
+            throw new NullValueException("Limiters are null");
+        }
+        foreach (var config in configurations)
+        {
+            services.AddRateLimiter(rate => rate
+            .AddFixedWindowLimiter(policyName: config.PolicyName, options => {
+                options.QueueLimit = config.QueueLimit;
+                options.PermitLimit = config.PermitLimit;
+                options.QueueProcessingOrder =  Enum.Parse<QueueProcessingOrder>(config.QueueProcessingOrder);
+                options.Window = TimeSpan.FromMinutes(config.TimeWindowInMinute);                
+            }));
+        }
+        
+    }
+
+
 }
