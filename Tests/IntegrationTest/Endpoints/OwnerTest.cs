@@ -458,4 +458,130 @@ public class OwnerTest
         Assert.Equal(System.Net.HttpStatusCode.NotFound, result.StatusCode);
 
     }
+
+
+
+
+    public async Task AddOwner_UniqueValues_ShouldReturnHttpOK()
+    {
+        //prepare
+        CreateFirstOwnerDTO DTO = new()
+        {
+            Email = Faker.Internet.Email(),
+            Name = Faker.Name.FullName(),
+            Password = Faker.Internet.Password(8),
+            Username = Faker.Internet.UserName(),
+        };
+
+        //execute
+        var result = await client.PostAsJsonAsync("v1/Owner", DTO);
+
+        //validate
+        Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
+    }
+
+
+    [Fact]
+    public async Task AddOwner_OwnerAlreadyExist_ShouldReturnHttpBadRequest()
+    {
+        //prepare
+        CreateFirstOwnerDTO createAdminDTO = new()
+        {
+            Email = Faker.Internet.Email(),
+            Name = Faker.Name.FullName(),
+            Password = Faker.Internet.Password(8),
+            Username = Faker.Internet.UserName(),
+
+        };
+        CreateFirstOwnerDTO createOwnerDTO2 = new()
+        {
+            Email = Faker.Internet.Email(),
+            Name = Faker.Name.FullName(),
+            Password = Faker.Internet.Password(8),
+            Username = Faker.Internet.UserName(),
+
+        };
+
+        //execute
+        await client.SendAsync("v1/Owner", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+
+        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(createOwnerDTO2), HttpMethod.Post);
+        //validate
+        Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
+    }
+    [Fact]
+    public async Task AddOwner_PasswordLessThan8Char_ShouldReturnHttpBadRequest()
+    {
+        //prepare
+        CreateAdminDTO createOwnerDTO = new()
+        {
+            Email = Faker.Internet.Email(),
+            Name = Faker.Name.FullName(),
+            Password = Faker.Internet.Password(7),
+            Username = Faker.Internet.UserName(),
+
+        };
+
+        //execute
+        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(createOwnerDTO), HttpMethod.Post);
+
+        //validate
+        Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
+    }
+    [Fact]
+    public async Task AddOwner_UsernameIsNull_ShouldReturnHttpBadRequest()
+    {
+        //prepare
+        CreateFirstOwnerDTO createfirstOwnerDTO = new()
+        {
+            Email = Faker.Internet.Email(),
+            Name = Faker.Name.FullName(),
+            Password = Faker.Internet.Password(7),
+            Username = null,
+
+        };
+
+        //execute
+        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(createfirstOwnerDTO), HttpMethod.Post);
+
+        //validate
+        Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
+    }
+    [Fact]
+    public async Task AddOwner_EmailIsNull_ShouldReturnHttpBadRequest()
+    {
+        //prepare      
+        CreateFirstOwnerDTO createFirstOwnerDTO = new()
+        {
+            Email = null,
+            Name = Faker.Name.FullName(),
+            Password = Faker.Internet.Password(7),
+            Username = Faker.Internet.UserName(),
+
+        };
+
+        //execute
+        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(createFirstOwnerDTO), HttpMethod.Post);
+
+        //validate
+        Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
+    }
+    [Fact]
+    public async Task AddOwner_NameIsNull_ShouldReturnHttpBadRequest()
+    {
+        //prepare
+        CreateFirstOwnerDTO createFirstOwnerDTO = new()
+        {
+            Email = Faker.Internet.Email(),
+            Name = null,
+            Password = Faker.Internet.Password(7),
+            Username = Faker.Internet.UserName(),
+
+        };
+        //execute
+        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(createFirstOwnerDTO), HttpMethod.Post);
+        //validate
+        Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
+    }
+
 }

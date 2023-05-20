@@ -1,4 +1,5 @@
 ﻿
+using Bogus;
 using Mapster;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -8,6 +9,7 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using TheWayToGerman.Api.DTO.Login;
+using TheWayToGerman.Api.DTO.Owner;
 using TheWayToGerman.Api.ResponseObject.Login;
 using TheWayToGerman.Core.Database;
 
@@ -43,12 +45,12 @@ public static class WebApplicationBuilder
     }
     public static async Task Authenticate(this HttpClient httpClient, string username = "masaylighto", string password = "8PS33gotf24a")
     {
-
+        await httpClient.AddFirstOwner();
         var dto = new AuthenticateDTO() { Username = username, Password = password };
-        var req = JsonConvert.SerializeObject(dto);
+        var request = JsonConvert.SerializeObject(dto);
 
 
-        using var result = await httpClient.PostAsync("v1/login/auth", new StringContent(req, new MediaTypeHeaderValue("application/json")));
+        using var result = await httpClient.PostAsync("v1/login/auth", new StringContent(request, new MediaTypeHeaderValue("application/json")));
 
         var response = await result.Content.ReadAsStringAsync();
 
@@ -61,6 +63,19 @@ public static class WebApplicationBuilder
         {
             throw new Exception($" the http response {response} : the error {ex.Message} ");
         }
+
+    }
+    public static async Task AddFirstOwner(this HttpClient httpClient, string Username= "masaylighto",string Password = "8PS33gotf24a")
+    {
+        //prepare
+        CreateFirstOwnerDTO createfirstOwnerDTO = new()
+        {
+            Email = "masaylighto@gmail.com",
+            Name  = "mohammed",
+            Password = Password,
+            Username = Username,
+        };
+        await httpClient.SendAsync("v1/Owner", Helper.CreateJsonContent(createfirstOwnerDTO), HttpMethod.Post);
 
     }
     public static async Task<HttpResponseMessage> SendAsync(this HttpClient httpClient, string url, HttpContent content, HttpMethod method)

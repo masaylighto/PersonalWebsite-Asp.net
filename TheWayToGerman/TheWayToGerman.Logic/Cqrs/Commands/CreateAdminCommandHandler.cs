@@ -14,11 +14,11 @@ using TheWayToGerman.DataAccess.Interfaces;
 
 namespace TheWayToGerman.Logic.Cqrs.Commands;
 
-public class CreateUserCommandHandler : CommandHandler<CreateUserCommand, OK>
+public class CreateAdminCommandHandler : CommandHandler<CreateAdminCommand, OK>
 {
     public IUnitOfWork UnitOfWork { get; }
 
-    class CreateUserValidator : AbstractValidator<CreateUserCommand>
+    class CreateUserValidator : AbstractValidator<CreateAdminCommand>
     {
         public CreateUserValidator()
         {
@@ -29,17 +29,15 @@ public class CreateUserCommandHandler : CommandHandler<CreateUserCommand, OK>
             RuleFor(x => x.Name).MinimumLength(1);
         }
     }
-    public CreateUserCommandHandler(IUnitOfWork unitOfWork)
+    public CreateAdminCommandHandler(IUnitOfWork unitOfWork)
     {
         Validator = new CreateUserValidator();
         UnitOfWork = unitOfWork;
     }
-    protected override async Task<Result<OK>> Execute(CreateUserCommand request, CancellationToken cancellationToken)
+    protected override async Task<Result<OK>> Execute(CreateAdminCommand request, CancellationToken cancellationToken)
     {
-        Expression<Func<string, bool>> expression = (text) => text.Contains('1') || text.Contains('2');
-
-        expression.Not();
         User user = request.Adapt<User>();
+        user.UserType = Core.Enums.UserType.Admin;
         user.SetPassword(request.Password);
         var addResult = await UnitOfWork.UserRespository.AddUserAsync(user);
         if (addResult.ContainError())

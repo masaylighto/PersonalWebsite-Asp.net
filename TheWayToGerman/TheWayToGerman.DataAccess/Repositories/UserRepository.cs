@@ -23,9 +23,9 @@ public class UserRepository : IUserRepository
         DateTimeProvider = dateTimeProvider;
     }
 
-    public async Task<Result<User>> GetUserAsync(Func<User, bool> Where)
+    public Task<Result<User>> GetUserAsync(Func<User, bool> Where)
     {
-        return await Task.Run<Result<User>>(() =>
+        return Task.Run<Result<User>>(() =>
         {
             try
             {
@@ -118,5 +118,10 @@ public class UserRepository : IUserRepository
         }
         PostgresDBContext.Users.Remove(user);
         return new OK();
+    }
+
+    public Task<bool> IsUserExistAsync(Func<User, bool> Where)
+    {
+        return Task.Run(() => PostgresDBContext.Users.Any(Where));
     }
 }

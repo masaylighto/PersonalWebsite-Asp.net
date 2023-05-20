@@ -58,20 +58,7 @@ namespace TheWayToGerman.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("4413e488-a54e-43df-b381-f48fc81b7080"),
-                            CreateDate = new DateTime(2023, 5, 9, 10, 20, 10, 290, DateTimeKind.Utc).AddTicks(7685),
-                            Email = "masaylighto@gmail.com",
-                            Name = "mohammed",
-                            Password = "CPDk5fucxtvODK+MF0+aTUYOuKMtNki1m2dFSz8gbioATBjHPIk+IDMUkSeJKiQCIXOV9quaCwL0sAu5aYfrGA==",
-                            UpdateDate = new DateTime(2023, 5, 9, 10, 20, 10, 290, DateTimeKind.Utc).AddTicks(7686),
-                            UserType = 1,
-                            Username = "masaylighto"
-                        });
+                    b.ToTable("Users", (string)null);
                 });
 #pragma warning restore 612, 618
         }

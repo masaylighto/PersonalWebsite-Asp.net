@@ -20,7 +20,7 @@ public class PostgresDBContext : DbContext
     /*-----------------------------Configuration--------------------------------*/
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new UserTableConfiguration());
+    
         Expression<Func<BaseEntity, bool>> SoftDelete = X => X.DeleteDate == null;
         var entites = modelBuilder.Model.GetEntityTypes().Where(x => x.ClrType.IsAssignableTo(typeof(BaseEntity)));
         foreach (var entityType in entites)
