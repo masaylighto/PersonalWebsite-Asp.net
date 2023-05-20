@@ -45,6 +45,36 @@ public class UserRepositoryTest
         //Validate
         Assert.Equal(1, changes);
     }
+
+
+    [Fact]
+    public async Task IsUserExist_UserExist_ShouldReturnTrue()
+    {
+        //Prepare
+        User testUser = FakeUser.Generate();
+        testUser.SetPassword(FakeData.Internet.Password());        
+        await UserRespository.AddUserAsync(testUser);
+        postgresDB.SaveChanges();
+
+        //Execute
+        var exist =await UserRespository.IsUserExistAsync(x => x.Id == testUser.Id);
+        //Validate
+        Assert.True(exist);
+    }
+    [Fact]
+    public async Task IsUserExist_UserNotExist_ShouldReturnTrue()
+    {
+        //Prepare
+        User testUser = FakeUser.Generate();
+        testUser.SetPassword(FakeData.Internet.Password());
+        await UserRespository.AddUserAsync(testUser);
+        postgresDB.SaveChanges();
+
+        //Execute
+        var isexist = await UserRespository.IsUserExistAsync(x => x.Id == Guid.NewGuid());
+        //Validate
+        Assert.False(isexist);
+    }
     [Fact]
     public async Task AddUser_NullPassword_ShouldReturnArgumentNullException()
     {

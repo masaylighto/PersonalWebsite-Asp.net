@@ -14,6 +14,7 @@ public class LoginTest
         //prepare
         var dto = new AuthenticateDTO() { Username = "masaylighto", Password = "8PS33gotf24a" };
         var client = WebApplicationBuilder.ApiClient();
+        await client.AddFirstOwner(dto.Username, dto.Password);
         //execute
         var result = await client.PostAsJsonAsync("v1/login/auth", dto);
         //validate  

@@ -250,6 +250,57 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Owner",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"token\", jsonData.jwtToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"masaylighto\",\r\n  \"email\":\"www.masaylighto@gmail.com\",\r\n  \"name\":\"mohammed\",\r\n  \"password\": \"8PS33gotf24a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5021/v1/Owner",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5021",
+							"path": [
+								"v1",
+								"Owner"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

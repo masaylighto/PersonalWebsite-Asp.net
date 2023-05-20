@@ -29,8 +29,19 @@ public class OwnerController : ControllerBase
     [Authorize(AuthPolicies.OwnerPolicy)]
     public async Task<ActionResult> CreateAdmins([FromBody] CreateAdminDTO DTO)
     {
-        var userCommand = DTO.Adapt<CreateUserCommand>();
-        userCommand.UserType = UserType.Admin;
+        var userCommand = DTO.Adapt<CreateAdminCommand>();
+        var result = await Mediator.Send(userCommand);
+        if (result.ContainError())
+        {
+            return BadRequest(new ErrorResponse() { Error = result.GetError().Message });
+        }
+        return Ok();
+    }
+    [HttpPost]    
+    [AllowAnonymous] // will only called once to create first Owner
+    public async Task<ActionResult> CreateFirstOwner([FromBody] CreateFirstOwnerDTO DTO)
+    {
+        var userCommand = DTO.Adapt<CreateFirstOwnerCommand>();
         var result = await Mediator.Send(userCommand);
         if (result.ContainError())
         {
