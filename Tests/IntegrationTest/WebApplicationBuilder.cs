@@ -57,7 +57,7 @@ public static class WebApplicationBuilder
         try
         {
             var json = JsonConvert.DeserializeObject<AuthenticateResponse>(response);
-            httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"Bearer {json.JwtToken}");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", json.JwtToken);
         }
         catch (Exception ex)
         {

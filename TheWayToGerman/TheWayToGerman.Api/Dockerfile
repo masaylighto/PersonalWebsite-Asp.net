@@ -8,7 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY . .
-WORKDIR "/src/TheWayToGerman"
+WORKDIR "/src/TheWayToGerman/TheWayToGerman.Api"
 RUN dotnet build "TheWayToGerman.csproj" -c Release -o /app/build
 
 FROM build AS publish

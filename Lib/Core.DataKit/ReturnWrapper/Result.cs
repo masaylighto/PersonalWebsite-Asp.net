@@ -1,5 +1,7 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field warning. data in this class has ErrorExist to express if they are null
 
+using System.Runtime.CompilerServices;
+using System.Diagnostics;
 namespace Core.DataKit.Result;
 /// <summary>
 /// Wrapper for values. it can implicitly receive a value or an exception or if the value is null it will set ArgumentNullException instead of it
@@ -31,11 +33,11 @@ public class Result<DataType>
     public bool ContainData() => !IsError;
     public DataType GetData() => Data;
     public Exception GetError() => Error;
-    public void SetData(DataType? data)
+    public void SetData(DataType? data, [CallerMemberName] string? callerName = "")
     {
         if (data is null)
         {
-            SetError(new ArgumentNullException(nameof(data), $"{nameof(Result)} Received null data"));
+            SetError(new ArgumentNullException(nameof(data), $"{nameof(Result)} Received null data in {callerName}"));
             return;
         }
         Data = data;
@@ -51,8 +53,9 @@ public class Result<DataType>
     //Implict Conversation  
     public static implicit operator Result<DataType>(DataType? data)
     {
+        string? callerMethod = (new StackTrace()).GetFrame(1)?.GetMethod()?.Name;
         Result<DataType> result = new();
-        result.SetData(data);
+        result.SetData(data, callerMethod);
         return result;
     }
     public static implicit operator Result<DataType>(Exception error)
