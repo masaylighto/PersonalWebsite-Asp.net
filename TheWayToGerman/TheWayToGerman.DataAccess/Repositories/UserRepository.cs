@@ -30,6 +30,10 @@ public class UserRepository : IUserRepository
             try
             {
                 var result = PostgresDBContext.Users.FirstOrDefault(Where);
+                if (result is null)
+                {
+                    return new DataNotFoundException("Sorry. Couldn't find user with the provided information.");
+                }
                 return result;
             }
             catch (Exception ex)
