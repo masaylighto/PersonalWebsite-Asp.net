@@ -33,5 +33,7 @@ jobs:
           REMOTE_USER: ${{ secrets.EC2_USERNAME }}
           EXCLUDE: "Diagram/"
           TARGET: ${{ secrets.Target }}
-          SCRIPT_AFTER: |          
+          SCRIPT_AFTER: |
+            pwd
+            ls
             sudo docker-compose -p "the_way_to_german_api" up --build
