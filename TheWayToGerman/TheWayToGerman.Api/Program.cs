@@ -19,7 +19,6 @@ builder.Services.AddJWTAuth(builder.Configuration);
 builder.Services.AddDataTimeProvider();
 builder.Services.AddRateLimiters(builder.Configuration);
 var app = builder.Build();
-app.Services.MigratePostgresDB();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
