@@ -35,4 +35,4 @@ jobs:
           TARGET: ${{ secrets.Target }}
           SCRIPT_AFTER: |
             ls -al
-            docker-compose up
+            docker-compose up  -p "TheWayToGermanApi"
