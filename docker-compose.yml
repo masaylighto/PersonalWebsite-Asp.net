@@ -1,21 +1,25 @@
 version: '3.4'
-
 services:
+
   postgresql:
     image: postgres
-    restart: always
-    ports:
-        - "5432:5432"
+    restart: on-failure
     environment:
       POSTGRES_PASSWORD: "Fgcey4J03ZRK4f2y79"
       POSTGRES_USER: "KrqaJOvXGPmLBOPmNIVJ"
+
+
   thewaytogerman.api:
     depends_on:
     - postgresql
     image: thewaytogermanapi
-    restart: always
-    ports:
-    - "5022:5021"
+    restart: on-failure
+    ports:    
+      - 5080:80
+      - 5443:443
+    environment:
+     ASPNETCORE_ENVIRONMENT: "Production"  
     build:
       context: .
       dockerfile: TheWayToGerman/TheWayToGerman.Api/Dockerfile
+    
