@@ -1,27 +1,38 @@
 name: Deploy to Amazon ECS
-
 on:
   push:
-    branches: [ "master" ,"develop"]
-
+    branches:
+      - master
+      - develop
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Deploy code to EC2 instance
-      uses: easingthemes/ssh-deploy@v2.1.5
-      with:
-        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-        source: ./
-        server: ${{ secrets.EC2_SERVER }}
-        username: ${{ secrets.EC2_USERNAME }}
-        destination: ~/TheWayToGermanApi
-        commands: |
-          ls -al
-          docker-compose up
-            
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+          
+      - name: Build
+        run: dotnet build TheWayToGerman.sln
+        
+      - name: Test
+        run: dotnet test TheWayToGerman.sln
+        
+      - name: Deploy code to EC2 instance
+        uses: easingthemes/ssh-deploy@v2.1.5
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          SOURCE: ./
+          REMOTE_HOST: ${{ secrets.EC2_HOST }}
+          REMOTE_USER: ${{ secrets.EC2_USERNAME }}
+          EXCLUDE: Diagram/
+          TARGET: ${{ secrets.Target }}
+          SCRIPT_AFTER: |
+            ls -al
+            docker-compose up
