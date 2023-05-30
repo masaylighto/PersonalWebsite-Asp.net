@@ -14,6 +14,10 @@ public static class DIExtensions
     {
         services.AddDbContextPool<PostgresDBContext>(option => option.UseNpgsql(configuration.GetConnectionString("PostgreSql")), configuration.GetValue<int>("PostgreSqlPool"));
     }
+    public static void MigratePostgresDB(this IServiceProvider services)
+    {
+        services.GetRequiredService<PostgresDBContext>().Database.Migrate();
+    }
     public static void AddDataTimeProvider(this IServiceCollection services)
     {
         services.AddScoped<IDateTimeProvider, DateTimeProvider>();

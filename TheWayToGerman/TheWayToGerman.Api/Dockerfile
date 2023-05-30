@@ -9,12 +9,12 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY . .
 WORKDIR "/src/TheWayToGerman/TheWayToGerman.Api"
-RUN dotnet build "TheWayToGerman.csproj" -c Release -o /app/build
+RUN dotnet build "TheWayToGerman.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "TheWayToGerman.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "TheWayToGerman.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "TheWayToGerman.dll"]
+ENTRYPOINT ["dotnet", "TheWayToGerman.Api.dll"]
