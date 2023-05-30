@@ -34,6 +34,5 @@ jobs:
           EXCLUDE: "Diagram/"
           TARGET: ${{ secrets.Target }}
           SCRIPT_AFTER: |
-            pwd
-            ls
+            cd TheWayToGermanApi
             sudo docker-compose -p "the_way_to_german_api" up --build
