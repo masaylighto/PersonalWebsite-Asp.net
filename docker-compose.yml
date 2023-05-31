@@ -16,7 +16,6 @@ services:
     restart: on-failure
     ports:    
       - 5080:80
-      - 5443:443
     environment:
      ASPNETCORE_ENVIRONMENT: "Production"  
     build:
