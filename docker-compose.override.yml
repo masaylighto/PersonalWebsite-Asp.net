@@ -3,4 +3,4 @@ version: '3.4'
 services:
   thewaytogerman.api:
     environment:
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=http://127.0.0.1:80
