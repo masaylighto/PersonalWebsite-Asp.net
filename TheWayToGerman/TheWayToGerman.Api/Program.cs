@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.HttpOverrides;
 using System.Runtime.CompilerServices;
 using TheWayToGerman.Core;
 using TheWayToGerman.DataAccess;
@@ -26,7 +27,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 app.UseRateLimiter();
 app.MapControllers();
 app.MapHealthChecks("/health");
