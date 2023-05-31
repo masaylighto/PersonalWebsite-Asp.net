@@ -18,6 +18,7 @@ builder.Services.AddMediatR();
 builder.Services.AddJWTAuth(builder.Configuration);
 builder.Services.AddDataTimeProvider();
 builder.Services.AddRateLimiters(builder.Configuration);
+builder.Services.AddHealthChecks();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -28,5 +29,5 @@ if (app.Environment.IsDevelopment())
 
 app.UseRateLimiter();
 app.MapControllers();
-
+app.MapHealthChecks("/health");
 app.Run();
