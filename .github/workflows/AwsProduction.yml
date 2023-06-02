@@ -36,3 +36,6 @@ jobs:
           SCRIPT_AFTER: |
             cd ${{ secrets.Target }}
             sudo docker-compose -p "the_way_to_german_api" up --build -d
+            dotnet clean TheWayToGerman.sln
+            dotnet clean TheWayToGerman.sln --configuration Release
+            dotnet clean TheWayToGerman.sln --configuration Debug
