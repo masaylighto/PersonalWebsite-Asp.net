@@ -16,7 +16,7 @@ public class LoginTest
         var client = WebApplicationBuilder.ApiClient();
         await client.AddFirstOwner(dto.Username, dto.Password);
         //execute
-        var result = await client.PostAsJsonAsync("v1/login/auth", dto);
+        var result = await client.PostAsJsonAsync("api/v1/login/auth", dto);
         //validate  
         Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
         var authenticateResponse = await result.Content.ReadFromJsonAsync<AuthenticateResponse>();
@@ -31,7 +31,7 @@ public class LoginTest
         var dto = new AuthenticateDTO() { Username = "ad", Password = "ads" };
         var client = WebApplicationBuilder.ApiClient();
         //execute
-        var result = await client.PostAsJsonAsync("v1/login/auth", dto);
+        var result = await client.PostAsJsonAsync("api/v1/login/auth", dto);
         //validate  
         Assert.Equal(System.Net.HttpStatusCode.Unauthorized, result.StatusCode);
         var errorResponse = await result.Content.ReadFromJsonAsync<ErrorResponse>();

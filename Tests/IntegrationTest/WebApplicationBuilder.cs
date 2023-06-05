@@ -50,7 +50,7 @@ public static class WebApplicationBuilder
         var request = JsonConvert.SerializeObject(dto);
 
 
-        using var result = await httpClient.PostAsync("v1/login/auth", new StringContent(request, new MediaTypeHeaderValue("application/json")));
+        using var result = await httpClient.PostAsync("api/v1/login/auth", new StringContent(request, new MediaTypeHeaderValue("application/json")));
 
         var response = await result.Content.ReadAsStringAsync();
 
@@ -75,7 +75,7 @@ public static class WebApplicationBuilder
             Password = Password,
             Username = Username,
         };
-        await httpClient.SendAsync("v1/Owner", Helper.CreateJsonContent(createfirstOwnerDTO), HttpMethod.Post);
+        await httpClient.SendAsync("api/v1/Owner", Helper.CreateJsonContent(createfirstOwnerDTO), HttpMethod.Post);
 
     }
     public static async Task<HttpResponseMessage> SendAsync(this HttpClient httpClient, string url, HttpContent content, HttpMethod method)

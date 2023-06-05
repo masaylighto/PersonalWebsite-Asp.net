@@ -34,7 +34,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.PostAsJsonAsync("v1/Owner/Admin", createAdminDTO);
+        var result = await client.PostAsJsonAsync("api/v1/Owner/Admin", createAdminDTO);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
@@ -64,9 +64,9 @@ public class OwnerTest
         };
 
         //execute
-        await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
 
-        var result = await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO2), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO2), HttpMethod.Post);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -93,9 +93,9 @@ public class OwnerTest
         };
 
         //execute
-        await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
 
-        var result = await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO2), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO2), HttpMethod.Post);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -114,7 +114,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
@@ -134,7 +134,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
@@ -154,7 +154,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
@@ -174,7 +174,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
@@ -195,7 +195,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
     }
@@ -226,9 +226,9 @@ public class OwnerTest
         };
 
         //execute
-        await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(CreateAdminDto), HttpMethod.Post);
+        await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(CreateAdminDto), HttpMethod.Post);
 
-        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO2), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO2), HttpMethod.Put);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -255,9 +255,9 @@ public class OwnerTest
         };
 
         //execute
-        await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(CreateAdminDTO), HttpMethod.Post);
+        await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(CreateAdminDTO), HttpMethod.Post);
 
-        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -276,7 +276,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
@@ -296,7 +296,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
@@ -316,7 +316,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
@@ -336,7 +336,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
@@ -355,8 +355,8 @@ public class OwnerTest
         };
 
         //execute
-        await client.SendAsync("v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put); //the first update request because we don't know what the default value or the previous value are so we set them to something then try to update to the same thing
-        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
+        await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put); //the first update request because we don't know what the default value or the previous value are so we set them to something then try to update to the same thing
+        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -378,8 +378,8 @@ public class OwnerTest
         {           
             Name = "SomeRandomName",
         };
-        await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
-        var result = await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(GetAdminDTO), HttpMethod.Get);
+        await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(GetAdminDTO), HttpMethod.Get);
         //execute
         //validate
         Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
@@ -404,8 +404,8 @@ public class OwnerTest
         {
             Name = "SomeSpecificName",
         };
-        await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
-        var result = await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(GetAdminDTO), HttpMethod.Get);
+        await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(GetAdminDTO), HttpMethod.Get);
         //execute
         //validate
         Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
@@ -427,15 +427,15 @@ public class OwnerTest
             Password = Faker.Internet.Password(8),
             Username = Faker.Internet.UserName(),
         };
-        await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post); //create an admin
-        var admins = await client.SendAsync<IEnumerable<GetAdminsResponse>>("v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Get); //get its information
+        await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post); //create an admin
+        var admins = await client.SendAsync<IEnumerable<GetAdminsResponse>>("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Get); //get its information
         DeleteAdminDTO DeleteAdminDTO = new()
         {
             Id = admins.FirstOrDefault().Id
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(DeleteAdminDTO), HttpMethod.Delete); //get its information
+        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(DeleteAdminDTO), HttpMethod.Delete); //get its information
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.NoContent, result.StatusCode);
@@ -452,7 +452,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner/Admin", Helper.CreateJsonContent(DeleteAdminDTO), HttpMethod.Delete); //get its information
+        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(DeleteAdminDTO), HttpMethod.Delete); //get its information
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.NotFound, result.StatusCode);
@@ -474,7 +474,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.PostAsJsonAsync("v1/Owner", DTO);
+        var result = await client.PostAsJsonAsync("api/v1/Owner", DTO);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
@@ -503,9 +503,9 @@ public class OwnerTest
         };
 
         //execute
-        await client.SendAsync("v1/Owner", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
 
-        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(createOwnerDTO2), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(createOwnerDTO2), HttpMethod.Post);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -523,7 +523,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(createOwnerDTO), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(createOwnerDTO), HttpMethod.Post);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
@@ -542,7 +542,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(createfirstOwnerDTO), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(createfirstOwnerDTO), HttpMethod.Post);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
@@ -561,7 +561,7 @@ public class OwnerTest
         };
 
         //execute
-        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(createFirstOwnerDTO), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(createFirstOwnerDTO), HttpMethod.Post);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
@@ -579,7 +579,7 @@ public class OwnerTest
 
         };
         //execute
-        var result = await client.SendAsync("v1/Owner", Helper.CreateJsonContent(createFirstOwnerDTO), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(createFirstOwnerDTO), HttpMethod.Post);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
