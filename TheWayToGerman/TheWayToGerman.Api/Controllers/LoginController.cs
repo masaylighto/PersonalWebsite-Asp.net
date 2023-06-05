@@ -11,7 +11,7 @@ using TheWayToGerman.Core.Helpers;
 using TheWayToGerman.Logic.Authentication;
 
 namespace TheWayToGerman.Api.Controllers;
-[Route("v1/login/")]
+[Route("api/v1/login/")]
 [ApiController]
 public class LoginController : ControllerBase
 {

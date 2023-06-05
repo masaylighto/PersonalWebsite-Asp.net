@@ -15,7 +15,7 @@ using TheWayToGerman.Core.Helpers;
 namespace TheWayToGerman.Api.Controllers;
 
 [ApiController]
-[Route("v1/Owner")]
+[Route("api/v1/Owner")]
 public class OwnerController : ControllerBase
 {
     public IMediator Mediator { get; }

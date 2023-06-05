@@ -13,7 +13,7 @@ using TheWayToGerman.Core.ParametersBinders;
 namespace TheWayToGerman.Api.Controllers;
 
 [ApiController]
-[Route("v1/Admin")]
+[Route("api/v1/Admin")]
 public class AdminController : ControllerBase
 {
     public IMediator Mediator { get; }

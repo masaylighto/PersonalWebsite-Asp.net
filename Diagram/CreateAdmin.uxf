@@ -5,7 +5,7 @@
     <id>UMLSpecialState</id>
     <coordinates>
       <x>690</x>
-      <y>90</y>
+      <y>40</y>
       <w>20</w>
       <h>20</h>
     </coordinates>
@@ -16,7 +16,7 @@
     <id>Relation</id>
     <coordinates>
       <x>690</x>
-      <y>90</y>
+      <y>40</y>
       <w>30</w>
       <h>70</h>
     </coordinates>
@@ -27,7 +27,7 @@
     <id>UMLState</id>
     <coordinates>
       <x>600</x>
-      <y>140</y>
+      <y>90</y>
       <w>210</w>
       <h>40</h>
     </coordinates>
@@ -38,7 +38,7 @@
     <id>Relation</id>
     <coordinates>
       <x>690</x>
-      <y>170</y>
+      <y>120</y>
       <w>30</w>
       <h>70</h>
     </coordinates>
@@ -49,7 +49,7 @@
     <id>UMLState</id>
     <coordinates>
       <x>600</x>
-      <y>220</y>
+      <y>170</y>
       <w>210</w>
       <h>40</h>
     </coordinates>
@@ -60,7 +60,7 @@
     <id>Relation</id>
     <coordinates>
       <x>690</x>
-      <y>250</y>
+      <y>200</y>
       <w>30</w>
       <h>70</h>
     </coordinates>
@@ -71,7 +71,7 @@
     <id>UMLSpecialState</id>
     <coordinates>
       <x>680</x>
-      <y>300</y>
+      <y>250</y>
       <w>40</w>
       <h>40</h>
     </coordinates>
@@ -82,7 +82,7 @@
     <id>UMLState</id>
     <coordinates>
       <x>830</x>
-      <y>720</y>
+      <y>670</y>
       <w>210</w>
       <h>40</h>
     </coordinates>
@@ -93,7 +93,7 @@
     <id>UMLState</id>
     <coordinates>
       <x>350</x>
-      <y>350</y>
+      <y>300</y>
       <w>230</w>
       <h>40</h>
     </coordinates>
@@ -104,7 +104,7 @@
     <id>Relation</id>
     <coordinates>
       <x>450</x>
-      <y>310</y>
+      <y>260</y>
       <w>250</w>
       <h>60</h>
     </coordinates>
@@ -116,8 +116,8 @@ m1=[Owner]</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>710</x>
-      <y>310</y>
-      <w>350</w>
+      <y>260</y>
+      <w>320</w>
       <h>430</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
@@ -128,7 +128,7 @@ m1=[Not Owner]</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>450</x>
-      <y>380</y>
+      <y>330</y>
       <w>30</w>
       <h>70</h>
     </coordinates>
@@ -139,7 +139,7 @@ m1=[Not Owner]</panel_attributes>
     <id>UMLSpecialState</id>
     <coordinates>
       <x>440</x>
-      <y>430</y>
+      <y>380</y>
       <w>40</w>
       <h>40</h>
     </coordinates>
@@ -149,20 +149,20 @@ m1=[Not Owner]</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
-      <y>440</y>
-      <w>250</w>
+      <x>270</x>
+      <y>390</y>
+      <w>190</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[Valid Request Content]</panel_attributes>
-    <additional_attributes>100.0;60.0;100.0;10.0;230.0;10.0</additional_attributes>
+    <additional_attributes>40.0;60.0;40.0;10.0;170.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>470</x>
-      <y>440</y>
+      <y>390</y>
       <w>490</w>
       <h>300</h>
     </coordinates>
@@ -174,7 +174,7 @@ m2=[InValid Request Content]</panel_attributes>
     <id>UMLState</id>
     <coordinates>
       <x>200</x>
-      <y>800</y>
+      <y>750</y>
       <w>230</w>
       <h>40</h>
     </coordinates>
@@ -185,7 +185,7 @@ m2=[InValid Request Content]</panel_attributes>
     <id>UMLSpecialState</id>
     <coordinates>
       <x>660</x>
-      <y>840</y>
+      <y>790</y>
       <w>40</w>
       <h>40</h>
     </coordinates>
@@ -196,7 +196,7 @@ m2=[InValid Request Content]</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>300</x>
-      <y>830</y>
+      <y>780</y>
       <w>380</w>
       <h>50</h>
     </coordinates>
@@ -207,7 +207,7 @@ m2=[InValid Request Content]</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>690</x>
-      <y>750</y>
+      <y>700</y>
       <w>260</w>
       <h>130</h>
     </coordinates>
@@ -218,7 +218,7 @@ m2=[InValid Request Content]</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>670</x>
-      <y>870</y>
+      <y>820</y>
       <w>30</w>
       <h>100</h>
     </coordinates>
@@ -229,7 +229,7 @@ m2=[InValid Request Content]</panel_attributes>
     <id>UMLState</id>
     <coordinates>
       <x>580</x>
-      <y>950</y>
+      <y>900</y>
       <w>210</w>
       <h>40</h>
     </coordinates>
@@ -240,7 +240,7 @@ m2=[InValid Request Content]</panel_attributes>
     <id>UMLSpecialState</id>
     <coordinates>
       <x>290</x>
-      <y>570</y>
+      <y>520</y>
       <w>40</w>
       <h>40</h>
     </coordinates>
@@ -251,7 +251,7 @@ m2=[InValid Request Content]</panel_attributes>
     <id>UMLState</id>
     <coordinates>
       <x>130</x>
-      <y>500</y>
+      <y>450</y>
       <w>340</w>
       <h>40</h>
     </coordinates>
@@ -262,7 +262,7 @@ m2=[InValid Request Content]</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>320</x>
-      <y>580</y>
+      <y>530</y>
       <w>640</w>
       <h>160</h>
     </coordinates>
@@ -274,7 +274,7 @@ m2=[Email is already used]</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>300</x>
-      <y>530</y>
+      <y>480</y>
       <w>30</w>
       <h>60</h>
     </coordinates>
@@ -285,7 +285,7 @@ m2=[Email is already used]</panel_attributes>
     <id>UMLState</id>
     <coordinates>
       <x>110</x>
-      <y>650</y>
+      <y>600</y>
       <w>390</w>
       <h>40</h>
     </coordinates>
@@ -296,8 +296,8 @@ m2=[Email is already used]</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>300</x>
-      <y>600</y>
-      <w>170</w>
+      <y>550</y>
+      <w>140</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
@@ -308,7 +308,7 @@ Email is not used</panel_attributes>
     <id>UMLSpecialState</id>
     <coordinates>
       <x>290</x>
-      <y>720</y>
+      <y>670</y>
       <w>40</w>
       <h>40</h>
     </coordinates>
@@ -319,7 +319,7 @@ Email is not used</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>300</x>
-      <y>680</y>
+      <y>630</y>
       <w>30</w>
       <h>60</h>
     </coordinates>
@@ -330,8 +330,8 @@ Email is not used</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>300</x>
-      <y>750</y>
-      <w>220</w>
+      <y>700</y>
+      <w>170</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
@@ -342,12 +342,12 @@ User name is not used</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>320</x>
-      <y>710</y>
+      <y>670</y>
       <w>530</w>
-      <h>50</h>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 User Name is used</panel_attributes>
-    <additional_attributes>510.0;30.0;10.0;30.0</additional_attributes>
+    <additional_attributes>510.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
