@@ -29,7 +29,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - name: Checkout co
       - name: Deploy code to EC2 instance
         uses: easingthemes/ssh-deploy@v4.1.8
         with:
