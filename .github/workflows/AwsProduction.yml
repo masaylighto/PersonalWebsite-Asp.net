@@ -33,18 +33,10 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
+          
       - name: Deploy code to EC2 instance
-        uses: easingthemes/ssh-deploy@v4.1.8
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          SOURCE: ./
-          REMOTE_HOST: ${{ secrets.EC2_HOST }}
-          REMOTE_USER: ${{ secrets.EC2_USERNAME }}
-          EXCLUDE: "Diagram/"
-          TARGET: ${{ secrets.Target }}
-          SCRIPT_AFTER: |
-            cd ${{ secrets.Target }}
-            sudo docker-compose -p "the_way_to_german_api" up --build -d
-            dotnet clean TheWayToGerman.sln
-            dotnet clean TheWayToGerman.sln --configuration Release
-            dotnet clean TheWayToGerman.sln --configuration Debug
+        run: |
+         echo ${{ secrets.EC2_SSH_KEY }} >> ../key.pem 
+         sudo chmod 600 ../key.pem 
+         rsync -v -Pav -e "ssh -i ../key.pem" ./ ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:~/${{ secrets.Target }}
+         sudo rm  ../key.pem 
