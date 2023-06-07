@@ -3,7 +3,7 @@
 ### Related Projects
 [FrontEnd](https://github.com/masaylighto/TheWayToGerman-SolidJS)
 ### Description 
-Website build to provide information about legal immigration to german 
+THis Website made to provide information about legal immigration to germany 
 ### Before you start
 If you have a question on how specific parts work, please read its corresponding file in Diagram folder
 ### Technology 
