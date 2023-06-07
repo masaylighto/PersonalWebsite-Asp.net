@@ -5,8 +5,8 @@ on:
       - master
       - develop
 jobs:
-  deploy:
-    name: Deploy
+  build:
+    name: build
     runs-on: ubuntu-latest
     environment: production
     steps:
@@ -23,7 +23,13 @@ jobs:
         
       - name: Test
         run: dotnet test TheWayToGerman.sln
-        
+  deploy:
+    name: deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout co
       - name: Deploy code to EC2 instance
         uses: easingthemes/ssh-deploy@v4.1.8
         with:
