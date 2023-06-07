@@ -36,9 +36,12 @@ jobs:
           
       - name: Deploy code to EC2 instance
         run: |
+         ls
          echo ${{ secrets.EC2_SSH_KEY }} >> ../key.pem 
+         ls ../
          sudo chmod 600 ../key.pem 
-         rsync -v -Pav -e "ssh -i ../key.pem" ./ ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:~/${{ secrets.Target }}
-         ssh -i "../key.pem"  ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}  "cd ~/${{ secrets.Target }} ; sudo docker-compose -p "the_way_to_german_api" up --build -d ;  dotnet clean TheWayToGerman.sln"
+         ls ~/${{ secrets.Target }}/
+         rsync -v -Pav -e "ssh -i ../key.pem" . ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:~/${{ secrets.Target }}/
+         ssh -i "../key.pem"  ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}  "cd ~/${{ secrets.Target }}/ ; sudo docker-compose -p "the_way_to_german_api" up --build -d ;  dotnet clean TheWayToGerman.sln"
          sudo rm  ../key.pem 
          
