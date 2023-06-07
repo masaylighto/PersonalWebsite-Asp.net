@@ -1,5 +1,7 @@
 ### Status
 [![Deploy to Amazon ECS](https://github.com/masaylighto/TheWayToGerman-Asp.net/actions/workflows/AwsProduction.yml/badge.svg)](https://github.com/masaylighto/TheWayToGerman-Asp.net/actions/workflows/AwsProduction.yml)
+### Related Projects
+[FrontEnd](https://github.com/masaylighto/TheWayToGerman-SolidJS)
 ### Description 
 Website build to provide information about legal immigration to german 
 ### Before you start
