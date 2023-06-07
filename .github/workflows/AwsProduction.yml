@@ -29,6 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
       - name: Deploy code to EC2 instance
         uses: easingthemes/ssh-deploy@v4.1.8
         with:
