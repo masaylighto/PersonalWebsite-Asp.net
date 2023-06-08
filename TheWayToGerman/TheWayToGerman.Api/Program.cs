@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Runtime.CompilerServices;
+using TheWayToGerman.Api;
 using TheWayToGerman.Core;
 using TheWayToGerman.DataAccess;
 using TheWayToGerman.Logic;
@@ -9,7 +10,7 @@ using TheWayToGerman.Logic;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddSerilog(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddPostgresDB(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
@@ -20,6 +21,7 @@ builder.Services.AddJWTAuth(builder.Configuration);
 builder.Services.AddDataTimeProvider();
 builder.Services.AddRateLimiters(builder.Configuration);
 builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

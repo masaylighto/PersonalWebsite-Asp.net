@@ -1,8 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Security.Claims;
-using System.Web.Http;
-using System.Web.Http.Controllers;
 using TheWayToGerman.Core.Enums;
 using TheWayToGerman.Core.Helpers;
 using TheWayToGerman.Core.ModelBinders.Models;

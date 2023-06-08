@@ -6,6 +6,7 @@ using TheWayToGerman.Api.DTO.Admin;
 using TheWayToGerman.Api.DTO.Owner;
 using TheWayToGerman.Api.ResponseObject;
 using TheWayToGerman.Core.Cqrs.Commands;
+using TheWayToGerman.Core.Exceptions;
 using TheWayToGerman.Core.Helpers;
 using TheWayToGerman.Core.ModelBinders.Models;
 using TheWayToGerman.Core.ParametersBinders;
@@ -29,9 +30,13 @@ public class AdminController : ControllerBase
         var command = DTO.Adapt<UpdateAdminCommand>();
         command.Id = UserAuthClaims.ID;
         var result = await Mediator.Send(command);
+        if (result.IsInternalError())
+        {
+            return Problem(result.GetErrorMessage());
+        }
         if (result.ContainError())
         {
-            return BadRequest(new ErrorResponse() { Error = result.GetError().Message });
+            return BadRequest(new ErrorResponse() { Error = result.GetErrorMessage() });
         }
         return Ok();
     }

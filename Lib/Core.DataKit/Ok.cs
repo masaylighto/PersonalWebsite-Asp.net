@@ -1,3 +1,3 @@
 ﻿namespace Core.DataKit;
 
-public struct OK { };
+public class OK { };

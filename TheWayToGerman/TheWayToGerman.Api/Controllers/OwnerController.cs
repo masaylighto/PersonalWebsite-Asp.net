@@ -31,10 +31,16 @@ public class OwnerController : ControllerBase
     {
         var userCommand = DTO.Adapt<CreateAdminCommand>();
         var result = await Mediator.Send(userCommand);
+
+        if (result.IsInternalError())
+        {
+            return Problem(result.GetErrorMessage());
+        }
         if (result.ContainError())
         {
-            return BadRequest(new ErrorResponse() { Error = result.GetError().Message });
+            return BadRequest(new ErrorResponse() { Error = result.GetErrorMessage() });
         }
+
         return Ok();
     }
     [HttpPost]    
@@ -43,10 +49,16 @@ public class OwnerController : ControllerBase
     {
         var userCommand = DTO.Adapt<CreateFirstOwnerCommand>();
         var result = await Mediator.Send(userCommand);
+
+        if (result.IsInternalError())
+        {
+            return Problem(result.GetErrorMessage());
+        }
         if (result.ContainError())
         {
-            return BadRequest(new ErrorResponse() { Error = result.GetError().Message });
+            return BadRequest(new ErrorResponse() { Error = result.GetErrorMessage() });
         }
+
         return Ok();
     }
     [HttpGet]
@@ -56,10 +68,16 @@ public class OwnerController : ControllerBase
     {
         var userCommand = DTO.Adapt<GetAdminsQuery>();
         var result = await Mediator.Send(userCommand);
+
+        if (result.IsInternalError())
+        {
+            return Problem(result.GetErrorMessage());
+        }
         if (result.ContainError())
         {
-            return BadRequest(new ErrorResponse() { Error = result.GetError().Message });
+            return BadRequest(new ErrorResponse() { Error = result.GetErrorMessage() });
         }
+
         var Admins = result.GetData().Select(x => x.Adapt<GetAdminsResponse>());
         return Ok(Admins);
     }
@@ -70,14 +88,20 @@ public class OwnerController : ControllerBase
     {
         var userCommand = DTO.Adapt<DeleteAdminCommand>();
         var result = await Mediator.Send(userCommand);
-        if (result.IsErrorOfType<DataNotFoundException>())
+        if (result.IsInternalError())
+        {
+            return Problem(result.GetErrorMessage());
+        }
+
+        if (result.IsErrorType<DataNotFoundException>())
         {
             return NotFound();
         }
         if (result.ContainError())
         {
-            return Problem(result.GetError().Message);
+            return Problem(result.GetErrorMessage());
         }
+
         return NoContent();
     }
     [HttpPut]
@@ -86,10 +110,16 @@ public class OwnerController : ControllerBase
     {
         var userCommand = DTO.Adapt<UpdateOwnerInformationCommand>();
         var result = await Mediator.Send(userCommand);
+
+        if (result.IsInternalError())
+        {
+            return Problem(result.GetErrorMessage() );
+        }
         if (result.ContainError())
         {
-            return BadRequest(new ErrorResponse() { Error = result.GetError().Message });
+            return BadRequest(new ErrorResponse() { Error = result.GetErrorMessage() });
         }
+
         return Ok();
     }
 }

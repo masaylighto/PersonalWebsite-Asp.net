@@ -37,6 +37,11 @@ public static class ExpressionsExtensions
     {
         return Expression.Lambda(exp.Body, exp.Parameter);
     }
+
+    public static Expression<Func<ParmT, ReturnT>> ToExpression<ParmT, ReturnT>(this Func<ParmT,ReturnT> func)
+    {
+        return x => func(x);
+    }
     /// <summary>
     /// Expressions differ in the name of the function parameter used inside of them,
     /// if we didn't rebind the parameter when we combine the expressions,

@@ -32,7 +32,7 @@ public class JWTServiceTest
         //execute
         var result = JwtService.GenerateToken();
         //validate        
-        Assert.True(result.IsErrorOfType<ArgumentNullException>());
+        Assert.True(result.IsErrorType<ArgumentNullException>());
     }
     [Fact]
     public void GenerateToken_ClaimsExist_ReturnStringToken()

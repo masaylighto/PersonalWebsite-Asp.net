@@ -485,7 +485,7 @@ public class OwnerTest
     public async Task AddOwner_OwnerAlreadyExist_ShouldReturnHttpBadRequest()
     {
         //prepare
-        CreateFirstOwnerDTO createAdminDTO = new()
+        CreateFirstOwnerDTO createOwnerDTO = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -503,7 +503,7 @@ public class OwnerTest
         };
 
         //execute
-        await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(createOwnerDTO), HttpMethod.Post);
 
         var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(createOwnerDTO2), HttpMethod.Post);
         //validate

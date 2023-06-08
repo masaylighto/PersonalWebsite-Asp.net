@@ -1,5 +1,7 @@
 ﻿using Core.DataKit;
 using Core.DataKit.Result;
+using Serilog;
+using Serilog.Core;
 using TheWayToGerman.Core.Database;
 using TheWayToGerman.Core.Exceptions;
 using TheWayToGerman.DataAccess.Interfaces;
@@ -29,7 +31,6 @@ internal class UnitOfWork : IUnitOfWork
         }
         catch (Exception ex)
         {
-
             return ex;
         }
     }

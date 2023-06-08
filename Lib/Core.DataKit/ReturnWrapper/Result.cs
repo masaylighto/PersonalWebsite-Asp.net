@@ -2,6 +2,8 @@
 
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using Core.DataKit.Exceptions;
+
 namespace Core.DataKit.Result;
 /// <summary>
 /// Wrapper for values. it can implicitly receive a value or an exception or if the value is null it will set ArgumentNullException instead of it
@@ -28,11 +30,15 @@ public class Result<DataType>
     protected Exception Error { get; set; }
     protected bool IsError { get; set; }
     //Polymorphism Method    
-    public bool IsErrorOfType<Type>() => Error is Type;
+    public bool IsErrorType<Type>() => Error is Type && ContainError();
+
+    public bool IsInternalError() =>  Error is InternalErrorException && ContainError();
+    public bool IsDataType<Type>() => Data is Type && ContainData();   
     public bool ContainError() => IsError;
     public bool ContainData() => !IsError;
     public DataType GetData() => Data;
     public Exception GetError() => Error;
+    public string GetErrorMessage() => Error.Message;
     public void SetData(DataType? data, [CallerMemberName] string? callerName = "")
     {
         if (data is null)

@@ -1,9 +1,13 @@
 ﻿using Core.DataKit.MockWrapper;
+using Humanizer.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
+using Serilog.Core;
 using TheWayToGerman.Core.Database;
+using TheWayToGerman.Core.Loggers;
 using TheWayToGerman.Core.ParametersBinders;
 
 namespace TheWayToGerman.Core;
@@ -25,5 +29,13 @@ public static class DIExtensions
     {
         services.AddScoped<IDateTimeProvider, DateTimeProvider>();
     }
-  
+    public static void AddSerilog(this IServiceCollection services, IConfiguration configuration)
+    {
+        ILogger logger= new LoggerConfiguration()
+                        .ReadFrom.Configuration(configuration)
+                        .CreateLogger();
+        services.AddSingleton(logger);
+        services.AddTransient<ILog, SerilogLogger>();
+    }
+
 }

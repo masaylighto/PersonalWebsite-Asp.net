@@ -1,10 +1,13 @@
 ﻿
 using Bogus;
+using Core.DataKit;
 using Core.DataKit.MockWrapper;
+using Moq;
 using System.Runtime.Intrinsics.X86;
 using TheWayToGerman.Core.Database;
 using TheWayToGerman.Core.Entities;
 using TheWayToGerman.Core.Exceptions;
+using TheWayToGerman.Core.Loggers;
 using TheWayToGerman.DataAccess.Interfaces;
 using TheWayToGerman.DataAccess.Repositories;
 
@@ -29,7 +32,8 @@ public class UserRepositoryTest
     public UserRepositoryTest()
     {
         postgresDB = FakeDBContext.Create();
-        UserRespository = new UserRepository(postgresDB, new DateTimeProvider());
+        Mock<ILog> logMock = new Mock<ILog>();
+        UserRespository = new UserRepository(postgresDB, new DateTimeProvider(), logMock.Object);
     }
     [Fact]
     public async Task AddUser_CorrectInformation_ShouldBeAdded()
@@ -59,7 +63,7 @@ public class UserRepositoryTest
         //Execute
         var exist =await UserRespository.IsUserExistAsync(x => x.Id == testUser.Id);
         //Validate
-        Assert.True(exist);
+        Assert.True(exist.IsDataType<OK>());
     }
     [Fact]
     public async Task IsUserExist_UserNotExist_ShouldReturnTrue()
@@ -71,9 +75,9 @@ public class UserRepositoryTest
         postgresDB.SaveChanges();
 
         //Execute
-        var isexist = await UserRespository.IsUserExistAsync(x => x.Id == Guid.NewGuid());
+        var exist = await UserRespository.IsUserExistAsync(x => x.Id == Guid.NewGuid());
         //Validate
-        Assert.False(isexist);
+        Assert.False(exist.IsDataType<OK>());
     }
     [Fact]
     public async Task AddUser_NullPassword_ShouldReturnArgumentNullException()
@@ -85,7 +89,7 @@ public class UserRepositoryTest
         var result = await UserRespository.AddUserAsync(user);
 
         //Validate
-        Assert.True(result.IsErrorOfType<NullValueException>());
+        Assert.True(result.IsErrorType<NullValueException>());
         Assert.Equal(0, postgresDB.SaveChanges());
     }
     [Fact]
@@ -105,7 +109,7 @@ public class UserRepositoryTest
         int changes = postgresDB.SaveChanges();
 
         //Validate
-        Assert.True(result.IsErrorOfType<UniqueFieldException>());
+        Assert.True(result.IsErrorType<UniqueFieldException>());
         Assert.Equal(0, changes);
     }
     [Fact]
@@ -123,7 +127,7 @@ public class UserRepositoryTest
         int changes = postgresDB.SaveChanges();
 
         //Validate
-        Assert.True(result.IsErrorOfType<UniqueFieldException>());
+        Assert.True(result.IsErrorType<UniqueFieldException>());
         Assert.Equal(0, changes);
     }
 
