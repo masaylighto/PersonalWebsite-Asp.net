@@ -4,6 +4,8 @@ services:
   postgresql:
     image: postgres
     restart: on-failure
+    ports:
+    - "5432:5432"
     environment:
       POSTGRES_PASSWORD: "Fgcey4J03ZRK4f2y79"
       POSTGRES_USER: "KrqaJOvXGPmLBOPmNIVJ"
