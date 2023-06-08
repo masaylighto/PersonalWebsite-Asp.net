@@ -1,4 +1,5 @@
 ﻿using Core.DataKit;
+using Core.DataKit.Exceptions;
 using Core.DataKit.Result;
 using Serilog;
 using Serilog.Core;
@@ -31,7 +32,7 @@ internal class UnitOfWork : IUnitOfWork
         }
         catch (Exception ex)
         {
-            return ex;
+            return  new InternalErrorException(ex, "Error on our side : failed save changes");
         }
     }
 }
