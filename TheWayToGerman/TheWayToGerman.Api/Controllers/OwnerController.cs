@@ -97,11 +97,6 @@ public class OwnerController : ControllerBase
         {
             return NotFound();
         }
-        if (result.ContainError())
-        {
-            return Problem(result.GetErrorMessage());
-        }
-
         return NoContent();
     }
     [HttpPut]
