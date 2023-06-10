@@ -28,7 +28,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"masaylighto\",\r\n  \"password\": \"8PS33gotf24a\"\r\n}",
+							"raw": "{\r\n  \"username\": \"{{OwnerUserName}}\",\r\n  \"password\": \"{{OwnerPassword}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -36,13 +36,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5021/v1/login/auth",
+							"raw": "http://localhost:5021/api/v1/login/auth",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5021",
 							"path": [
+								"api",
 								"v1",
 								"login",
 								"auth"
@@ -63,8 +64,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = JSON.parse(responseBody);\r",
-									"postman.setEnvironmentVariable(\"token\", jsonData.jwtToken);"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -85,7 +85,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"masaylighto\",\r\n  \"email\":\"www.masaylighto@gmail.com\",\r\n  \"name\":\"mohammed\",\r\n  \"password\": \"8PS33gotf24a\"\r\n}",
+							"raw": "{\r\n  \"username\": \"masaylighto2\",\r\n  \"email\":\"www.masaylighto2@gmail.com\",\r\n  \"name\":\"mohammed\",\r\n  \"password\": \"8PS33gotf24a\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -93,13 +93,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5021/v1/Owner/Admin",
+							"raw": "http://localhost:5021/api/v1/Owner/Admin",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5021",
 							"path": [
+								"api",
 								"v1",
 								"Owner",
 								"Admin"
@@ -144,13 +145,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5021/v1/Owner/Admin",
+							"raw": "http://localhost:5021/api/v1/Owner/Admin",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5021",
 							"path": [
+								"api",
 								"v1",
 								"Owner",
 								"Admin"
@@ -186,13 +188,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5021/v1/Owner/Admin",
+							"raw": "http://localhost:5021/api/v1/Owner/Admin",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5021",
 							"path": [
+								"api",
 								"v1",
 								"Owner",
 								"Admin"
@@ -237,13 +240,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5021/v1/Owner",
+							"raw": "http://localhost:5021/api/v1/Owner",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5021",
 							"path": [
+								"api",
 								"v1",
 								"Owner"
 							]
@@ -258,8 +262,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var jsonData = JSON.parse(responseBody);\r",
-									"postman.setEnvironmentVariable(\"token\", jsonData.jwtToken);"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -280,7 +283,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"masaylighto\",\r\n  \"email\":\"www.masaylighto@gmail.com\",\r\n  \"name\":\"mohammed\",\r\n  \"password\": \"8PS33gotf24a\"\r\n}",
+							"raw": "{\r\n  \"username\": \"{{OwnerUserName}}\",\r\n  \"email\":\"DerWegZumDeutschland@gmail.com\",\r\n  \"name\":\"DerWegZumDeutschland\", \r\n  \"password\": \"{{OwnerPassword}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -288,13 +291,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5021/v1/Owner",
+							"raw": "http://localhost:5021/api/v1/Owner",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5021",
 							"path": [
+								"api",
 								"v1",
 								"Owner"
 							]
@@ -303,6 +307,94 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"masaylighto3\",\r\n  \"email\":\"www.masaylighto3@gmail.com\",\r\n  \"name\":\"mohammedAssad\",\r\n  \"password\": \"8PS33gotf24a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5021/api/v1/Admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5021",
+							"path": [
+								"api",
+								"v1",
+								"Admin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5021/api/v1/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5021",
+					"path": [
+						"api",
+						"v1",
+						"health"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

@@ -11,14 +11,14 @@ public class SerilogLogger : ILog
         Logger = logger;
     } 
 
-    public void Debug(string message)
+    public void Debug(string message, params object[] parameters)
     {
-        Logger.Debug(message);
+        Logger.Debug(message, parameters);
     }
 
-    public void Error(string message)
+    public void Error(string message, params object[] parameters)
     {
-        Logger.Error(message);
+        Logger.Error(message, parameters);
     }
 
     public void Error(Exception message)
@@ -26,13 +26,13 @@ public class SerilogLogger : ILog
         Logger.Error($"Source: {message.Source} ; Message {message.Message} ; Inner Message {message.InnerException?.Message}");
     }
 
-    public void Info(string message)
+    public void Info(string message, params object[] parameters)
     {
-        Logger.Information(message);
+        Logger.Information(message, parameters);
     }
 
-    public void Warn(string message)
+    public void Warn(string message, params object[] parameters)
     {
-        Logger.Warning(message);
+        Logger.Warning(message, parameters);
     }
 }

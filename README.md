@@ -7,7 +7,8 @@
 ### Description 
 This Website made to provide information about legal immigration to germany 
 ### Before you start
-If you have a question on how specific parts work, please read its corresponding file in Diagram folder
+If you have a question on how specific parts work, please read its corresponding file in Diagram folder.
+Lib contain there own readme file in there folders
 ### Technology 
 1. Asp.net in dotnet 7
 2. Docker
