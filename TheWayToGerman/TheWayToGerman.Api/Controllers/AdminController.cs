@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using TheWayToGerman.Api.DTO.Admin;
 using TheWayToGerman.Api.DTO.Owner;
 using TheWayToGerman.Api.ResponseObject;
@@ -30,13 +31,15 @@ public class AdminController : ControllerBase
         var command = DTO.Adapt<UpdateAdminCommand>();
         command.Id = UserAuthClaims.ID;
         var result = await Mediator.Send(command);
+        
         if (result.IsInternalError())
         {
-            return Problem(result.GetErrorMessage());
+            var errorResponse = ErrorResponse.From(result.GetErrorMessage());
+            return new ObjectResult(errorResponse) {  StatusCode = (int)HttpStatusCode.InternalServerError };
         }
         if (result.ContainError())
         {
-            return BadRequest(new ErrorResponse() { Error = result.GetErrorMessage() });
+            return BadRequest(ErrorResponse.From(result.GetErrorMessage()));
         }
         return Ok();
     }

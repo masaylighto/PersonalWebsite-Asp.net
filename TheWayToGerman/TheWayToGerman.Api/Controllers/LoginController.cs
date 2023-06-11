@@ -3,6 +3,7 @@ using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using System.Net;
 using System.Security.Claims;
 using TheWayToGerman.Api.DTO.Login;
 using TheWayToGerman.Api.ResponseObject;
@@ -36,43 +37,40 @@ public class LoginController : ControllerBase
         var command = authenticateDTO.Adapt<GetUserToAuthQuery>();
         var result = await Mediator.Send(command);
 
+       
         if (result.IsInternalError())
         {
-            return Problem(result.GetErrorMessage());
+            var errorResponse = ErrorResponse.From(result.GetErrorMessage());
+            return new ObjectResult(errorResponse) { StatusCode = (int)HttpStatusCode.InternalServerError };
         }
+
         if (result.ContainError())
         {
-            return Unauthorized(new ErrorResponse()
-            {
-                Error = result.GetErrorMessage()
-            });
+            return Unauthorized(ErrorResponse.From(result.GetErrorMessage()));
         }
-        return  CreateToken(result.GetData());
+
+        return CreateToken(result.GetData());
     }
     ActionResult CreateToken(User user)
     {
        
-        var tokenResult = AuthService.GenerateToken
+        var result = AuthService.GenerateToken
                         (
                             (ClaimTypes.Role, user.UserType.ToString()),
                             (Constants.UserIDKey, user.Id.ToString())
-                        );
-
-
-        if (tokenResult.IsInternalError())
+                        );       
+       
+        if (result.IsInternalError())
         {
-            return Problem(tokenResult.GetErrorMessage());
+            var errorResponse = ErrorResponse.From(result.GetErrorMessage());
+            return new ObjectResult(errorResponse) { StatusCode = (int)HttpStatusCode.InternalServerError };
         }
 
-        if (tokenResult.ContainError())
+        if (result.ContainError())
         {
-            return Unauthorized(new ErrorResponse()
-            {
-                Error = tokenResult.GetErrorMessage()
-            });
+            return Unauthorized(ErrorResponse.From(result.GetErrorMessage()));
         }
-
-        return Ok(new AuthenticateResponse() { JwtToken = tokenResult.GetData() });
+        return Ok(new AuthenticateResponse() { JwtToken = result.GetData() });
 
 
 

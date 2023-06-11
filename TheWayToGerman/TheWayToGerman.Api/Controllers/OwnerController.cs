@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using TheWayToGerman.Api.DTO;
 using TheWayToGerman.Api.DTO.Owner;
 using TheWayToGerman.Api.ResponseObject;
@@ -34,11 +35,12 @@ public class OwnerController : ControllerBase
 
         if (result.IsInternalError())
         {
-            return Problem(result.GetErrorMessage());
+            var errorResponse = ErrorResponse.From(result.GetErrorMessage());
+            return new ObjectResult(errorResponse) { StatusCode = (int)HttpStatusCode.InternalServerError };
         }
         if (result.ContainError())
         {
-            return BadRequest(new ErrorResponse() { Error = result.GetErrorMessage() });
+            return BadRequest(ErrorResponse.From(result.GetErrorMessage()));
         }
 
         return Ok();
@@ -50,13 +52,15 @@ public class OwnerController : ControllerBase
         var userCommand = DTO.Adapt<CreateFirstOwnerCommand>();
         var result = await Mediator.Send(userCommand);
 
+        
         if (result.IsInternalError())
         {
-            return Problem(result.GetErrorMessage());
+            var errorResponse = ErrorResponse.From(result.GetErrorMessage());
+            return new ObjectResult(errorResponse) { StatusCode = (int)HttpStatusCode.InternalServerError };
         }
         if (result.ContainError())
         {
-            return BadRequest(new ErrorResponse() { Error = result.GetErrorMessage() });
+            return BadRequest(ErrorResponse.From(result.GetErrorMessage()));
         }
 
         return Ok();
@@ -71,11 +75,12 @@ public class OwnerController : ControllerBase
 
         if (result.IsInternalError())
         {
-            return Problem(result.GetErrorMessage());
+            var errorResponse = ErrorResponse.From(result.GetErrorMessage());
+            return new ObjectResult(errorResponse) { StatusCode = (int)HttpStatusCode.InternalServerError };
         }
         if (result.ContainError())
         {
-            return BadRequest(new ErrorResponse() { Error = result.GetErrorMessage() });
+            return BadRequest(ErrorResponse.From(result.GetErrorMessage()));
         }
 
         var Admins = result.GetData().Select(x => x.Adapt<GetAdminsResponse>());
@@ -88,9 +93,11 @@ public class OwnerController : ControllerBase
     {
         var userCommand = DTO.Adapt<DeleteAdminCommand>();
         var result = await Mediator.Send(userCommand);
+
         if (result.IsInternalError())
         {
-            return Problem(result.GetErrorMessage());
+            var errorResponse = ErrorResponse.From(result.GetErrorMessage());
+            return new ObjectResult(errorResponse) { StatusCode = (int)HttpStatusCode.InternalServerError };
         }
 
         if (result.IsErrorType<DataNotFoundException>())
@@ -108,13 +115,14 @@ public class OwnerController : ControllerBase
 
         if (result.IsInternalError())
         {
-            return Problem(result.GetErrorMessage() );
-        }
-        if (result.ContainError())
-        {
-            return BadRequest(new ErrorResponse() { Error = result.GetErrorMessage() });
+            var errorResponse = ErrorResponse.From(result.GetErrorMessage());
+            return new ObjectResult(errorResponse) { StatusCode = (int)HttpStatusCode.InternalServerError };
         }
 
+        if (result.ContainError())
+        {
+            return BadRequest(ErrorResponse.From(result.GetErrorMessage()));
+        }
         return Ok();
     }
 }
