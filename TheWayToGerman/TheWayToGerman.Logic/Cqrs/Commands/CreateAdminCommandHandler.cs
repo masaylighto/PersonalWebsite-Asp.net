@@ -1,6 +1,4 @@
-﻿
-
-using Core.Cqrs.Handlers;
+﻿using Core.Cqrs.Handlers;
 using Core.DataKit;
 using Core.DataKit.Result;
 using Core.Expressions;

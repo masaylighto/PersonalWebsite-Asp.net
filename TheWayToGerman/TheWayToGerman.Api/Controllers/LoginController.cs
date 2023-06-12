@@ -44,7 +44,7 @@ public class LoginController : ControllerBase
         }
         if (result.ContainError())
         {
-            return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status400BadRequest);
+            return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status401Unauthorized);
         }
 
         return CreateToken(result.GetData());
@@ -65,7 +65,7 @@ public class LoginController : ControllerBase
         }
         if (result.ContainError())
         {
-            return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status400BadRequest);
+            return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status401Unauthorized);
         }
         return Ok(new AuthenticateResponse() { JwtToken = result.GetData() });
 

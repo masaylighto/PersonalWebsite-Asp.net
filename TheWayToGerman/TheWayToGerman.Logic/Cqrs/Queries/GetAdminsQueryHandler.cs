@@ -15,16 +15,9 @@ namespace TheWayToGerman.Logic.Cqrs.Queries;
 public class GetAdminsQueryHandler : QueryHandler<GetAdminsQuery, IEnumerable<GetAdminsQueryResponse>>
 {
     public IUnitOfWork UnitOfWork { get; }
-    class CommandValidator : AbstractValidator<GetAdminsQuery>
-    {
-        public CommandValidator()
-        {
-            RuleFor(x => x.Name).NotNull().NotEmpty();
-        }
-    }
+ 
     public GetAdminsQueryHandler(IUnitOfWork unitOfWork)
-    {
-        Validator = new CommandValidator();
+    {       
         UnitOfWork = unitOfWork;
     }
 

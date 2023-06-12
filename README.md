@@ -3,7 +3,8 @@
 ### Production Service
 [TheWayToGerman](https://www.derwegzumdeutsch.land/)
 ### Related Projects
-[FrontEnd](https://github.com/masaylighto/TheWayToGerman-SolidJS)
+[FrontEnd](https://github.com/masaylighto/TheWayToGerman-SolidJS) Written in SolidJs but its private.
+Sorry but the website made for private use and I don't want anyone to replicate it entirely, but the API code is available, and you can build your own frontend
 ### Description 
 This Website made to provide information about legal immigration to germany 
 ### Before you start

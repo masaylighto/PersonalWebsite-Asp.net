@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Json;
 using TheWayToGerman.Api.DTO.Login;
 using TheWayToGerman.Api.ResponseObject;
@@ -34,7 +35,7 @@ public class LoginTest
         var result = await client.PostAsJsonAsync("api/v1/login/auth", dto);
         //validate  
         Assert.Equal(System.Net.HttpStatusCode.Unauthorized, result.StatusCode);
-        var errorResponse = await result.Content.ReadFromJsonAsync<ErrorResponse>();
-        Assert.NotNull(errorResponse.Error);
+        var errorResponse = await result.Content.ReadFromJsonAsync<ProblemDetails>();
+        Assert.NotNull(errorResponse.Detail);
     }
 }
