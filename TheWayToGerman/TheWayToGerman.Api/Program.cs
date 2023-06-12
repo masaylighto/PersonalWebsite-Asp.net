@@ -28,17 +28,17 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseCors(x => 
-    {
-        x.AllowAnyOrigin();
-        x.AllowAnyHeader();
-        x.AllowAnyMethod();
-    });
 
 }
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+app.UseCors(x =>
+{
+    x.AllowAnyOrigin();
+    x.AllowAnyHeader();
+    x.AllowAnyMethod();
 });
 
 app.UseRateLimiter();
