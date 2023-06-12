@@ -37,16 +37,14 @@ public class LoginController : ControllerBase
         var command = authenticateDTO.Adapt<GetUserToAuthQuery>();
         var result = await Mediator.Send(command);
 
-       
+
         if (result.IsInternalError())
         {
-            var errorResponse = ErrorResponse.From(result.GetErrorMessage());
-            return new ObjectResult(errorResponse) { StatusCode = (int)HttpStatusCode.InternalServerError };
+            return Problem(result.GetErrorMessage());
         }
-
         if (result.ContainError())
         {
-            return Unauthorized(ErrorResponse.From(result.GetErrorMessage()));
+            return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status400BadRequest);
         }
 
         return CreateToken(result.GetData());
@@ -59,17 +57,15 @@ public class LoginController : ControllerBase
                             (ClaimTypes.Role, user.UserType.ToString()),
                             (Constants.UserIDKey, user.Id.ToString()),
                             (Constants.UserNameKey,user.Name)
-                        );       
-       
+                        );
+
         if (result.IsInternalError())
         {
-            var errorResponse = ErrorResponse.From(result.GetErrorMessage());
-            return new ObjectResult(errorResponse) { StatusCode = (int)HttpStatusCode.InternalServerError };
+            return Problem(result.GetErrorMessage());
         }
-
         if (result.ContainError())
         {
-            return Unauthorized(ErrorResponse.From(result.GetErrorMessage()));
+            return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status400BadRequest);
         }
         return Ok(new AuthenticateResponse() { JwtToken = result.GetData() });
 

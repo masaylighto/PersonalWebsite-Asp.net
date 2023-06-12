@@ -34,12 +34,11 @@ public class AdminController : ControllerBase
         
         if (result.IsInternalError())
         {
-            var errorResponse = ErrorResponse.From(result.GetErrorMessage());
-            return new ObjectResult(errorResponse) {  StatusCode = (int)HttpStatusCode.InternalServerError };
+            return Problem(result.GetErrorMessage());
         }
         if (result.ContainError())
         {
-            return BadRequest(ErrorResponse.From(result.GetErrorMessage()));
+            return Problem(result.GetErrorMessage(),statusCode: StatusCodes.Status400BadRequest);
         }
         return Ok();
     }
