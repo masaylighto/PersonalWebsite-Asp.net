@@ -18,9 +18,9 @@ public class CreateAdminCommandHandler : CommandHandler<CreateAdminCommand, OK>
 {
     public IUnitOfWork UnitOfWork { get; }
 
-    class CreateUserValidator : AbstractValidator<CreateAdminCommand>
+    class CommandValidator : AbstractValidator<CreateAdminCommand>
     {
-        public CreateUserValidator()
+        public CommandValidator()
         {
             RuleFor(x => x.Username).MinimumLength(1);
             RuleFor(x => x.Password).MinimumLength(8);
@@ -31,7 +31,7 @@ public class CreateAdminCommandHandler : CommandHandler<CreateAdminCommand, OK>
     }
     public CreateAdminCommandHandler(IUnitOfWork unitOfWork)
     {
-        Validator = new CreateUserValidator();
+        Validator = new CommandValidator();
         UnitOfWork = unitOfWork;
     }
     protected override async Task<Result<OK>> Execute(CreateAdminCommand request, CancellationToken cancellationToken)

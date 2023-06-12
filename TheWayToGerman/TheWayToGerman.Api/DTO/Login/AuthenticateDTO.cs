@@ -1,13 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+namespace TheWayToGerman.Api.DTO.Login;
 
-namespace TheWayToGerman.Api.DTO.Login
+public class AuthenticateDTO
 {
-    public class AuthenticateDTO
-    {
-
-        [Required]
-        public required string Username { get; set; }
-        [Required]
-        public required string Password { get; set; }
-    }
+    public  string Username { get; set; }        
+    public  string Password { get; set; }
 }

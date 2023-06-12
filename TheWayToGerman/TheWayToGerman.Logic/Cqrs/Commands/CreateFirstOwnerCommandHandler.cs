@@ -19,9 +19,9 @@ public class CreateFirstOwnerCommandHandler : CommandHandler<CreateFirstOwnerCom
 {
     public IUnitOfWork UnitOfWork { get; }
 
-    class CreateFirstOwnerValidator : AbstractValidator<CreateFirstOwnerCommand>
+    class CommandValidator : AbstractValidator<CreateFirstOwnerCommand>
     {
-        public CreateFirstOwnerValidator()
+        public CommandValidator()
         {
             RuleFor(x => x.Username).MinimumLength(1);
             RuleFor(x => x.Password).MinimumLength(8);
@@ -32,7 +32,7 @@ public class CreateFirstOwnerCommandHandler : CommandHandler<CreateFirstOwnerCom
     }
     public CreateFirstOwnerCommandHandler(IUnitOfWork unitOfWork)
     {
-        Validator = new CreateFirstOwnerValidator();
+        Validator = new CommandValidator();
         UnitOfWork = unitOfWork;
     }
     protected override async Task<Result<OK>> Execute(CreateFirstOwnerCommand request, CancellationToken cancellationToken)

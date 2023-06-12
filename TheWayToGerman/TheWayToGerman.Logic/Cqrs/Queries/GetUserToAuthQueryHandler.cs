@@ -9,9 +9,9 @@ namespace TheWayToGerman.Logic.Cqrs.Queries;
 
 public class GetUserToAuthQueryHandler : QueryHandler<GetUserToAuthQuery, User>
 {
-    class UserValidator : AbstractValidator<GetUserToAuthQuery>
+    class CommandValidator : AbstractValidator<GetUserToAuthQuery>
     {
-        public UserValidator()
+        public CommandValidator()
         {
             RuleFor(x => x.Username).MinimumLength(1);
             RuleFor(x => x.Password).MinimumLength(1);
@@ -20,7 +20,7 @@ public class GetUserToAuthQueryHandler : QueryHandler<GetUserToAuthQuery, User>
     public IUnitOfWork UnitOfWork { get; }
     public GetUserToAuthQueryHandler(IUnitOfWork unitOfWork)
     {
-        Validator = new UserValidator();
+        Validator = new CommandValidator();
         UnitOfWork = unitOfWork;
     }
 

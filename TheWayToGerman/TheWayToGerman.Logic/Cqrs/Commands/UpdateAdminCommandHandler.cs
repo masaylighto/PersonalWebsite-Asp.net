@@ -18,9 +18,9 @@ public class UpdateAdminCommandHandler : CommandHandler<UpdateAdminCommand, OK>
 {
     public IUnitOfWork UnitOfWork { get; }
 
-    class UpdateAdminValidator : AbstractValidator<UpdateAdminCommand>
+    class CommandValidator : AbstractValidator<UpdateAdminCommand>
     {
-        public UpdateAdminValidator()
+        public CommandValidator()
         {
             RuleFor(x => x.Id).NotEqual(new Guid());
             RuleFor(x => x.Username).MinimumLength(1);
@@ -32,7 +32,7 @@ public class UpdateAdminCommandHandler : CommandHandler<UpdateAdminCommand, OK>
     }
     public UpdateAdminCommandHandler(IUnitOfWork unitOfWork)
     {
-        Validator = new UpdateAdminValidator();
+        Validator = new CommandValidator();
         UnitOfWork = unitOfWork;
     }
     protected override async Task<Result<OK>> Execute(UpdateAdminCommand request, CancellationToken cancellationToken)
