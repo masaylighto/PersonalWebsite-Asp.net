@@ -20,7 +20,7 @@ public class OwnerTest
         client = WebApplicationBuilder.ApiClient();
     }
     [Fact]
-    public async Task AddAdmin_UniqueValues_ShouldReturnHttpOK()
+    public async Task AddAdmin_UniqueValues_ShouldReturnHttpOKAndValidGuid()
     {
         //prepare
         await client.Authenticate();

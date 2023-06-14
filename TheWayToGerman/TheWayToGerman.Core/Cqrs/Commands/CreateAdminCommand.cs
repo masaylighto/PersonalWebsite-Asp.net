@@ -1,11 +1,12 @@
 ﻿
 using Core.Cqrs.Requests;
 using Core.DataKit;
+using TheWayToGerman.Core.Cqrs.Queries;
 using TheWayToGerman.Core.Enums;
 
 namespace TheWayToGerman.Core.Cqrs.Commands;
 
-public class CreateAdminCommand : ICommand<OK>
+public class CreateAdminCommand : ICommand<CreateAdminCommandResponse>
 {
     public required string Name { get; set; }
     public required string Username { get; set; }

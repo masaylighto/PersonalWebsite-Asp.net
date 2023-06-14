@@ -41,7 +41,7 @@ public class OwnerController : ControllerBase
         {
             return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status400BadRequest);
         }
-        return Ok();
+        return Ok(result.GetData().Adapt<CreateAdminResponse>());
     }
     [HttpPost]    
     [AllowAnonymous] // will only called once to create first Owner

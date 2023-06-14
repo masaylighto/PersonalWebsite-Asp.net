@@ -6,13 +6,14 @@ using FluentValidation;
 using Mapster;
 using System.Linq.Expressions;
 using TheWayToGerman.Core.Cqrs.Commands;
+using TheWayToGerman.Core.Cqrs.Queries;
 using TheWayToGerman.Core.Entities;
 using TheWayToGerman.Core.Exceptions;
 using TheWayToGerman.DataAccess.Interfaces;
 
 namespace TheWayToGerman.Logic.Cqrs.Commands;
 
-public class CreateAdminCommandHandler : CommandHandler<CreateAdminCommand, OK>
+public class CreateAdminCommandHandler : CommandHandler<CreateAdminCommand, CreateAdminCommandResponse>
 {
     public IUnitOfWork UnitOfWork { get; }
 
@@ -32,7 +33,7 @@ public class CreateAdminCommandHandler : CommandHandler<CreateAdminCommand, OK>
         Validator = new CommandValidator();
         UnitOfWork = unitOfWork;
     }
-    protected override async Task<Result<OK>> Execute(CreateAdminCommand request, CancellationToken cancellationToken)
+    protected override async Task<Result<CreateAdminCommandResponse>> Execute(CreateAdminCommand request, CancellationToken cancellationToken)
     {
         User user = request.Adapt<User>();
         user.UserType = Core.Enums.UserType.Admin;
@@ -43,6 +44,13 @@ public class CreateAdminCommandHandler : CommandHandler<CreateAdminCommand, OK>
             return addResult.GetError();
         }
         var saveResult = await UnitOfWork.SaveAsync();
-        return saveResult;       
+        if (saveResult.ContainError())
+        {
+            return saveResult.GetError();
+        }
+
+        return new CreateAdminCommandResponse() { 
+            Id  = addResult.GetData()
+        };       
     }
 }
