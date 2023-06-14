@@ -1,8 +1,10 @@
 ﻿
 
 using Core.Expressions;
+using Core.LinqExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Options;
 using System.Linq.Expressions;
 using TheWayToGerman.Core.Entities;
@@ -14,7 +16,7 @@ public class PostgresDBContext : DbContext
     public PostgresDBContext(DbContextOptions<PostgresDBContext> dbContextOptions) : base(dbContextOptions)
     {
         ChangeTracker.CascadeDeleteTiming = CascadeTiming.OnSaveChanges;
-        ChangeTracker.DeleteOrphansTiming = CascadeTiming.OnSaveChanges;
+        ChangeTracker.DeleteOrphansTiming = CascadeTiming.OnSaveChanges;      
     }
     public DbSet<User> Users { get; set; }
     /*-----------------------------Configuration--------------------------------*/
@@ -28,40 +30,35 @@ public class PostgresDBContext : DbContext
             // modify expression to handle correct child type               
             var rebinded = SoftDelete.RebindBodyParamFrom(entityType.ClrType).BodyToLambda();
             entityType.SetQueryFilter(rebinded);
-
+          
         }
         base.OnModelCreating(modelBuilder);
     }
-    private EntityEntry<T> SoftDelete<T>(object baseEntity) where T : class
+    public override int SaveChanges()
     {
+        SoftDelete();
+        return base.SaveChanges();
+    }
+    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    {
+        SoftDelete();
+        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+    }
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        SoftDelete();
+        return base.SaveChangesAsync(cancellationToken);
+    }
+    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    {
+        SoftDelete();
+        return base.SaveChanges(acceptAllChangesOnSuccess);
+    }
+    void SoftDelete()
+    {
+        ChangeTracker.Entries()
+            .Where(e => e.State == EntityState.Deleted)
+            .Apply(entity => entity.State = EntityState.Modified);      
+    }
 
-        ((BaseEntity)baseEntity).DeleteDate = DateTime.Now;
-        var entityEntry = base.Remove((T)baseEntity);
-        entityEntry.State = EntityState.Modified; // so it will not be deleted
-        return entityEntry;
-
-    }
-    public override EntityEntry Remove(object entity)
-    {
-        return SoftDelete<object>(entity);
-    }
-    public override EntityEntry<TEntity> Remove<TEntity>(TEntity entity)
-    {
-        return SoftDelete<TEntity>(entity);
-    }
-    public override void RemoveRange(IEnumerable<object> entities)
-    {
-        foreach (var entity in entities)
-        {
-            SoftDelete<object>(entity);
-        }
-
-    }
-    public override void RemoveRange(params object[] entities)
-    {
-        foreach (var entity in entities)
-        {
-            SoftDelete<object>(entity);
-        }
-    }
 }

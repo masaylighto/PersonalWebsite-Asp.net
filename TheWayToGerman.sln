@@ -37,6 +37,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TheWayToGerman\TheWayToGerman.postman_collection.json = TheWayToGerman\TheWayToGerman.postman_collection.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.LinqExtensions", "Lib\Extensions\Core.LinqExtensions\Core.LinqExtensions.csproj", "{C03EC34F-9874-46AD-92F2-9474FD8F1D1A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{E9432921-0921-44E7-8F4D-00840CF6804E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9432921-0921-44E7-8F4D-00840CF6804E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9432921-0921-44E7-8F4D-00840CF6804E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C03EC34F-9874-46AD-92F2-9474FD8F1D1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C03EC34F-9874-46AD-92F2-9474FD8F1D1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C03EC34F-9874-46AD-92F2-9474FD8F1D1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C03EC34F-9874-46AD-92F2-9474FD8F1D1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +105,7 @@ Global
 		{189B8248-F514-4BEC-9110-847962AED57B} = {15782BCF-EF01-4F8D-B610-D64861E5D5C4}
 		{7B79484C-5DEB-4DB4-9ED5-7DDF031F7032} = {A6A6BA86-8259-4FC9-9E4A-2575E66B1C75}
 		{E9432921-0921-44E7-8F4D-00840CF6804E} = {A6A6BA86-8259-4FC9-9E4A-2575E66B1C75}
+		{C03EC34F-9874-46AD-92F2-9474FD8F1D1A} = {11DF57E9-66A5-477F-BD9A-39CA6BCA1A03}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1715B598-B667-4812-8598-BFE42AE81707}
