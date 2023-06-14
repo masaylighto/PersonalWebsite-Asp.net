@@ -11,6 +11,6 @@ public static class FakeDBContext
     {
         var dbContextOptionsBuilder = new DbContextOptionsBuilder<PostgresDBContext>();
         dbContextOptionsBuilder.UseInMemoryDatabase("UnitTestMemoryDB");
-        return new PostgresDBContext(dbContextOptionsBuilder.Options, new DateTimeProvider());
+        return new PostgresDBContext(dbContextOptionsBuilder.Options);
     }
 }

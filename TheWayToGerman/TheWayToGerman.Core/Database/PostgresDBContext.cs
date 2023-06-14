@@ -14,14 +14,12 @@ namespace TheWayToGerman.Core.Database;
 
 public class PostgresDBContext : DbContext
 {
-    public PostgresDBContext(DbContextOptions<PostgresDBContext> dbContextOptions,IDateTimeProvider dateTimeProvider) : base(dbContextOptions)
+    public PostgresDBContext(DbContextOptions<PostgresDBContext> dbContextOptions) : base(dbContextOptions)
     {
         ChangeTracker.CascadeDeleteTiming = CascadeTiming.OnSaveChanges;
         ChangeTracker.DeleteOrphansTiming = CascadeTiming.OnSaveChanges;
-        DateTimeProvider = dateTimeProvider;
     }
     public DbSet<User> Users { get; set; }
-    public IDateTimeProvider DateTimeProvider { get; }
 
     /*-----------------------------Configuration--------------------------------*/
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -65,7 +63,7 @@ public class PostgresDBContext : DbContext
             .Apply(entity =>
             {
                 entity.State = EntityState.Modified;
-                ((BaseEntity)entity.Entity).DeleteDate = DateTimeProvider.UtcNow;
+                ((BaseEntity)entity.Entity).DeleteDate = DateTime.UtcNow;
             });  
     }
 
