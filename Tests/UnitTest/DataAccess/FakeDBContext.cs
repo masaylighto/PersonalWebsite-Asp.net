@@ -1,4 +1,5 @@
 ﻿
+using Core.DataKit.MockWrapper;
 using Microsoft.EntityFrameworkCore;
 using TheWayToGerman.Core.Database;
 
@@ -10,6 +11,6 @@ public static class FakeDBContext
     {
         var dbContextOptionsBuilder = new DbContextOptionsBuilder<PostgresDBContext>();
         dbContextOptionsBuilder.UseInMemoryDatabase("UnitTestMemoryDB");
-        return new PostgresDBContext(dbContextOptionsBuilder.Options);
+        return new PostgresDBContext(dbContextOptionsBuilder.Options, new DateTimeProvider());
     }
 }

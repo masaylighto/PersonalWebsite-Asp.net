@@ -1,5 +1,6 @@
 ﻿
 using Bogus;
+using Core.DataKit.MockWrapper;
 using Mapster;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -33,7 +34,7 @@ public static class WebApplicationBuilder
             }
             string memoryInstanceName = Guid.NewGuid().ToString();// guid so it will be unique to every instance of the class   
             var option = new DbContextOptionsBuilder<PostgresDBContext>().UseInMemoryDatabase(memoryInstanceName).Options;
-            new PostgresDBContext(option).Database.EnsureCreated();
+            new PostgresDBContext(option, new DateTimeProvider()).Database.EnsureCreated();
             services.AddDbContextPool<PostgresDBContext>((x) =>
             {
                 x.UseInMemoryDatabase(memoryInstanceName);

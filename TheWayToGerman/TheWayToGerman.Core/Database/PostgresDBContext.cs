@@ -1,5 +1,6 @@
 ﻿
 
+using Core.DataKit.MockWrapper;
 using Core.Expressions;
 using Core.LinqExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +14,15 @@ namespace TheWayToGerman.Core.Database;
 
 public class PostgresDBContext : DbContext
 {
-    public PostgresDBContext(DbContextOptions<PostgresDBContext> dbContextOptions) : base(dbContextOptions)
+    public PostgresDBContext(DbContextOptions<PostgresDBContext> dbContextOptions,IDateTimeProvider dateTimeProvider) : base(dbContextOptions)
     {
         ChangeTracker.CascadeDeleteTiming = CascadeTiming.OnSaveChanges;
-        ChangeTracker.DeleteOrphansTiming = CascadeTiming.OnSaveChanges;      
+        ChangeTracker.DeleteOrphansTiming = CascadeTiming.OnSaveChanges;
+        DateTimeProvider = dateTimeProvider;
     }
     public DbSet<User> Users { get; set; }
+    public IDateTimeProvider DateTimeProvider { get; }
+
     /*-----------------------------Configuration--------------------------------*/
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -58,7 +62,11 @@ public class PostgresDBContext : DbContext
     {
         ChangeTracker.Entries()
             .Where(e => e.State == EntityState.Deleted)
-            .Apply(entity => entity.State = EntityState.Modified);      
+            .Apply(entity =>
+            {
+                entity.State = EntityState.Modified;
+                ((BaseEntity)entity.Entity).DeleteDate = DateTimeProvider.UtcNow;
+            });  
     }
 
 }

@@ -18,7 +18,7 @@ public static class DIExtensions
     {        
         services.AddDbContextPool<PostgresDBContext>(option => option.UseNpgsql(configuration.GetConnectionString("PostgreSql")), configuration.GetValue<int>("PostgreSqlPool"));
         var options = new DbContextOptionsBuilder<PostgresDBContext>().UseNpgsql(configuration.GetConnectionString("PostgreSql")).Options;
-        var context = new PostgresDBContext(options);
+        var context = new PostgresDBContext(options, new DateTimeProvider());
         try
         {
             context.Database.Migrate();
