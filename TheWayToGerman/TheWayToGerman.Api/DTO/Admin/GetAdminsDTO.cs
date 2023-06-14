@@ -1,4 +1,4 @@
-﻿namespace TheWayToGerman.Api.DTO.Owner;
+﻿namespace TheWayToGerman.Api.DTO.Admin;
 
 public class GetAdminsDTO
 {

@@ -1,4 +1,4 @@
-﻿namespace TheWayToGerman.Api.ResponseObject.Owner
+﻿namespace TheWayToGerman.Api.ResponseObject.Admin
 {
     public class CreateAdminResponse
     {

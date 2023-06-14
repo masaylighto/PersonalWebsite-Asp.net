@@ -3,8 +3,9 @@
 using Bogus;
 using System.Net.Http.Json;
 using TheWayToGerman.Api.DTO;
+using TheWayToGerman.Api.DTO.Admin;
 using TheWayToGerman.Api.DTO.Owner;
-using TheWayToGerman.Api.ResponseObject.Owner;
+using TheWayToGerman.Api.ResponseObject.Admin;
 using TheWayToGerman.Core.Cqrs.Queries;
 using TheWayToGerman.Core.Entities;
 
@@ -19,166 +20,7 @@ public class OwnerTest
     {
         client = WebApplicationBuilder.ApiClient();
     }
-    [Fact]
-    public async Task AddAdmin_UniqueValues_ShouldReturnHttpOKAndValidGuid()
-    {
-        //prepare
-        await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
-        {
-            Email = Faker.Internet.Email(),
-            Name = Faker.Name.FullName(),
-            Password = Faker.Internet.Password(8),
-            Username = Faker.Internet.UserName(),
 
-        };
-
-        //execute
-        var result = await client.PostAsJsonAsync("api/v1/Owner/Admin", createAdminDTO);
-
-        //validate
-        Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
-    }
-
-
-    [Fact]
-    public async Task AddAdmin_DuplicateUserName_ShouldReturnHttpBadRequest()
-    {
-        //prepare
-        await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
-        {
-            Email = Faker.Internet.Email(),
-            Name = Faker.Name.FullName(),
-            Password = Faker.Internet.Password(8),
-            Username = Faker.Internet.UserName(),
-
-        };
-        CreateAdminDTO createAdminDTO2 = new()
-        {
-            Email = Faker.Internet.Email(),
-            Name = Faker.Name.FullName(),
-            Password = Faker.Internet.Password(8),
-            Username = createAdminDTO.Username,
-
-        };
-
-        //execute
-        await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
-
-        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO2), HttpMethod.Post);
-        //validate
-        Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
-    }
-    [Fact]
-    public async Task AddAdmin_DuplicateEmail_ShouldReturnHttpBadRequest()
-    {
-        //prepare
-        await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
-        {
-            Email = Faker.Internet.Email(),
-            Name = Faker.Name.FullName(),
-            Password = Faker.Internet.Password(8),
-            Username = Faker.Internet.UserName(),
-
-        };
-        CreateAdminDTO createAdminDTO2 = new()
-        {
-            Email = createAdminDTO.Email,
-            Name = Faker.Name.FullName(),
-            Password = Faker.Internet.Password(8),
-            Username = Faker.Internet.UserName(),
-
-        };
-
-        //execute
-        await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
-
-        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO2), HttpMethod.Post);
-        //validate
-        Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
-    }
-    [Fact]
-    public async Task AddAdmin_PasswordLessThan8Char_ShouldReturnHttpBadRequest()
-    {
-        //prepare
-        await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
-        {
-            Email = Faker.Internet.Email(),
-            Name = Faker.Name.FullName(),
-            Password = Faker.Internet.Password(7),
-            Username = Faker.Internet.UserName(),
-
-        };
-
-        //execute
-        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
-
-        //validate
-        Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
-    }
-    [Fact]
-    public async Task AddAdmin_UsernameIsNull_ShouldReturnHttpBadRequest()
-    {
-        //prepare
-        await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
-        {
-            Email = Faker.Internet.Email(),
-            Name = Faker.Name.FullName(),
-            Password = Faker.Internet.Password(7),
-            Username = null,
-
-        };
-
-        //execute
-        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
-
-        //validate
-        Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
-    }
-    [Fact]
-    public async Task AddAdmin_EmailIsNull_ShouldReturnHttpBadRequest()
-    {
-        //prepare
-        await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
-        {
-            Email = null,
-            Name = Faker.Name.FullName(),
-            Password = Faker.Internet.Password(7),
-            Username = Faker.Internet.UserName(),
-
-        };
-
-        //execute
-        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
-
-        //validate
-        Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
-    }
-    [Fact]
-    public async Task AddAdmin_NameIsNull_ShouldReturnHttpBadRequest()
-    {
-        //prepare
-        await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
-        {
-            Email = Faker.Internet.Email(),
-            Name = null,
-            Password = Faker.Internet.Password(7),
-            Username = Faker.Internet.UserName(),
-
-        };
-
-        //execute
-        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
-
-        //validate
-        Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
-    }
 
     [Fact]
     public async Task UpdateOwner_CorrectInformation_ShouldReturnOK()
@@ -226,7 +68,7 @@ public class OwnerTest
         };
 
         //execute
-        await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(CreateAdminDto), HttpMethod.Post);
+        await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(CreateAdminDto), HttpMethod.Post);
 
         var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO2), HttpMethod.Put);
         //validate
@@ -255,7 +97,7 @@ public class OwnerTest
         };
 
         //execute
-        await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(CreateAdminDTO), HttpMethod.Post);
+        await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(CreateAdminDTO), HttpMethod.Post);
 
         var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
         //validate
@@ -361,103 +203,6 @@ public class OwnerTest
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
 
-    [Fact]
-    public async Task GetAdmins_NonExistingName_ShouldReturnHttpOkWithEmptyArray()
-    {
-        //prepare
-        await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
-        {
-            Email = Faker.Internet.Email(),
-            Name = Faker.Name.FullName(),
-            Password = Faker.Internet.Password(7),
-            Username = Faker.Internet.UserName(),
-
-        };
-        GetAdminsDTO GetAdminDTO = new()
-        {           
-            Name = "SomeRandomName",
-        };
-        await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
-        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(GetAdminDTO), HttpMethod.Get);
-        //execute
-        //validate
-        Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
-        var userlist =await result.Content.ReadFromJsonAsync<IEnumerable<GetAdminsQueryResponse>>();
-        Assert.NotNull(userlist);
-        Assert.Empty(userlist);
-    }
-    [Fact]
-    public async Task GetAdmins_ExistingName_ShouldReturnHttpOkWithArrayOfMatchedUser()
-    {
-        //prepare
-        await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
-        {
-            Email = Faker.Internet.Email(),
-            Name = "SomeSpecificName",
-            Password = Faker.Internet.Password(8),
-            Username = Faker.Internet.UserName(),
-
-        };
-        GetAdminsDTO GetAdminDTO = new()
-        {
-            Name = "SomeSpecificName",
-        };
-        await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
-        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(GetAdminDTO), HttpMethod.Get);
-        //execute
-        //validate
-        Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
-        var userlist = await result.Content.ReadFromJsonAsync<IEnumerable<GetAdminsQueryResponse>>();
-        Assert.NotNull(userlist);
-        Assert.Contains(userlist, x => x.Email == createAdminDTO.Email);
-        Assert.Contains(userlist, x => x.Name  == createAdminDTO.Name);
-        Assert.Contains(userlist, x => x.Username  == createAdminDTO.Username);
-    }
-    [Fact]
-    public async Task DeleteAdmin_ExistingAdmin_ShouldReturnHttpNoContent()
-    {
-        //prepare
-        await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
-        {            
-            Email = Faker.Internet.Email(),
-            Name = "SomeSpecificName",
-            Password = Faker.Internet.Password(8),
-            Username = Faker.Internet.UserName(),
-        };
-        await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post); //create an admin
-        var admins = await client.SendAsync<IEnumerable<GetAdminsResponse>>("api/v1/Owner/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Get); //get its information
-        DeleteAdminDTO DeleteAdminDTO = new()
-        {
-            Id = admins.FirstOrDefault().Id
-        };
-
-        //execute
-        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(DeleteAdminDTO), HttpMethod.Delete); //get its information
-
-        //validate
-        Assert.Equal(System.Net.HttpStatusCode.NoContent, result.StatusCode);
-
-    }
-    [Fact]
-    public async Task DeleteAdmin_NotExistingAdmin_ShouldReturnHttpNotFound()
-    {
-        //prepare
-        await client.Authenticate();
-        DeleteAdminDTO DeleteAdminDTO = new()
-        {
-            Id = Guid.NewGuid(),
-        };
-
-        //execute
-        var result = await client.SendAsync("api/v1/Owner/Admin", Helper.CreateJsonContent(DeleteAdminDTO), HttpMethod.Delete); //get its information
-
-        //validate
-        Assert.Equal(System.Net.HttpStatusCode.NotFound, result.StatusCode);
-
-    }
 
 
 
