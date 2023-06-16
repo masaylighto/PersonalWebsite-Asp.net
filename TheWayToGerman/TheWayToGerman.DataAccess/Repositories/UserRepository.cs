@@ -99,12 +99,12 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public async Task<Result<IEnumerable<T>>> GetUsersAsync<T>(Expression<Func<User, bool>> Where, Func<User, T> select)
+    public async Task<Result<IEnumerable<T>>> GetUsersAsync<T>(Expression<Func<User, bool>> Where, Func<User, T> select, int pageSize, int pageNumber)
     {
         try
         {
           
-            var result = PostgresDBContext.Users.AsEnumerable().Where(Where.Compile()).Select(select);
+            var result = PostgresDBContext.Users.AsEnumerable().Where(Where.Compile()).Skip((pageNumber-1)*pageSize).Take(pageSize).Select(select);
             return Result<IEnumerable<T>>.From(result);
         }
         catch (Exception ex)

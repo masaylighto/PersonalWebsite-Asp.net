@@ -15,7 +15,15 @@ namespace TheWayToGerman.Logic.Cqrs.Queries;
 public class GetAdminsQueryHandler : QueryHandler<GetAdminsQuery, IEnumerable<GetAdminsQueryResponse>>
 {
     public IUnitOfWork UnitOfWork { get; }
- 
+
+    class CommandValidator : AbstractValidator<GetAdminsQuery>
+    {
+        public CommandValidator()
+        {
+            RuleFor(x => x.PageNumber).GreaterThanOrEqualTo(1);
+            RuleFor(x => x.PageSize).GreaterThanOrEqualTo(1).LessThanOrEqualTo(20);
+        }
+    }
     public GetAdminsQueryHandler(IUnitOfWork unitOfWork)
     {       
         UnitOfWork = unitOfWork;
@@ -28,6 +36,6 @@ public class GetAdminsQueryHandler : QueryHandler<GetAdminsQuery, IEnumerable<Ge
         {
             filter = filter.And(User => User.Name.Contains(request.Name, StringComparison.InvariantCultureIgnoreCase));
         }
-        return await UnitOfWork.UserRespository.GetUsersAsync(filter,(user)=> user.Adapt<GetAdminsQueryResponse>());
+        return await UnitOfWork.UserRespository.GetUsersAsync(filter,(user)=> user.Adapt<GetAdminsQueryResponse>(), request.PageSize, request.PageSize);
     }
 }
