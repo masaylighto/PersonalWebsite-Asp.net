@@ -5,7 +5,7 @@ using TheWayToGerman.Api.DTO.Login;
 using TheWayToGerman.Api.ResponseObject;
 using TheWayToGerman.Api.ResponseObject.Login;
 
-namespace IntegrationTest.Features;
+namespace IntegrationTest.Endpoints;
 
 public class LoginTest
 {

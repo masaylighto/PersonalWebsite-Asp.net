@@ -2,14 +2,13 @@
 using Core.Cqrs.Requests;
 using Core.DataKit;
 using TheWayToGerman.Core.Cqrs.Queries;
+using TheWayToGerman.Core.Cqrs.Responses;
 using TheWayToGerman.Core.Enums;
 
 namespace TheWayToGerman.Core.Cqrs.Commands;
 
-public class CreateAdminCommand : ICommand<CreateAdminCommandResponse>
+public class CreateCatagoryCommand : ICommand<CreateCatagoryCommandResponse>
 {
     public required string Name { get; set; }
-    public required string Username { get; set; }
-    public required string Email { get; set; }
-    public required string Password { get; set; }
+    public required Guid LanguageID { get; set; }
 }

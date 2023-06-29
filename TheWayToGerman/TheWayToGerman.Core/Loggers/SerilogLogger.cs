@@ -23,7 +23,7 @@ public class SerilogLogger : ILog
 
     public void Error(Exception message)
     {
-        Logger.Error($"Source: {message.Source} ; Message {message.Message} ; Inner Message {message.InnerException?.Message}");
+        Logger.Error("Source: {source} ; Message {Message} ; Inner Message {Message}", message.Source, message.Message, message.InnerException?.Message);
     }
 
     public void Info(string message, params object[] parameters)

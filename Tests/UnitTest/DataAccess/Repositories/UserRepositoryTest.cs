@@ -66,7 +66,7 @@ public class UserRepositoryTest
         Assert.True(exist.IsDataType<OK>());
     }
     [Fact]
-    public async Task IsUserExist_UserNotExist_ShouldReturnTrue()
+    public async Task IsUserExist_UserNotExist_ShouldReturnFalse()
     {
         //Prepare
         User testUser = FakeUser.Generate();

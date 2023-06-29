@@ -326,11 +326,10 @@ public class AdminTest
             Password = Faker.Internet.Password(8),
             Username = Faker.Internet.UserName(),
         };
-        await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post); //create an admin
-        var admins = await client.SendAsync<IEnumerable<GetAdminsResponse>>("api/v1/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Get); //get its information
+        var createAdminResult=await client.SendAsync<CreateAdminResponse>("api/v1/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post); //create an admin    
         DeleteAdminDTO DeleteAdminDTO = new()
         {
-            Id = admins.FirstOrDefault().Id
+            Id = createAdminResult.Id
         };
 
         //execute
