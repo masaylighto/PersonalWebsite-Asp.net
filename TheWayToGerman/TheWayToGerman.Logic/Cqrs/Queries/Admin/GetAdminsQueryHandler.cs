@@ -36,6 +36,6 @@ public class GetAdminsQueryHandler : QueryHandler<GetAdminsQuery, IEnumerable<Ge
         {
             filter = filter.And(User => User.Name.Contains(request.Name, StringComparison.InvariantCultureIgnoreCase));
         }
-        return await UnitOfWork.UserRespository.GetUsersAsync(filter,(user)=> user.Adapt<GetAdminsQueryResponse>(), request.PageSize, request.PageSize);
+        return await UnitOfWork.UserRespository.GetUsersAsync(filter,(user)=> user.Adapt<GetAdminsQueryResponse>(), request.PageSize, request.PageNumber);
     }
 }

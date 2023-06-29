@@ -20,11 +20,13 @@ public class PostgresDBContext : DbContext
         ChangeTracker.DeleteOrphansTiming = CascadeTiming.OnSaveChanges;
     }
     public DbSet<User> Users { get; set; }
+    public DbSet<Language> Languages { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     /*-----------------------------Configuration--------------------------------*/
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-    
+        modelBuilder.ApplyConfiguration(new LanguageTableConfiguration());
         Expression<Func<BaseEntity, bool>> SoftDelete = X => X.DeleteDate == null;
         var entites = modelBuilder.Model.GetEntityTypes().Where(x => x.ClrType.IsAssignableTo(typeof(BaseEntity)));
         foreach (var entityType in entites)

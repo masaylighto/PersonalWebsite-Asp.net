@@ -9,8 +9,7 @@ using TheWayToGerman.Api.ResponseObject.Admin;
 using TheWayToGerman.Core.Cqrs.Queries;
 using TheWayToGerman.Core.Entities;
 
-namespace IntegrationTest.Features;
-[Collection("Sequential")]
+namespace IntegrationTest.Endpoints;
 public class OwnerTest
 {
     readonly Faker Faker = new Faker();

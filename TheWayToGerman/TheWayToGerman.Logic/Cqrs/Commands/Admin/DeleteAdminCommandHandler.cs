@@ -5,7 +5,7 @@ using Core.DataKit;
 using Core.DataKit.Result;
 using FluentValidation;
 using Mapster;
-using TheWayToGerman.Core.Cqrs.Commands;
+using TheWayToGerman.Core.Cqrs.Commands.Admin;
 using TheWayToGerman.Core.Entities;
 using TheWayToGerman.Core.Exceptions;
 using TheWayToGerman.DataAccess.Interfaces;

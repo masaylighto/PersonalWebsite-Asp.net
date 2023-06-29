@@ -6,7 +6,7 @@ using System.Net;
 using TheWayToGerman.Api.DTO.Admin;
 using TheWayToGerman.Api.ResponseObject;
 using TheWayToGerman.Api.ResponseObject.Admin;
-using TheWayToGerman.Core.Cqrs.Commands;
+using TheWayToGerman.Core.Cqrs.Commands.Admin;
 using TheWayToGerman.Core.Cqrs.Queries;
 using TheWayToGerman.Core.Exceptions;
 using TheWayToGerman.Core.Helpers;
@@ -64,7 +64,7 @@ public class AdminController : ControllerBase
     }
     [HttpGet]
     [Authorize(AuthPolicies.OwnerPolicy)]
-    public async Task<ActionResult> GetAdmins([FromQuery] GetAdminsDTO DTO)
+    public async Task<ActionResult> GetAdmins(GetAdminsDTO DTO)
     {
         var userCommand = DTO.Adapt<GetAdminsQuery>();
         var result = await Mediator.Send(userCommand);
