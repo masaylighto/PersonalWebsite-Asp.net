@@ -8,11 +8,11 @@ using TheWayToGerman.DataAccess.Interfaces;
 
 namespace TheWayToGerman.Logic.Cqrs.Commands;
 
-public class CreateCatagoryCommandHandler : CommandHandler<CreateCatagoryCommand, CreateCatagoryCommandResponse>
+public class CreateCategoryCommandHandler : CommandHandler<CreateCategoryCommand, CreateCategoryCommandResponse>
 {
     public IUnitOfWork UnitOfWork { get; }
 
-    class CommandValidator : AbstractValidator<CreateCatagoryCommand>
+    class CommandValidator : AbstractValidator<CreateCategoryCommand>
     {
         public CommandValidator()
         {
@@ -20,12 +20,12 @@ public class CreateCatagoryCommandHandler : CommandHandler<CreateCatagoryCommand
             RuleFor(x => x.LanguageID).NotEqual(new Guid());
         }
     }
-    public CreateCatagoryCommandHandler(IUnitOfWork unitOfWork)
+    public CreateCategoryCommandHandler(IUnitOfWork unitOfWork)
     {
         Validator = new CommandValidator();
         UnitOfWork = unitOfWork;
     }
-    protected override async Task<Result<CreateCatagoryCommandResponse>> Execute(CreateCatagoryCommand request, CancellationToken cancellationToken)
+    protected override async Task<Result<CreateCategoryCommandResponse>> Execute(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
         var languageResult= await UnitOfWork.LanguageRepository.GetAsync(x => x.Id == request.LanguageID);
         if (languageResult.ContainError())
@@ -33,13 +33,13 @@ public class CreateCatagoryCommandHandler : CommandHandler<CreateCatagoryCommand
             return languageResult.GetError();
         }
    
-        var catagory = new Category() { 
+        var category = new Category() { 
             Id = Guid.NewGuid(),
             Language = languageResult.GetData(),
             Name = request.Name,    
         };
 
-        var addResult = await UnitOfWork.CatagoriesRepository.AddAsync(catagory);
+        var addResult = await UnitOfWork.CategoriesRepository.AddAsync(category);
         if (addResult.ContainError())
         {
             return addResult.GetError();
@@ -50,8 +50,8 @@ public class CreateCatagoryCommandHandler : CommandHandler<CreateCatagoryCommand
             return saveResult.GetError();
         }
 
-        return new CreateCatagoryCommandResponse() { 
-            Id  = catagory.Id
+        return new CreateCategoryCommandResponse() { 
+            Id  = category.Id
         };       
     }
 }

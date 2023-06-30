@@ -8,7 +8,7 @@ using TheWayToGerman.Core.Helpers;
 
 namespace TheWayToGerman.Api.DTO.Category;
 
-public class CreateCatagoryDTO 
+public class CreateCategoryDTO 
 {
     public required string Name { get; set; }
     public Guid LanguageID { get; set; } = new Guid(DefaultDBValues.DefaultLanguageID);//For now, we need only one language,

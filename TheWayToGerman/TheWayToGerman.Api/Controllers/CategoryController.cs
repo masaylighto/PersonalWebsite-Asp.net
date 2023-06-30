@@ -23,9 +23,9 @@ public class CategoryController : ControllerBase
     }
     [HttpPost]
     [Authorize(AuthPolicies.OwnerPolicy)]
-    public async Task<ActionResult> CreateCatagory([FromBody] CreateCatagoryDTO DTO)
+    public async Task<ActionResult> CreateCategory([FromBody] CreateCategoryDTO DTO)
     {
-        var userCommand = DTO.Adapt<CreateCatagoryCommand>();
+        var userCommand = DTO.Adapt<CreateCategoryCommand>();
         var result = await Mediator.Send(userCommand);
         if (result.IsInternalError())
         {
@@ -35,6 +35,6 @@ public class CategoryController : ControllerBase
         {
             return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status400BadRequest);
         }
-        return Ok(result.GetData().Adapt<CreateCatagoryResponse>());
+        return Ok(result.GetData().Adapt<CreateCategoryResponse>());
     }
 }

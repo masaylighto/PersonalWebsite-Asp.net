@@ -13,14 +13,14 @@ internal class UnitOfWork : IUnitOfWork
 {
     public PostgresDBContext PostgresDBContext { get; }
     public IUserRepository UserRespository { get; set; }
-    public ICategoryRepository CatagoriesRepository{ get; set; }
+    public ICategoryRepository CategoriesRepository{ get; set; }
     public ILanguageRepository LanguageRepository { get; set; }
-    public UnitOfWork(PostgresDBContext postgresDBContext, IUserRepository userRespository, ILanguageRepository languageRepository, ICategoryRepository catagoriesRepository)
+    public UnitOfWork(PostgresDBContext postgresDBContext, IUserRepository userRespository, ILanguageRepository languageRepository, ICategoryRepository categoriesRepository)
     {
         PostgresDBContext = postgresDBContext;
         UserRespository = userRespository;
         LanguageRepository = languageRepository;
-        CatagoriesRepository = catagoriesRepository;
+        CategoriesRepository = categoriesRepository;
     }
 
 

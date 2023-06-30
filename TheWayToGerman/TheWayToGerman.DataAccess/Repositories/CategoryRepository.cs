@@ -37,7 +37,7 @@ public class CategoryRepository : ICategoryRepository
             catch (Exception ex)
             {
                 Log.Error(ex);
-                return new InternalErrorException("failed to check if Catagory exist");
+                return new InternalErrorException("failed to check if Category exist");
             }         
         });
     }

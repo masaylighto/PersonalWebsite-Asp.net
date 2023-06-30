@@ -26,13 +26,13 @@ public class CategoryTest
     {
         //prepare
         await client.Authenticate();
-        CreateCatagoryDTO createCatagoryDTO = new()
+        CreateCategoryDTO createCategoryDTO = new()
         {
             LanguageID =new Guid(DefaultDBValues.DefaultLanguageID),
             Name = Faker.Name.FullName()
         };
         //execute
-        var result= await client.PostAsJsonAsync("api/v1/Category", createCatagoryDTO);
+        var result= await client.PostAsJsonAsync("api/v1/Category", createCategoryDTO);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
     }
@@ -45,19 +45,19 @@ public class CategoryTest
     {
         //prepare
         await client.Authenticate();
-        CreateCatagoryDTO createCatagoryDTO = new()
+        CreateCategoryDTO createCategoryDTO = new()
         {
             LanguageID = new Guid(DefaultDBValues.DefaultLanguageID),
             Name = Faker.Name.FullName()
         };
-        CreateCatagoryDTO createCatagoryDTO2 = new()
+        CreateCategoryDTO createCategoryDTO2 = new()
         {
             LanguageID = new Guid(DefaultDBValues.DefaultLanguageID),
-            Name = createCatagoryDTO.Name
+            Name = createCategoryDTO.Name
         };
         //execute
-        await client.PostAsJsonAsync("api/v1/Category", createCatagoryDTO);
-        var result = await client.PostAsJsonAsync("api/v1/Category", createCatagoryDTO2);
+        await client.PostAsJsonAsync("api/v1/Category", createCategoryDTO);
+        var result = await client.PostAsJsonAsync("api/v1/Category", createCategoryDTO2);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -66,13 +66,13 @@ public class CategoryTest
     {
         //prepare
         await client.Authenticate();
-        CreateCatagoryDTO createCatagoryDTO = new()
+        CreateCategoryDTO createCategoryDTO = new()
         {
             LanguageID = new Guid(),
             Name = Faker.Name.FullName()
         };
         //execute
-        var result = await client.PostAsJsonAsync("api/v1/Category", createCatagoryDTO);       
+        var result = await client.PostAsJsonAsync("api/v1/Category", createCategoryDTO);       
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }

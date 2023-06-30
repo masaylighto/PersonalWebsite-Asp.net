@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheWayToGerman.Core.Cqrs.Responses;
 
-public class CreateCatagoryCommandResponse
+public class CreateCategoryCommandResponse
 {
     public Guid Id { get; set; }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheWayToGerman.Api.ResponseObject.Category;
 
-public class CreateCatagoryResponse
+public class CreateCategoryResponse
 {
     public Guid Id { get; set; }
 }
