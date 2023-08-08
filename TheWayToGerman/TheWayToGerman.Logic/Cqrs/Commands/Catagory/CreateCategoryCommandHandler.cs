@@ -17,7 +17,6 @@ public class CreateCategoryCommandHandler : CommandHandler<CreateCategoryCommand
         public CommandValidator()
         {
             RuleFor(x => x.Name).MinimumLength(1);
-            RuleFor(x => x.LanguageID).NotEqual(new Guid());
         }
     }
     public CreateCategoryCommandHandler(IUnitOfWork unitOfWork)
@@ -27,16 +26,13 @@ public class CreateCategoryCommandHandler : CommandHandler<CreateCategoryCommand
     }
     protected override async Task<Result<CreateCategoryCommandResponse>> Execute(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
-        var languageResult= await UnitOfWork.LanguageRepository.GetAsync(x => x.Id == request.LanguageID);
-        if (languageResult.ContainError())
+
+
+        var category = new Category()
         {
-            return languageResult.GetError();
-        }
-   
-        var category = new Category() { 
             Id = Guid.NewGuid(),
-            Language = languageResult.GetData(),
-            Name = request.Name,    
+            Language = request.Language,
+            Name = request.Name,
         };
 
         var addResult = await UnitOfWork.CategoriesRepository.AddAsync(category);
@@ -50,8 +46,9 @@ public class CreateCategoryCommandHandler : CommandHandler<CreateCategoryCommand
             return saveResult.GetError();
         }
 
-        return new CreateCategoryCommandResponse() { 
-            Id  = category.Id
-        };       
+        return new CreateCategoryCommandResponse()
+        {
+            Id = category.Id
+        };
     }
 }

@@ -8,10 +8,10 @@ namespace TheWayToGerman.DataAccess.Interfaces;
 
 public interface IUserRepository
 {
-    public Task<Result<User>> GetUserAsync(Func<User, bool> Where);
-    public Task<Result<OK>> IsUserExistAsync(Func<User, bool> Where);
+    public Task<Result<User>> GetUserAsync(Func<User, bool> predictate);
+    public Task<Result<OK>> IsUserExistAsync(Expression<Func<User, bool>> predictate);
     public Task<Result<OK>> DeleteAdminById(Guid Id);
-    public Task<Result<IEnumerable<T>>> GetUsersAsync<T>(Expression<Func<User, bool>> Where, Func<User, T> select,int pageSize,int pageNumber);
+    public Result<IEnumerable<T>> GetUsers<T>(Expression<Func<User, bool>> predictate, Func<User, T> selector, int pageSize, int pageNumber);
     public Task<Result<Guid>> AddUserAsync(User user);
-    public Task<Result<OK>> UpdateUserAsync(User user, Func<User, bool> Which);
+    public Task<Result<OK>> UpdateUserAsync(User user, Func<User, bool> predictate);
 }

@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.HttpOverrides;
-using System.Globalization;
 using System.Runtime.CompilerServices;
-using TheWayToGerman.Api;
 using TheWayToGerman.Core;
 using TheWayToGerman.DataAccess;
 using TheWayToGerman.Logic;

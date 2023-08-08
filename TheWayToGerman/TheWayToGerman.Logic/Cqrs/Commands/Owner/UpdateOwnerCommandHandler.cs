@@ -7,7 +7,6 @@ using FluentValidation;
 using Mapster;
 using TheWayToGerman.Core.Cqrs.Commands;
 using TheWayToGerman.Core.Entities;
-using TheWayToGerman.Core.Exceptions;
 using TheWayToGerman.DataAccess.Interfaces;
 
 namespace TheWayToGerman.Logic.Cqrs.Commands;

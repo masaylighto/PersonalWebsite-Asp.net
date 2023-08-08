@@ -1,8 +1,8 @@
 ﻿
 namespace TheWayToGerman.Core.Entities;
 
-public class Category: LocalizedBaseEntity
+public class Category : LocalizedBaseEntity
 {
-    public string Name { get; set; }
-    
+    public required string Name { get; set; }
+
 }

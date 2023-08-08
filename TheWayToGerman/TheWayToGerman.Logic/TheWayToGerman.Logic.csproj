@@ -15,9 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Lib\Core.Cqrs\Core.Cqrs.csproj" />
-    <ProjectReference Include="..\..\Lib\Extensions\Expressions\Core.Expressions.csproj" />
     <ProjectReference Include="..\TheWayToGerman.DataAccess\TheWayToGerman.DataAccess.csproj" />
+	  <ProjectReference Include="..\..\Lib\Core.Cqrs\Core.Cqrs.csproj" />
+	  <ProjectReference Include="..\..\Lib\Core.DataKit\Core.DataKit.csproj" />
+	  <ProjectReference Include="..\..\Lib\Extensions\Core.LinqExtensions\Core.LinqExtensions.csproj" />
+	  <ProjectReference Include="..\..\Lib\Extensions\Expressions\Core.Expressions.csproj" />
   </ItemGroup>
 
 </Project>

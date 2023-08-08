@@ -1,9 +1,6 @@
-﻿
-using System.Runtime.CompilerServices;
+﻿namespace Core.DataKit.Exceptions;
 
-namespace Core.DataKit.Exceptions;
-
-public class InternalErrorException:Exception
+public class InternalErrorException : Exception
 {
     public InternalErrorException() : base()
     {
@@ -13,7 +10,7 @@ public class InternalErrorException:Exception
     {
     }
 
-    public InternalErrorException( Exception? innerException, string message = "Internel Error") : base(message, innerException)
+    public InternalErrorException(Exception? innerException, string message = "Internel Error") : base(message, innerException)
     {
     }
 }

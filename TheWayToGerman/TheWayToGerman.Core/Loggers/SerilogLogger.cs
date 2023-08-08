@@ -9,7 +9,7 @@ public class SerilogLogger : ILog
     public SerilogLogger(Serilog.ILogger logger)
     {
         Logger = logger;
-    } 
+    }
 
     public void Debug(string message, params object[] parameters)
     {

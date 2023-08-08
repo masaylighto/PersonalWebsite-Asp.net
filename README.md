@@ -26,13 +26,17 @@ Lib contain there own readme file in there folders
       - 1.1.1. Expressions Method :: Contain method that modify Expressions
    - 1.2. Cqrs: Contain Class that use Mediator and offer a cqrs pattern
    - 1.3. DataKit: offer class that handle data like data wrapper (Result Struct)
-2. Diagram: Contain Diagram for website features
-3. Test: Contain Unit-test and Integration-test
-4. TheWayToGerman: Contain the main Code and seperated to the following
+2. Diagram: Contain Diagram for website features 
+1. 3. Test: Contain Unit-test and Integration-test 
+1. 4. TheWayToGerman: Contain the main Code and seperated to the following
    - 4.1 Core: Contain Core Stuff like Entities,DBContext etc..
    - 4.2 DataAccess: Represent the data access layer and contains repostiores
    - 4.3 Logic: Command And Queries Handlers, Services and anything related to Business logic
    - 4.4 Api: Controllers, DTO, Response Object and middleware
+### Design Decision Changes (that happen durring the works)
+1.Remove detailed diagram for every function  as the are the same almost just a crud, i create general diagram for the dataflow instead to shorten the time
+2.Unit-test deleted. because i already test the entire logic with integration test and i develop this site a lone and don't have time to add more useless test( as the app is small and just crud application nothing much to be tested)
+3.DTO remove and use mediator Request instead of it. as it make more indirection and the app is simple all dto where just mapped into request so dto where unnecessary
 ### Build The Project Requests
 1. dotnet 7
 2. Docker (preferable) and if Docker does not exist you will need to install all dependencies specified in docker-compose 

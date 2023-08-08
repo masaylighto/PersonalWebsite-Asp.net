@@ -1,8 +1,8 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field warning. data in this class has ErrorExist to express if they are null
 
-using System.Runtime.CompilerServices;
-using System.Diagnostics;
 using Core.DataKit.Exceptions;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Core.DataKit.Result;
 /// <summary>
@@ -32,8 +32,8 @@ public class Result<DataType>
     //Polymorphism Method    
     public bool IsErrorType<Type>() => Error is Type && ContainError();
 
-    public bool IsInternalError() =>  Error is InternalErrorException && ContainError();
-    public bool IsDataType<Type>() => Data is Type && ContainData();   
+    public bool IsInternalError() => Error is InternalErrorException && ContainError();
+    public bool IsDataType<Type>() => Data is Type && ContainData();
     public bool ContainError() => IsError;
     public bool ContainData() => !IsError;
     public DataType GetData() => Data;
@@ -75,5 +75,13 @@ public class Result<DataType>
         Result<DataType> result = new();
         result.SetData(data);
         return result;
+    }
+
+}
+public class Result
+{
+    public static Result<DataType> From<DataType>(DataType? data)
+    {
+        return Result<DataType>.From(data);
     }
 }

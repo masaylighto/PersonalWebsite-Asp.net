@@ -28,8 +28,4 @@
     <ProjectReference Include="..\TheWayToGerman.Logic\TheWayToGerman.Logic.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ResponseObject\Owner\" />
-  </ItemGroup>
-
 </Project>

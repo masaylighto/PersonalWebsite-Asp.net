@@ -6,7 +6,7 @@ public class RateLimiterConfig
     public string PolicyName { get; set; }
     // Must be set to a value greater than <see cref="TimeSpan.Zero" /> by the time these options are passed to the constructor of <see cref="FixedWindowRateLimiter"/>.
     /// </summary>
-    public int TimeWindowInMinute { get; set; } 
+    public int TimeWindowInMinute { get; set; }
 
     /// <summary>
     /// Specified whether the <see cref="FixedWindowRateLimiter"/> is automatically refresh counters or if someone else

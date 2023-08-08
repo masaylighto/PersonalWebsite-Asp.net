@@ -1,5 +1,4 @@
-﻿using Core.DataKit.Exceptions;
-using Core.DataKit.Result;
+﻿using Core.DataKit.Result;
 using Core.HTTP.Interfaces;
 
 namespace Core.HTTP;
@@ -29,13 +28,13 @@ public class GenericHttpClient : IGenericHttpClient
     {
         HttpClient.BaseAddress = new Uri(baseUrl);
     }
-    async Task<Result<ReturnType>> SendAsync<ReturnType>(HttpRequestMessage httpRequestMessage, IResponseDeserializer<ReturnType> serializationStrategy) where ReturnType : class
+    async Task<Result<ReturnType>> SendAsync<ReturnType>(HttpRequestMessage httpRequestMessage, IResponseDeserializer<ReturnType> deserializationStrategy) where ReturnType : class
     {
         try
         {
             //send request -> receive response  -> try to serialize data. return either the data or exception that hold the detail of the error
             var response = await HttpClient.SendAsync(httpRequestMessage);
-            var responseDeserialized = await serializationStrategy.Deserialize(response);
+            var responseDeserialized = await deserializationStrategy.Deserialize(response);
             return responseDeserialized is not null ? responseDeserialized : new NoResponseException("faild to deserialize response ");
         }
         catch (Exception ex)
@@ -44,13 +43,15 @@ public class GenericHttpClient : IGenericHttpClient
         }
 
     }
-    async Task<Result<HttpRequestMessage>> BuildMessageContent<RequestContent>(string endPoint, HttpMethod method, RequestContent? content = default, IRequestContentBuilder<RequestContent>? HTTPContentBuilder = null) where RequestContent : class
+    static async Task<Result<HttpRequestMessage>> BuildMessageContent<RequestContent>(string endPoint, HttpMethod method, RequestContent? content = default, IRequestContentBuilder<RequestContent>? HTTPContentBuilder = null) where RequestContent : class
     {
         // create a http request message -> specify its information -> check if there is content ->
         // convert them into request content if succeed return HttpRequestMessage if failed return exception holding the detail of the error
-        HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
-        httpRequestMessage.Method = method;
-        httpRequestMessage.RequestUri = new Uri(endPoint);
+        HttpRequestMessage httpRequestMessage = new()
+        {
+            Method = method,
+            RequestUri = new Uri(endPoint)
+        };
         if (content is not null && HTTPContentBuilder is not null)
         {
             var requestContent = await HTTPContentBuilder.BuildContent(content!);
@@ -62,52 +63,52 @@ public class GenericHttpClient : IGenericHttpClient
         }
         return httpRequestMessage;
     }
-    public async Task<Result<ReturnType>> PostAsync<ReturnType, RequestContent>(string endPoint, IResponseDeserializer<ReturnType> responseDeserializer, RequestContent? content = default, IRequestContentBuilder<RequestContent>? HTTPContentBuilder = null) where ReturnType : class where RequestContent : class
+    public async Task<Result<ReturnType>> PostAsync<ReturnType, RequestContent>(Request<ReturnType, RequestContent> request) where ReturnType : class where RequestContent : class
     {
         //build request if created send if not return the error
-        var requestContent = await BuildMessageContent(endPoint, HttpMethod.Post, content, HTTPContentBuilder);
+        var requestContent = await BuildMessageContent(request.Endpoint, HttpMethod.Post, request.Content, request.HTTPContentBuilder);
         if (requestContent.ContainError())
         {
             return requestContent.GetError();
         }
         HttpRequestMessage httpRequestMessage = requestContent.GetData();
-        return await SendAsync(httpRequestMessage, responseDeserializer);
+        return await SendAsync(httpRequestMessage, request.ResponseDeserializer);
     }
 
-    public async Task<Result<ReturnType>> PutAsync<ReturnType, RequestContent>(string endPoint, IResponseDeserializer<ReturnType> responseDeserializer, RequestContent? content = default, IRequestContentBuilder<RequestContent>? HTTPContentBuilder = null) where ReturnType : class where RequestContent : class
+    public async Task<Result<ReturnType>> PutAsync<ReturnType, RequestContent>(Request<ReturnType, RequestContent> request) where ReturnType : class where RequestContent : class
     {
         //build request if created send if not return the error
-        var requestContent = await BuildMessageContent(endPoint, HttpMethod.Put, content, HTTPContentBuilder);
+        var requestContent = await BuildMessageContent(request.Endpoint, HttpMethod.Put, request.Content, request.HTTPContentBuilder);
         if (requestContent.ContainError())
         {
             return requestContent.GetError();
         }
         HttpRequestMessage httpRequestMessage = requestContent.GetData();
-        return await SendAsync(httpRequestMessage, responseDeserializer);
+        return await SendAsync(httpRequestMessage, request.ResponseDeserializer);
     }
 
-    public async Task<Result<ReturnType>> DeleteAsync<ReturnType, RequestContent>(string endPoint, IResponseDeserializer<ReturnType> responseDeserializer, RequestContent? content = default, IRequestContentBuilder<RequestContent>? HTTPContentBuilder = null) where ReturnType : class where RequestContent : class
+    public async Task<Result<ReturnType>> DeleteAsync<ReturnType, RequestContent>(Request<ReturnType, RequestContent> request) where ReturnType : class where RequestContent : class
     {
         //build request if created send if not return the error
-        var requestContent = await BuildMessageContent(endPoint, HttpMethod.Delete, content, HTTPContentBuilder);
+        var requestContent = await BuildMessageContent(request.Endpoint, HttpMethod.Delete, request.Content, request.HTTPContentBuilder);
         if (requestContent.ContainError())
         {
             return requestContent.GetError();
         }
         HttpRequestMessage httpRequestMessage = requestContent.GetData();
-        return await SendAsync(httpRequestMessage, responseDeserializer);
+        return await SendAsync(httpRequestMessage, request.ResponseDeserializer);
     }
 
-    public async Task<Result<ReturnType>> GetAsync<ReturnType, RequestContent>(string endPoint, IResponseDeserializer<ReturnType> responseDeserializer, RequestContent? content = default, IRequestContentBuilder<RequestContent>? HTTPContentBuilder = null) where ReturnType : class where RequestContent : class
+    public async Task<Result<ReturnType>> GetAsync<ReturnType, RequestContent>(Request<ReturnType, RequestContent> request) where ReturnType : class where RequestContent : class
     {
         //build request if created send if not return the error
-        var requestContent = await BuildMessageContent(endPoint, HttpMethod.Get, content, HTTPContentBuilder);
+        var requestContent = await BuildMessageContent(request.Endpoint, HttpMethod.Get, request.Content, request.HTTPContentBuilder);
         if (requestContent.ContainError())
         {
             return requestContent.GetError();
         }
         HttpRequestMessage httpRequestMessage = requestContent.GetData();
-        return await SendAsync(httpRequestMessage, responseDeserializer);
+        return await SendAsync(httpRequestMessage, request.ResponseDeserializer);
     }
 
 }

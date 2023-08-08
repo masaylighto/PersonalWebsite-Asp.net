@@ -1,13 +1,8 @@
-﻿
-
+﻿#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 using Bogus;
 using System.Net.Http.Json;
-using TheWayToGerman.Api.DTO;
-using TheWayToGerman.Api.DTO.Admin;
-using TheWayToGerman.Api.DTO.Category;
-using TheWayToGerman.Api.ResponseObject.Admin;
-using TheWayToGerman.Core.Cqrs.Queries;
-using TheWayToGerman.Core.Helpers;
+using TheWayToGerman.Core.Cqrs.Commands;
+using TheWayToGerman.Core.Enums;
 
 namespace IntegrationTest.Endpoints;
 
@@ -26,13 +21,13 @@ public class CategoryTest
     {
         //prepare
         await client.Authenticate();
-        CreateCategoryDTO createCategoryDTO = new()
+        CreateCategoryCommand createCategoryDTO = new()
         {
-            LanguageID =new Guid(DefaultDBValues.DefaultLanguageID),
+            Language = Language.English,
             Name = Faker.Name.FullName()
         };
         //execute
-        var result= await client.PostAsJsonAsync("api/v1/Category", createCategoryDTO);
+        var result = await client.PostAsJsonAsync("api/v1/Category", createCategoryDTO);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
     }
@@ -45,14 +40,14 @@ public class CategoryTest
     {
         //prepare
         await client.Authenticate();
-        CreateCategoryDTO createCategoryDTO = new()
+        CreateCategoryCommand createCategoryDTO = new()
         {
-            LanguageID = new Guid(DefaultDBValues.DefaultLanguageID),
+            Language = Language.English,
             Name = Faker.Name.FullName()
         };
-        CreateCategoryDTO createCategoryDTO2 = new()
+        CreateCategoryCommand createCategoryDTO2 = new()
         {
-            LanguageID = new Guid(DefaultDBValues.DefaultLanguageID),
+            Language = Language.English,
             Name = createCategoryDTO.Name
         };
         //execute
@@ -61,19 +56,5 @@ public class CategoryTest
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
-    [Fact]
-    public async Task AddCategory_LanguageDoesntExist_ShouldReturnHttpBadRequest()
-    {
-        //prepare
-        await client.Authenticate();
-        CreateCategoryDTO createCategoryDTO = new()
-        {
-            LanguageID = new Guid(),
-            Name = Faker.Name.FullName()
-        };
-        //execute
-        var result = await client.PostAsJsonAsync("api/v1/Category", createCategoryDTO);       
-        //validate
-        Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
-    }
+
 }

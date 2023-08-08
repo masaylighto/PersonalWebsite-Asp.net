@@ -1,7 +1,7 @@
 ﻿
 namespace TheWayToGerman.Core.Exceptions;
 
-public class DataNotFoundException:Exception
+public class DataNotFoundException : Exception
 {
     public DataNotFoundException() : base()
     {
