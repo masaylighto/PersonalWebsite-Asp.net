@@ -1,18 +1,14 @@
-﻿
-using Bogus;
-using Core.DataKit.MockWrapper;
-using Mapster;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using TheWayToGerman.Api.DTO.Login;
-using TheWayToGerman.Api.DTO.Owner;
-using TheWayToGerman.Api.ResponseObject.Login;
+using TheWayToGerman.Core.Cqrs.Commands;
+using TheWayToGerman.Core.Cqrs.Queries;
 using TheWayToGerman.Core.Database;
+using TheWayToGerman.Logic.Authentication;
 
 namespace IntegrationTest;
 
@@ -47,7 +43,7 @@ public static class WebApplicationBuilder
     public static async Task Authenticate(this HttpClient httpClient, string username = "masaylighto", string password = "8PS33gotf24a")
     {
         await httpClient.AddFirstOwner();
-        var dto = new AuthenticateDTO() { Username = username, Password = password };
+        var dto = new AuthenticationQuery() { Username = username, Password = password };
         var request = JsonConvert.SerializeObject(dto);
 
 
@@ -57,7 +53,11 @@ public static class WebApplicationBuilder
 
         try
         {
-            var json = JsonConvert.DeserializeObject<AuthenticateResponse>(response);
+            var json = JsonConvert.DeserializeObject<AuthToken>(response);
+            if (json is null)
+            {
+                throw new Exception($" failed to parse authentication request's response");
+            }
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", json.JwtToken);
         }
         catch (Exception ex)
@@ -66,13 +66,13 @@ public static class WebApplicationBuilder
         }
 
     }
-    public static async Task AddFirstOwner(this HttpClient httpClient, string Username= "masaylighto",string Password = "8PS33gotf24a")
+    public static async Task AddFirstOwner(this HttpClient httpClient, string Username = "masaylighto", string Password = "8PS33gotf24a")
     {
         //prepare
-        CreateFirstOwnerDTO createfirstOwnerDTO = new()
+        CreateFirstOwnerCommand createfirstOwnerDTO = new()
         {
             Email = "masaylighto@gmail.com",
-            Name  = "mohammed",
+            Name = "mohammed",
             Password = Password,
             Username = Username,
         };
@@ -99,6 +99,13 @@ public static class WebApplicationBuilder
             Method = method
         };
         requestMessage.Headers.Authorization = httpClient.DefaultRequestHeaders.Authorization; // this fake client act very wired 
-        return await (await httpClient.SendAsync(url,content,method)).Content.ReadFromJsonAsync<T>();
+        var response = await httpClient.SendAsync(url, content, method);
+        if (response is null)
+        {
+            throw new Exception("failed to send request");
+
+        }
+
+        return await response.Content.ReadFromJsonAsync<T>() ?? throw new Exception("failed to read request response");
     }
 }

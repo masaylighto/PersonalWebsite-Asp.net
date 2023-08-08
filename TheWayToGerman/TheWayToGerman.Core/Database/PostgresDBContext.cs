@@ -1,12 +1,7 @@
-﻿
-
-using Core.DataKit.MockWrapper;
-using Core.Expressions;
+﻿using Core.Expressions;
 using Core.LinqExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Extensions.Options;
 using System.Linq.Expressions;
 using TheWayToGerman.Core.Entities;
 
@@ -20,13 +15,13 @@ public class PostgresDBContext : DbContext
         ChangeTracker.DeleteOrphansTiming = CascadeTiming.OnSaveChanges;
     }
     public DbSet<User> Users { get; set; }
-    public DbSet<Language> Languages { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<Article> Articles { get; set; }
 
     /*-----------------------------Configuration--------------------------------*/
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new LanguageTableConfiguration());
+
         Expression<Func<BaseEntity, bool>> SoftDelete = X => X.DeleteDate == null;
         var entites = modelBuilder.Model.GetEntityTypes().Where(x => x.ClrType.IsAssignableTo(typeof(BaseEntity)));
         foreach (var entityType in entites)
@@ -34,7 +29,7 @@ public class PostgresDBContext : DbContext
             // modify expression to handle correct child type               
             var rebinded = SoftDelete.RebindBodyParamFrom(entityType.ClrType).BodyToLambda();
             entityType.SetQueryFilter(rebinded);
-          
+
         }
         base.OnModelCreating(modelBuilder);
     }
@@ -66,7 +61,7 @@ public class PostgresDBContext : DbContext
             {
                 entity.State = EntityState.Modified;
                 ((BaseEntity)entity.Entity).DeleteDate = DateTime.UtcNow;
-            });  
+            });
     }
 
 }

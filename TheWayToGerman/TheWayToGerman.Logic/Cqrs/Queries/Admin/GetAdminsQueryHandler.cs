@@ -4,7 +4,6 @@ using Core.Expressions;
 using FluentValidation;
 using Mapster;
 using System.Linq.Expressions;
-using TheWayToGerman.Core.Cqrs.Commands;
 using TheWayToGerman.Core.Cqrs.Queries;
 using TheWayToGerman.Core.Entities;
 using TheWayToGerman.Core.Enums;
@@ -20,22 +19,23 @@ public class GetAdminsQueryHandler : QueryHandler<GetAdminsQuery, IEnumerable<Ge
     {
         public CommandValidator()
         {
-            RuleFor(x => x.PageNumber).GreaterThanOrEqualTo(1);
+            RuleFor(x => x.PageNumber).GreaterThanOrEqualTo(0);
             RuleFor(x => x.PageSize).GreaterThanOrEqualTo(1).LessThanOrEqualTo(20);
         }
     }
     public GetAdminsQueryHandler(IUnitOfWork unitOfWork)
-    {       
+    {
+        Validator = new CommandValidator();
         UnitOfWork = unitOfWork;
     }
 
-    protected override async Task<Result<IEnumerable<GetAdminsQueryResponse>>> Fetch(GetAdminsQuery request, CancellationToken cancellationToken)
+    protected override Result<IEnumerable<GetAdminsQueryResponse>> Fetch(GetAdminsQuery request, CancellationToken cancellationToken)
     {
         Expression<Func<User, bool>> filter = (User user) => user.UserType == UserType.Admin;
         if (request.Name is not null)
         {
             filter = filter.And(User => User.Name.Contains(request.Name, StringComparison.InvariantCultureIgnoreCase));
         }
-        return await UnitOfWork.UserRespository.GetUsersAsync(filter,(user)=> user.Adapt<GetAdminsQueryResponse>(), request.PageSize, request.PageNumber);
+        return UnitOfWork.UserRespository.GetUsers(filter, (user) => user.Adapt<GetAdminsQueryResponse>(), request.PageSize, request.PageNumber);
     }
 }

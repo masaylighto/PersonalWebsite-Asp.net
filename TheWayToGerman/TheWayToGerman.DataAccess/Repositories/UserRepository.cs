@@ -3,10 +3,9 @@ using Core.DataKit;
 using Core.DataKit.Exceptions;
 using Core.DataKit.MockWrapper;
 using Core.DataKit.Result;
-using Core.Expressions;
+using Core.LinqExtensions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 using TheWayToGerman.Core.Database;
 using TheWayToGerman.Core.Entities;
 using TheWayToGerman.Core.Exceptions;
@@ -28,11 +27,11 @@ public class UserRepository : IUserRepository
         Log = log;
     }
 
-    public async Task<Result<User>> GetUserAsync(Func<User, bool> Where)
+    public async Task<Result<User>> GetUserAsync(Func<User, bool> predictate)
     {
         try
         {
-            var result = PostgresDBContext.Users.FirstOrDefault(Where);
+            var result = PostgresDBContext.Users.AsEnumerable().FirstOrDefault(predictate);
             if (result is null)
             {
                 return new DataNotFoundException("Sorry. Couldn't find user with the provided information.");
@@ -47,7 +46,7 @@ public class UserRepository : IUserRepository
     }
 
     public async Task<Result<Guid>> AddUserAsync(User user)
-    {     
+    {
         try
         {
             if (user.IsPasswordNullOrEmpty())
@@ -72,11 +71,11 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public async Task<Result<OK>> UpdateUserAsync(User user, Func<User, bool> Which)
-    {  
+    public async Task<Result<OK>> UpdateUserAsync(User user, Func<User, bool> predictate)
+    {
         try
         {
-            var oldEntity = PostgresDBContext.Users.SingleOrDefault(Which);
+            var oldEntity = PostgresDBContext.Users.SingleOrDefault(predictate);
             if (oldEntity is null)
             {
                 return new NullValueException("Updating User Error: Can't retrieve old user information from db");
@@ -95,16 +94,16 @@ public class UserRepository : IUserRepository
         catch (Exception ex)
         {
             Log.Error(ex);
-            return new InternalErrorException(ex,"Error on our side : failed to Update User info");
+            return new InternalErrorException(ex, "Error on our side : failed to Update User info");
         }
     }
 
-    public async Task<Result<IEnumerable<T>>> GetUsersAsync<T>(Expression<Func<User, bool>> Where, Func<User, T> select, int pageSize, int pageNumber)
+    public Result<IEnumerable<T>> GetUsers<T>(Expression<Func<User, bool>> predictate, Func<User, T> selector, int pageSize, int pageNumber)
     {
         try
         {
-          
-            var result = PostgresDBContext.Users.AsEnumerable().Where(Where.Compile()).Skip((pageNumber-1)*pageSize).Take(pageSize).Select(select);
+
+            var result = PostgresDBContext.Users.AsEnumerable().Where(predictate.Compile()).Page(pageSize, pageNumber).Select(selector);
             return Result<IEnumerable<T>>.From(result);
         }
         catch (Exception ex)
@@ -115,7 +114,7 @@ public class UserRepository : IUserRepository
     }
 
     public async Task<Result<OK>> DeleteAdminById(Guid Id)
-    {       
+    {
         try
         {
             var user = await PostgresDBContext.Users.FirstOrDefaultAsync(x => x.Id == Id && x.UserType == Core.Enums.UserType.Admin);
@@ -133,11 +132,11 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public async Task<Result<OK>> IsUserExistAsync(Func<User, bool> Where)
-    {       
+    public async Task<Result<OK>> IsUserExistAsync(Expression<Func<User, bool>> predictate)
+    {
         try
         {
-            if (PostgresDBContext.Users.Any(Where))
+            if (await PostgresDBContext.Users.AnyAsync(predictate))
             {
                 return new OK();
             }
@@ -146,7 +145,7 @@ public class UserRepository : IUserRepository
         catch (Exception ex)
         {
             Log.Error(ex);
-            return new InternalErrorException(ex,"Error on our side : Failed To check if user exist");
+            return new InternalErrorException(ex, "Error on our side : Failed To check if user exist");
         }
     }
 }

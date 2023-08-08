@@ -1,10 +1,7 @@
-﻿
-
+﻿#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 using Bogus;
 using System.Net.Http.Json;
-using TheWayToGerman.Api.DTO;
-using TheWayToGerman.Api.DTO.Admin;
-using TheWayToGerman.Api.ResponseObject.Admin;
+using TheWayToGerman.Core.Cqrs.Commands.Admin;
 using TheWayToGerman.Core.Cqrs.Queries;
 
 namespace IntegrationTest.Endpoints;
@@ -24,7 +21,7 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -32,17 +29,17 @@ public class AdminTest
             Username = Faker.Internet.UserName(),
 
         };
-        UpdateAdminDTO UpdateAdminDTO = new()
+        UpdateAdminCommand UpdateAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Person.FirstName,
             Password = Faker.Internet.Password(8),
             Username = Faker.Internet.UserName(),
         };
-        await client.PostAsJsonAsync("api/v1/Admin", createAdminDTO);
-        await client.Authenticate(createAdminDTO.Username, createAdminDTO.Password);
+        await client.PostAsJsonAsync("api/v1/Admin", createAdminCommand);
+        await client.Authenticate(createAdminCommand.Username, createAdminCommand.Password);
         //execute
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminDTO), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminCommand), HttpMethod.Put);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
     }
@@ -55,14 +52,14 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
             Password = Faker.Internet.Password(8),
             Username = Faker.Internet.UserName(),
         };
-        CreateAdminDTO createAdminDTO2 = new()
+        CreateAdminCommand createAdminCommand2 = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -70,19 +67,19 @@ public class AdminTest
             Username = Faker.Internet.UserName(),
 
         };
-        UpdateAdminDTO UpdateAdminDTO = new()
+        UpdateAdminCommand UpdateAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Person.FirstName,
             Password = Faker.Internet.Password(8),
-            Username = createAdminDTO.Username,
+            Username = createAdminCommand.Username,
         };
-        await client.PostAsJsonAsync("api/v1/Admin", createAdminDTO);
-        await client.PostAsJsonAsync("api/v1/Admin", createAdminDTO2);
-        await client.Authenticate(createAdminDTO2.Username, createAdminDTO2.Password);
+        await client.PostAsJsonAsync("api/v1/Admin", createAdminCommand);
+        await client.PostAsJsonAsync("api/v1/Admin", createAdminCommand2);
+        await client.Authenticate(createAdminCommand2.Username, createAdminCommand2.Password);
 
         //execute
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminDTO), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminCommand), HttpMethod.Put);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -91,14 +88,14 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
             Password = Faker.Internet.Password(8),
             Username = Faker.Internet.UserName(),
         };
-        CreateAdminDTO createAdminDTO2 = new()
+        CreateAdminCommand createAdminCommand2 = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -106,19 +103,19 @@ public class AdminTest
             Username = Faker.Internet.UserName(),
 
         };
-        UpdateAdminDTO UpdateAdminDTO = new()
+        UpdateAdminCommand UpdateAdminCommand = new()
         {
-            Email = createAdminDTO.Email,
+            Email = createAdminCommand.Email,
             Name = Faker.Person.FirstName,
             Password = Faker.Internet.Password(8),
             Username = Faker.Internet.UserName(),
         };
-        await client.PostAsJsonAsync("api/v1/Admin", createAdminDTO);
-        await client.PostAsJsonAsync("api/v1/Admin", createAdminDTO2);
-        await client.Authenticate(createAdminDTO2.Username, createAdminDTO2.Password);
+        await client.PostAsJsonAsync("api/v1/Admin", createAdminCommand);
+        await client.PostAsJsonAsync("api/v1/Admin", createAdminCommand2);
+        await client.Authenticate(createAdminCommand2.Username, createAdminCommand2.Password);
 
         //execute
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminDTO), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminCommand), HttpMethod.Put);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -128,25 +125,25 @@ public class AdminTest
 
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
             Password = Faker.Internet.Password(8),
             Username = Faker.Internet.UserName(),
         };
-        UpdateAdminDTO UpdateAdminDTO = new()
+        UpdateAdminCommand UpdateAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Person.FirstName,
             Password = Faker.Internet.Password(7),
             Username = Faker.Internet.UserName(),
         };
-        await client.PostAsJsonAsync("api/v1/Admin", createAdminDTO);
-        await client.Authenticate(createAdminDTO.Username, createAdminDTO.Password);
+        await client.PostAsJsonAsync("api/v1/Admin", createAdminCommand);
+        await client.Authenticate(createAdminCommand.Username, createAdminCommand.Password);
 
         //execute
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminDTO), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminCommand), HttpMethod.Put);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -156,25 +153,25 @@ public class AdminTest
 
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
             Password = Faker.Internet.Password(8),
             Username = Faker.Internet.UserName(),
         };
-        UpdateAdminDTO UpdateAdminDTO = new()
+        UpdateAdminCommand UpdateAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Person.FirstName,
             Password = Faker.Internet.Password(7),
             Username = null,
         };
-        await client.PostAsJsonAsync("api/v1/Admin", createAdminDTO);
-        await client.Authenticate(createAdminDTO.Username, createAdminDTO.Password);
+        await client.PostAsJsonAsync("api/v1/Admin", createAdminCommand);
+        await client.Authenticate(createAdminCommand.Username, createAdminCommand.Password);
 
         //execute
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminDTO), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminCommand), HttpMethod.Put);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -183,25 +180,25 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
             Password = Faker.Internet.Password(8),
             Username = Faker.Internet.UserName(),
         };
-        UpdateAdminDTO UpdateAdminDTO = new()
+        UpdateAdminCommand UpdateAdminCommand = new()
         {
             Email = null,
             Name = Faker.Person.FirstName,
             Password = Faker.Internet.Password(7),
             Username = Faker.Internet.UserName(),
         };
-        await client.PostAsJsonAsync("api/v1/Admin", createAdminDTO);
-        await client.Authenticate(createAdminDTO.Username, createAdminDTO.Password);
+        await client.PostAsJsonAsync("api/v1/Admin", createAdminCommand);
+        await client.Authenticate(createAdminCommand.Username, createAdminCommand.Password);
 
         //execute
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminDTO), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminCommand), HttpMethod.Put);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -210,25 +207,25 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
             Password = Faker.Internet.Password(8),
             Username = Faker.Internet.UserName(),
         };
-        UpdateAdminDTO UpdateAdminDTO = new()
+        UpdateAdminCommand UpdateAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = null,
             Password = Faker.Internet.Password(7),
             Username = Faker.Internet.UserName(),
         };
-        await client.PostAsJsonAsync("api/v1/Admin", createAdminDTO);
-        await client.Authenticate(createAdminDTO.Username, createAdminDTO.Password);
+        await client.PostAsJsonAsync("api/v1/Admin", createAdminCommand);
+        await client.Authenticate(createAdminCommand.Username, createAdminCommand.Password);
 
         //execute
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminDTO), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminCommand), HttpMethod.Put);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -237,25 +234,25 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
             Password = Faker.Internet.Password(8),
             Username = Faker.Internet.UserName(),
         };
-        UpdateAdminDTO UpdateAdminDTO = new()
+        UpdateAdminCommand UpdateAdminCommand = new()
         {
-            Email = createAdminDTO.Email,
-            Name = createAdminDTO.Name,
-            Password = createAdminDTO.Password,
-            Username = createAdminDTO.Username,
+            Email = createAdminCommand.Email,
+            Name = createAdminCommand.Name,
+            Password = createAdminCommand.Password,
+            Username = createAdminCommand.Username,
         };
-        await client.PostAsJsonAsync("api/v1/Admin", createAdminDTO);
-        await client.Authenticate(createAdminDTO.Username, createAdminDTO.Password);
+        await client.PostAsJsonAsync("api/v1/Admin", createAdminCommand);
+        await client.Authenticate(createAdminCommand.Username, createAdminCommand.Password);
 
         //execute
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminDTO), HttpMethod.Put);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(UpdateAdminCommand), HttpMethod.Put);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -265,7 +262,7 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -273,12 +270,12 @@ public class AdminTest
             Username = Faker.Internet.UserName(),
 
         };
-        GetAdminsDTO GetAdminDTO = new()
+        GetAdminsQuery GetAdminCommand = new()
         {
             Name = "SomeRandomName",
         };
-        await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(GetAdminDTO), HttpMethod.Get);
+        await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminCommand), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(GetAdminCommand), HttpMethod.Get);
         //execute
         //validate
         Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
@@ -291,7 +288,7 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = "SomeSpecificName",
@@ -299,41 +296,41 @@ public class AdminTest
             Username = Faker.Internet.UserName(),
 
         };
-        GetAdminsDTO GetAdminDTO = new()
+        GetAdminsQuery GetAdminCommand = new()
         {
             Name = "SomeSpecificName",
         };
-        await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(GetAdminDTO), HttpMethod.Get);
+        await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminCommand), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(GetAdminCommand), HttpMethod.Get);
         //execute
         //validate
         Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
         var userlist = await result.Content.ReadFromJsonAsync<IEnumerable<GetAdminsQueryResponse>>();
         Assert.NotNull(userlist);
-        Assert.Contains(userlist, x => x.Email == createAdminDTO.Email);
-        Assert.Contains(userlist, x => x.Name == createAdminDTO.Name);
-        Assert.Contains(userlist, x => x.Username == createAdminDTO.Username);
+        Assert.Contains(userlist, x => x.Email == createAdminCommand.Email);
+        Assert.Contains(userlist, x => x.Name == createAdminCommand.Name);
+        Assert.Contains(userlist, x => x.Username == createAdminCommand.Username);
     }
     [Fact]
     public async Task DeleteAdmin_ExistingAdmin_ShouldReturnHttpNoContent()
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = "SomeSpecificName",
             Password = Faker.Internet.Password(8),
             Username = Faker.Internet.UserName(),
         };
-        var createAdminResult=await client.SendAsync<CreateAdminResponse>("api/v1/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post); //create an admin    
-        DeleteAdminDTO DeleteAdminDTO = new()
+        var createAdminResult = await client.SendAsync<CreateAdminCommandResponse>("api/v1/Admin", Helper.CreateJsonContent(createAdminCommand), HttpMethod.Post); //create an admin    
+        DeleteAdminCommand DeleteAdminCommand = new()
         {
             Id = createAdminResult.Id
         };
 
         //execute
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(DeleteAdminDTO), HttpMethod.Delete); //get its information
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(DeleteAdminCommand), HttpMethod.Delete); //get its information
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.NoContent, result.StatusCode);
@@ -344,13 +341,13 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        DeleteAdminDTO DeleteAdminDTO = new()
+        DeleteAdminCommand DeleteAdminCommand = new()
         {
             Id = Guid.NewGuid(),
         };
 
         //execute
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(DeleteAdminDTO), HttpMethod.Delete); //get its information
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(DeleteAdminCommand), HttpMethod.Delete); //get its information
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.NotFound, result.StatusCode);
@@ -361,7 +358,7 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -371,7 +368,7 @@ public class AdminTest
         };
 
         //execute
-        var result = await client.PostAsJsonAsync("api/v1/Admin", createAdminDTO);
+        var result = await client.PostAsJsonAsync("api/v1/Admin", createAdminCommand);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.OK, result.StatusCode);
@@ -383,7 +380,7 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -391,19 +388,19 @@ public class AdminTest
             Username = Faker.Internet.UserName(),
 
         };
-        CreateAdminDTO createAdminDTO2 = new()
+        CreateAdminCommand createAdminCommand2 = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
             Password = Faker.Internet.Password(8),
-            Username = createAdminDTO.Username,
+            Username = createAdminCommand.Username,
 
         };
 
         //execute
-        await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminCommand), HttpMethod.Post);
 
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminDTO2), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminCommand2), HttpMethod.Post);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -412,7 +409,7 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -420,9 +417,9 @@ public class AdminTest
             Username = Faker.Internet.UserName(),
 
         };
-        CreateAdminDTO createAdminDTO2 = new()
+        CreateAdminCommand createAdminCommand2 = new()
         {
-            Email = createAdminDTO.Email,
+            Email = createAdminCommand.Email,
             Name = Faker.Name.FullName(),
             Password = Faker.Internet.Password(8),
             Username = Faker.Internet.UserName(),
@@ -430,9 +427,9 @@ public class AdminTest
         };
 
         //execute
-        await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminCommand), HttpMethod.Post);
 
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminDTO2), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminCommand2), HttpMethod.Post);
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -441,7 +438,7 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -451,7 +448,7 @@ public class AdminTest
         };
 
         //execute
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminCommand), HttpMethod.Post);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
@@ -461,7 +458,7 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -471,7 +468,7 @@ public class AdminTest
         };
 
         //execute
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminCommand), HttpMethod.Post);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
@@ -481,7 +478,7 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = null,
             Name = Faker.Name.FullName(),
@@ -491,7 +488,7 @@ public class AdminTest
         };
 
         //execute
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminCommand), HttpMethod.Post);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
@@ -501,7 +498,7 @@ public class AdminTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO createAdminDTO = new()
+        CreateAdminCommand createAdminCommand = new()
         {
             Email = Faker.Internet.Email(),
             Name = null,
@@ -511,7 +508,7 @@ public class AdminTest
         };
 
         //execute
-        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminDTO), HttpMethod.Post);
+        var result = await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(createAdminCommand), HttpMethod.Post);
 
         //validate
         Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);

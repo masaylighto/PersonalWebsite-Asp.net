@@ -1,5 +1,4 @@
 ﻿using Core.Cqrs.Requests;
-using TheWayToGerman.Core.Entities;
 
 namespace TheWayToGerman.Core.Cqrs.Queries;
 

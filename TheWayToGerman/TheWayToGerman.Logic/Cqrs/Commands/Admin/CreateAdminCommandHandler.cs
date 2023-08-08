@@ -1,14 +1,10 @@
 ﻿using Core.Cqrs.Handlers;
-using Core.DataKit;
 using Core.DataKit.Result;
-using Core.Expressions;
 using FluentValidation;
 using Mapster;
-using System.Linq.Expressions;
 using TheWayToGerman.Core.Cqrs.Commands.Admin;
 using TheWayToGerman.Core.Cqrs.Queries;
 using TheWayToGerman.Core.Entities;
-using TheWayToGerman.Core.Exceptions;
 using TheWayToGerman.DataAccess.Interfaces;
 
 namespace TheWayToGerman.Logic.Cqrs.Commands.Admin;

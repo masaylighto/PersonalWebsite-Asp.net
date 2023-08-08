@@ -38,7 +38,7 @@ public static class ExpressionsExtensions
         return Expression.Lambda(exp.Body, exp.Parameter);
     }
 
-    public static Expression<Func<ParmT, ReturnT>> ToExpression<ParmT, ReturnT>(this Func<ParmT,ReturnT> func)
+    public static Expression<Func<ParmT, ReturnT>> ToExpression<ParmT, ReturnT>(this Func<ParmT, ReturnT> func)
     {
         return x => func(x);
     }

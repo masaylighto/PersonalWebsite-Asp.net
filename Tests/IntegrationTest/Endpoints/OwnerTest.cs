@@ -1,13 +1,8 @@
-﻿
-
+﻿#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 using Bogus;
 using System.Net.Http.Json;
-using TheWayToGerman.Api.DTO;
-using TheWayToGerman.Api.DTO.Admin;
-using TheWayToGerman.Api.DTO.Owner;
-using TheWayToGerman.Api.ResponseObject.Admin;
-using TheWayToGerman.Core.Cqrs.Queries;
-using TheWayToGerman.Core.Entities;
+using TheWayToGerman.Core.Cqrs.Commands;
+using TheWayToGerman.Core.Cqrs.Commands.Admin;
 
 namespace IntegrationTest.Endpoints;
 public class OwnerTest
@@ -26,7 +21,7 @@ public class OwnerTest
     {
         //prepare
         await client.Authenticate();
-        UpdateUserInformationDTO updateUserInformationDTO = new()
+        UpdateOwnerInformationCommand updateUserInformationDTO = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Person.FirstName,
@@ -49,7 +44,7 @@ public class OwnerTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO CreateAdminDto = new()
+        CreateAdminCommand CreateAdminDto = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -57,7 +52,7 @@ public class OwnerTest
             Username = Faker.Internet.UserName(),
 
         };
-        UpdateUserInformationDTO updateUserInformationDTO2 = new()
+        UpdateOwnerInformationCommand updateUserInformationDTO2 = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -78,7 +73,7 @@ public class OwnerTest
     {
         //prepare
         await client.Authenticate();
-        CreateAdminDTO CreateAdminDTO = new()
+        CreateAdminCommand CreateAdminDTO = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -86,7 +81,7 @@ public class OwnerTest
             Username = Faker.Internet.UserName(),
 
         };
-        UpdateUserInformationDTO updateUserInformationDTO = new()
+        UpdateOwnerInformationCommand updateUserInformationDTO = new()
         {
             Email = CreateAdminDTO.Email,
             Name = Faker.Name.FullName(),
@@ -107,7 +102,7 @@ public class OwnerTest
     {
         //prepare
         await client.Authenticate();
-        UpdateUserInformationDTO updateUserInformationDTO = new()
+        UpdateOwnerInformationCommand updateUserInformationDTO = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -127,7 +122,8 @@ public class OwnerTest
     {
         //prepare
         await client.Authenticate();
-        UpdateUserInformationDTO updateUserInformationDTO = new()
+
+        UpdateOwnerInformationCommand updateUserInformationDTO = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -147,7 +143,7 @@ public class OwnerTest
     {
         //prepare
         await client.Authenticate();
-        UpdateUserInformationDTO updateUserInformationDTO = new()
+        UpdateOwnerInformationCommand updateUserInformationDTO = new()
         {
             Email = null,
             Name = Faker.Name.FullName(),
@@ -167,7 +163,7 @@ public class OwnerTest
     {
         //prepare
         await client.Authenticate();
-        UpdateUserInformationDTO updateUserInformationDTO = new()
+        UpdateOwnerInformationCommand updateUserInformationDTO = new()
         {
             Email = Faker.Internet.Email(),
             Name = null,
@@ -187,7 +183,7 @@ public class OwnerTest
     {
         //prepare
         await client.Authenticate();
-        UpdateUserInformationDTO updateUserInformationDTO = new()
+        UpdateOwnerInformationCommand updateUserInformationDTO = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Person.FirstName,
@@ -205,11 +201,11 @@ public class OwnerTest
 
 
 
-
+    [Fact]
     public async Task AddOwner_UniqueValues_ShouldReturnHttpOK()
     {
         //prepare
-        CreateFirstOwnerDTO DTO = new()
+        CreateFirstOwnerCommand DTO = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -229,7 +225,7 @@ public class OwnerTest
     public async Task AddOwner_OwnerAlreadyExist_ShouldReturnHttpBadRequest()
     {
         //prepare
-        CreateFirstOwnerDTO createOwnerDTO = new()
+        CreateFirstOwnerCommand createOwnerDTO = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -237,7 +233,7 @@ public class OwnerTest
             Username = Faker.Internet.UserName(),
 
         };
-        CreateFirstOwnerDTO createOwnerDTO2 = new()
+        CreateFirstOwnerCommand createOwnerDTO2 = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -257,7 +253,7 @@ public class OwnerTest
     public async Task AddOwner_PasswordLessThan8Char_ShouldReturnHttpBadRequest()
     {
         //prepare
-        CreateAdminDTO createOwnerDTO = new()
+        CreateAdminCommand createOwnerDTO = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -276,7 +272,7 @@ public class OwnerTest
     public async Task AddOwner_UsernameIsNull_ShouldReturnHttpBadRequest()
     {
         //prepare
-        CreateFirstOwnerDTO createfirstOwnerDTO = new()
+        CreateFirstOwnerCommand createfirstOwnerDTO = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),
@@ -295,7 +291,7 @@ public class OwnerTest
     public async Task AddOwner_EmailIsNull_ShouldReturnHttpBadRequest()
     {
         //prepare      
-        CreateFirstOwnerDTO createFirstOwnerDTO = new()
+        CreateFirstOwnerCommand createFirstOwnerDTO = new()
         {
             Email = null,
             Name = Faker.Name.FullName(),
@@ -314,7 +310,7 @@ public class OwnerTest
     public async Task AddOwner_NameIsNull_ShouldReturnHttpBadRequest()
     {
         //prepare
-        CreateFirstOwnerDTO createFirstOwnerDTO = new()
+        CreateFirstOwnerCommand createFirstOwnerDTO = new()
         {
             Email = Faker.Internet.Email(),
             Name = null,

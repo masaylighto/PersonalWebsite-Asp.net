@@ -3,10 +3,8 @@
 using Core.Cqrs.Handlers;
 using Core.DataKit;
 using Core.DataKit.Result;
-using Core.Expressions;
 using FluentValidation;
 using Mapster;
-using System.Linq.Expressions;
 using TheWayToGerman.Core.Cqrs.Commands;
 using TheWayToGerman.Core.Entities;
 using TheWayToGerman.Core.Enums;
@@ -37,7 +35,7 @@ public class CreateFirstOwnerCommandHandler : CommandHandler<CreateFirstOwnerCom
     }
     protected override async Task<Result<OK>> Execute(CreateFirstOwnerCommand request, CancellationToken cancellationToken)
     {
-        var result = await UnitOfWork.UserRespository.IsUserExistAsync(x=> x.UserType == UserType.Owner);
+        var result = await UnitOfWork.UserRespository.IsUserExistAsync(x => x.UserType == UserType.Owner);
         if (result.IsDataType<OK>())
         {
             return new UniqueFieldException("there should be only one owner to the system");
@@ -55,6 +53,6 @@ public class CreateFirstOwnerCommandHandler : CommandHandler<CreateFirstOwnerCom
             return addResult.GetError();
         }
         var saveResult = await UnitOfWork.SaveAsync();
-        return saveResult;       
+        return saveResult;
     }
 }

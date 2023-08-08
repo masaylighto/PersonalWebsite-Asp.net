@@ -24,4 +24,5 @@ public abstract class BaseHandler<Request, Response> : IRequestHandler<Request, 
         }
         return await Execute(request, cancellationToken);
     }
+
 }

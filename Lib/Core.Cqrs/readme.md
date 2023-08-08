@@ -48,4 +48,12 @@ This library use MediatR and offer a class to implement Cqrs Design Pattern
           public string? Name { get; set; }
       }
       ```
-  
+  3. QueryHandlerAsync: implement BaseHandler to use 
+    - Inhert it from your Queryhandler class and override the Fetch method to contain your code
+    - any class that inhert from Queryhandler only accept input that of type IQuery<Data>. the class will then return its result as Result<Data>
+     ```csharp 
+      public class GetAdminQuery : IQuery<Guid>
+      {
+          public string? Name { get; set; }
+      }
+      ```

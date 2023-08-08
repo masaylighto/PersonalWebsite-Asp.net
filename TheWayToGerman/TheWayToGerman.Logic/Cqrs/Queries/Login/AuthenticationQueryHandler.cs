@@ -7,9 +7,9 @@ using TheWayToGerman.DataAccess.Interfaces;
 
 namespace TheWayToGerman.Logic.Cqrs.Queries;
 
-public class GetUserToAuthQueryHandler : QueryHandler<GetUserToAuthQuery, User>
+public class AuthenticationQueryHandler : QueryHandlerAsync<AuthenticationQuery, User>
 {
-    class CommandValidator : AbstractValidator<GetUserToAuthQuery>
+    class CommandValidator : AbstractValidator<AuthenticationQuery>
     {
         public CommandValidator()
         {
@@ -18,13 +18,13 @@ public class GetUserToAuthQueryHandler : QueryHandler<GetUserToAuthQuery, User>
         }
     }
     public IUnitOfWork UnitOfWork { get; }
-    public GetUserToAuthQueryHandler(IUnitOfWork unitOfWork)
+    public AuthenticationQueryHandler(IUnitOfWork unitOfWork)
     {
         Validator = new CommandValidator();
         UnitOfWork = unitOfWork;
     }
 
-    protected override async Task<Result<User>> Fetch(GetUserToAuthQuery request, CancellationToken cancellationToken)
+    protected override async Task<Result<User>> Fetch(AuthenticationQuery request, CancellationToken cancellationToken)
     {
         return await UnitOfWork.UserRespository.GetUserAsync(x => x.Username == request.Username && x.IsPasswordEqual(request.Password));
     }

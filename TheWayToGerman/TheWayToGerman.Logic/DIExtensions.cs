@@ -1,18 +1,18 @@
 ﻿using Core.Cqrs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
+using System.Threading.RateLimiting;
+using TheWayToGerman.Core.Configuration;
 using TheWayToGerman.Core.Enums;
 using TheWayToGerman.Core.Exceptions;
 using TheWayToGerman.Core.Helpers;
 using TheWayToGerman.Logic.Authentication;
-using Microsoft.AspNetCore.RateLimiting;
-using Microsoft.AspNetCore.Builder;
-using System.Threading.RateLimiting;
-using TheWayToGerman.Core.Configuration;
 
 namespace TheWayToGerman.Logic;
 
@@ -67,14 +67,15 @@ public static class DIExtensions
         foreach (var config in configurations)
         {
             services.AddRateLimiter(rate => rate
-            .AddFixedWindowLimiter(policyName: config.PolicyName, options => {
+            .AddFixedWindowLimiter(policyName: config.PolicyName, options =>
+            {
                 options.QueueLimit = config.QueueLimit;
                 options.PermitLimit = config.PermitLimit;
-                options.QueueProcessingOrder =  Enum.Parse<QueueProcessingOrder>(config.QueueProcessingOrder);
-                options.Window = TimeSpan.FromMinutes(config.TimeWindowInMinute);                
+                options.QueueProcessingOrder = Enum.Parse<QueueProcessingOrder>(config.QueueProcessingOrder);
+                options.Window = TimeSpan.FromMinutes(config.TimeWindowInMinute);
             }));
         }
-        
+
     }
 
 

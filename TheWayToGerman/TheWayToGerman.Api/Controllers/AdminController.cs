@@ -1,17 +1,12 @@
-﻿using Mapster;
+﻿
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using TheWayToGerman.Api.DTO.Admin;
-using TheWayToGerman.Api.ResponseObject;
-using TheWayToGerman.Api.ResponseObject.Admin;
 using TheWayToGerman.Core.Cqrs.Commands.Admin;
 using TheWayToGerman.Core.Cqrs.Queries;
 using TheWayToGerman.Core.Exceptions;
 using TheWayToGerman.Core.Helpers;
 using TheWayToGerman.Core.ModelBinders.Models;
-using TheWayToGerman.Core.ParametersBinders;
 
 namespace TheWayToGerman.Api.Controllers;
 
@@ -27,19 +22,18 @@ public class AdminController : ControllerBase
 
     [HttpPut]
     [Authorize(AuthPolicies.AdminPolicy)]
-    public async Task<ActionResult> UpdateSelf([FromBody]UpdateAdminDTO DTO, UserAuthClaim UserAuthClaims)
+    public async Task<ActionResult> UpdateSelf([FromBody] UpdateAdminCommand command, UserAuthClaim UserAuthClaims)
     {
-        var command = DTO.Adapt<UpdateAdminCommand>();
         command.Id = UserAuthClaims.ID;
         var result = await Mediator.Send(command);
-        
+
         if (result.IsInternalError())
         {
             return Problem(result.GetErrorMessage());
         }
         if (result.ContainError())
         {
-            return Problem(result.GetErrorMessage(),statusCode: StatusCodes.Status400BadRequest);
+            return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status400BadRequest);
         }
         return Ok();
     }
@@ -47,11 +41,9 @@ public class AdminController : ControllerBase
 
     [HttpPost]
     [Authorize(AuthPolicies.OwnerPolicy)]
-    public async Task<ActionResult> CreateAdmins([FromBody] CreateAdminDTO DTO)
+    public async Task<ActionResult> CreateAdmins([FromBody] CreateAdminCommand userCommand)
     {
-        var userCommand = DTO.Adapt<CreateAdminCommand>();
         var result = await Mediator.Send(userCommand);
-
         if (result.IsInternalError())
         {
             return Problem(result.GetErrorMessage());
@@ -60,15 +52,13 @@ public class AdminController : ControllerBase
         {
             return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status400BadRequest);
         }
-        return Ok(result.GetData().Adapt<CreateAdminResponse>());
+        return Ok(result.GetData());
     }
     [HttpGet]
     [Authorize(AuthPolicies.OwnerPolicy)]
-    public async Task<ActionResult> GetAdmins(GetAdminsDTO DTO)
+    public async Task<ActionResult> GetAdmins(GetAdminsQuery userCommand)
     {
-        var userCommand = DTO.Adapt<GetAdminsQuery>();
         var result = await Mediator.Send(userCommand);
-
         if (result.IsInternalError())
         {
             return Problem(result.GetErrorMessage());
@@ -77,15 +67,12 @@ public class AdminController : ControllerBase
         {
             return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status400BadRequest);
         }
-
-        var Admins = result.GetData().Select(x => x.Adapt<GetAdminsResponse>());
-        return Ok(Admins);
+        return Ok(result.GetData());
     }
     [HttpDelete]
     [Authorize(AuthPolicies.OwnerPolicy)]
-    public async Task<ActionResult> DeleteAdmin([FromBody] DeleteAdminDTO DTO)
+    public async Task<ActionResult> DeleteAdmin([FromBody] DeleteAdminCommand userCommand)
     {
-        var userCommand = DTO.Adapt<DeleteAdminCommand>();
         var result = await Mediator.Send(userCommand);
 
         if (result.IsInternalError())
