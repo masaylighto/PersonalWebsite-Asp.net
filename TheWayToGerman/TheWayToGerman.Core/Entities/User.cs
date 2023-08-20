@@ -1,5 +1,6 @@
 ﻿using Core.DataKit;
 using Core.DataKit.Result;
+using Core.DataKit.ReturnWrapper;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
@@ -28,7 +29,7 @@ public class User : BaseEntity
 
     }
 
-    public Result<OK> SetPassword(string password)
+    public State SetPassword(string password)
     {
         if (password is null)
         {

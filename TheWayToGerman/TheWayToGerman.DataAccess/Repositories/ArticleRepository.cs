@@ -26,16 +26,7 @@ public class ArticleRepository : IArticleRepository
     public async Task<Result<OK>> AddAsync(Article article)
     {
         try
-        {
-            var isAlreadyExist = await IsExistAsync(x => x.Id == article.Id && x.category.Id == article.category.Id);
-            if (isAlreadyExist.ContainError())
-            {
-                return isAlreadyExist.GetError();
-            }
-            if (isAlreadyExist.GetData())
-            {
-                return new UniqueFieldException("Article already Exist");
-            }
+        {            
             await PostgresDBContext.Articles.AddAsync(article);
             return new OK();
         }

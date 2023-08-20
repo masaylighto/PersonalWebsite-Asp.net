@@ -11,6 +11,7 @@ public static class DIExtensions
     {
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IArticleRepository, ArticleRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }

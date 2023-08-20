@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.51" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
@@ -20,6 +21,10 @@
 	  <ProjectReference Include="..\..\Lib\Core.DataKit\Core.DataKit.csproj" />
 	  <ProjectReference Include="..\..\Lib\Extensions\Core.LinqExtensions\Core.LinqExtensions.csproj" />
 	  <ProjectReference Include="..\..\Lib\Extensions\Expressions\Core.Expressions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Cqrs\Queries\Article\" />
   </ItemGroup>
 
 </Project>

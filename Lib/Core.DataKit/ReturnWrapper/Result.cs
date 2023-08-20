@@ -76,6 +76,13 @@ public class Result<DataType>
         result.SetData(data);
         return result;
     }
+    public static Result<DataType> operator + (Result<DataType> a, Exception b)
+    {
+        return new AggregateException(new Exception[] {
+            a.Error,
+            b
+        });
+    }
 
 }
 public class Result
