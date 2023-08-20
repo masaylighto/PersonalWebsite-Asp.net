@@ -18,6 +18,9 @@ builder.Services.AddRepositories();
 builder.Services.AddMediatR();
 builder.Services.AddJWTAuth(builder.Configuration);
 builder.Services.AddDataTimeProvider();
+builder.Services.AddHtmlHParser();
+builder.Services.AddArticleHandler(builder.Configuration);
+builder.Services.AddLocalStorage(builder.Configuration);
 builder.Services.AddRateLimiters(builder.Configuration);
 builder.Services.AddHealthChecks();
 

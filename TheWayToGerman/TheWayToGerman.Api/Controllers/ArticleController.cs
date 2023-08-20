@@ -1,6 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TheWayToGerman.Core.Cqrs.Commands.Admin;
+using TheWayToGerman.Core.Cqrs.Commands.Article;
+using TheWayToGerman.Core.Cqrs.Queries.Article;
+using TheWayToGerman.Core.Helpers;
+using TheWayToGerman.Core.ModelBinders.Models;
+
 namespace TheWayToGerman.Api.Controllers
 {
     [ApiController]
@@ -13,11 +19,26 @@ namespace TheWayToGerman.Api.Controllers
             Mediator = mediator;
         }
         [HttpPost]
-        // [Authorize(AuthPolicies.OwnerPolicy)]
-        public async Task<ActionResult> CreateArticle([FromBody] CreateAdminCommand DTO)
+        [Authorize(AuthPolicies.AdminsAndOwners)]
+        public async Task<ActionResult> CreateArticle([FromBody] CreateArticleCommand command, UserAuthClaim UserAuthClaims)
         {
-
-            var result = await Mediator.Send(DTO);
+            command.AutherID = UserAuthClaims.ID;
+            var result = await Mediator.Send(command);
+            if (result.IsInternalError())
+            {
+                return Problem(result.GetErrorMessage());
+            }
+            if (result.ContainError())
+            {
+                return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status400BadRequest);
+            }
+            return Ok(result.GetData());
+        }
+        [HttpPut]
+        [Authorize(AuthPolicies.AdminsAndOwners)]
+        public async Task<ActionResult> UpdateArticle([FromBody] UpdateArticleCommand command)
+        {
+            var result = await Mediator.Send(command);
             if (result.IsInternalError())
             {
                 return Problem(result.GetErrorMessage());
@@ -28,11 +49,10 @@ namespace TheWayToGerman.Api.Controllers
             }
             return Ok();
         }
-        /*  [HttpGet]
-         public async Task<ActionResult> GetArticles([FromBody] GetArticlesDTO DTO)
-         {
-             var userCommand = DTO.Adapt<>();
-             var result = await Mediator.Send(userCommand);
+        [HttpGet]
+         public async Task<ActionResult> GetArticles([FromBody] GetArticlesQuery command)
+         {            
+             var result = await Mediator.Send(command);
              if (result.IsInternalError())
              {
                  return Problem(result.GetErrorMessage());
@@ -41,14 +61,13 @@ namespace TheWayToGerman.Api.Controllers
              {
                  return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status400BadRequest);
              }
-             return Ok(result.GetData().Adapt<>());
+             return Ok(result);
          }
          [HttpGet]
          [Route("{id}")]
-         public async Task<ActionResult> GetArticle([FromQuery] GetArticleDTO DTO)
-         {
-             var userCommand = DTO.Adapt<>();
-             var result = await Mediator.Send(userCommand);
+         public async Task<ActionResult> GetArticle([FromQuery] GetArticleQuery command)
+         {        
+             var result = await Mediator.Send(command);
              if (result.IsInternalError())
              {
                  return Problem(result.GetErrorMessage());
@@ -57,7 +76,7 @@ namespace TheWayToGerman.Api.Controllers
              {
                  return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status400BadRequest);
              }
-             return Ok(result.GetData().Adapt<>());
-         }*/
+             return Ok(result);
+         }
     }
 }

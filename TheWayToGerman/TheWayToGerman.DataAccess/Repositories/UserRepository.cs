@@ -27,7 +27,7 @@ public class UserRepository : IUserRepository
         Log = log;
     }
 
-    public async Task<Result<User>> GetUserAsync(Func<User, bool> predictate)
+    public async Task<Result<User>> GetAsync(Func<User, bool> predictate)
     {
         try
         {

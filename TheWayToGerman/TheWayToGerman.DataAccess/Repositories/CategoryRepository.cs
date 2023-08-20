@@ -2,6 +2,7 @@
 using Core.DataKit.Exceptions;
 using Core.DataKit.MockWrapper;
 using Core.DataKit.Result;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using TheWayToGerman.Core.Database;
 using TheWayToGerman.Core.Entities;
@@ -70,6 +71,19 @@ public class CategoryRepository : ICategoryRepository
         try
         {
             return Result.From(PostgresDBContext.Categories.Where(predictate).Select(selector));
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex);
+            return new InternalErrorException("failed to get categories ");
+        }
+    }
+
+    public async Task<Result<Category>> GetAsync(Expression<Func<Category, bool>> predictate)
+    {
+        try
+        {
+            return await PostgresDBContext.Categories.FirstOrDefaultAsync(predictate);
         }
         catch (Exception ex)
         {

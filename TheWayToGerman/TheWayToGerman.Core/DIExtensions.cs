@@ -3,7 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using TheWayToGerman.Core.Configuration;
 using TheWayToGerman.Core.Database;
+using TheWayToGerman.Core.Helpers;
+using TheWayToGerman.Core.Helpers.Interfaces;
 using TheWayToGerman.Core.Loggers;
 
 namespace TheWayToGerman.Core;
@@ -29,6 +32,24 @@ public static class DIExtensions
     public static void AddDataTimeProvider(this IServiceCollection services)
     {
         services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+    }
+    public static void AddHtmlHParser(this IServiceCollection services)
+    {
+        services.AddScoped<HTMLParser>();
+    }
+    public static void AddLocalStorage(this IServiceCollection services, IConfiguration configuration)
+    {
+        var config = configuration.GetSection(nameof(LocalStorageConfiguration)).Get<LocalStorageConfiguration>();
+        if (config is null)
+        {
+            throw new NullReferenceException();
+        }
+        services.AddSingleton(config);
+        services.AddScoped<IStorage,LocalStorage>();
+    }
+    public static void AddArticleHandler(this IServiceCollection services, IConfiguration configuration)
+    {     
+        services.AddScoped<ArticlesHandler>();
     }
     public static void AddSerilog(this IServiceCollection services, IConfiguration configuration)
     {

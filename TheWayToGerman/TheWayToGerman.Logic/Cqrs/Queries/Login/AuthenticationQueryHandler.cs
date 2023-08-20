@@ -26,7 +26,7 @@ public class AuthenticationQueryHandler : QueryHandlerAsync<AuthenticationQuery,
 
     protected override async Task<Result<User>> Fetch(AuthenticationQuery request, CancellationToken cancellationToken)
     {
-        return await UnitOfWork.UserRespository.GetUserAsync(x => x.Username == request.Username && x.IsPasswordEqual(request.Password));
+        return await UnitOfWork.UserRespository.GetAsync(x => x.Username == request.Username && x.IsPasswordEqual(request.Password));
     }
 }
 
