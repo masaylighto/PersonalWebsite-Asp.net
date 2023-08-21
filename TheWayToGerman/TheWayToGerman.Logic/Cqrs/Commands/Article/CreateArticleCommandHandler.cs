@@ -90,7 +90,7 @@ public class CreateArticleCommandHandler : CommandHandler<CreateArticleCommand, 
             Id = ID,
             Auther = autherResult.GetData(),
             Category = categoryResult.GetData(),
-            Images = seperatedImageResult.GetData().ToList(),
+            Images = seperatedImageResult.GetData().Select(x=>new Image { Path = x }).ToList(),
         };
 
         var result = await UnitOfWork.ArticleRepository.AddAsync(article);

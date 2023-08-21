@@ -2,6 +2,7 @@
 using Core.DataKit.Result;
 using Core.Expressions;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using TheWayToGerman.Core.Cqrs.Queries.Category;
 using TheWayToGerman.Core.Cqrs.Responses;
@@ -24,7 +25,7 @@ public class GetCategoriesQueryHandler : QueryHandler<GetCategoriesQuery, IEnume
         Expression<Func<Category, bool>> filter = (Category entity) => true;
         if (request.Name is not null)
         {
-            filter = filter.And(entity => entity.Name.Contains(request.Name, StringComparison.InvariantCultureIgnoreCase));
+            filter = filter.And(entity => EF.Functions.ILike(entity.Name,$"%{request.Name}%"));
         }
         if (request.Language is not null)
         {

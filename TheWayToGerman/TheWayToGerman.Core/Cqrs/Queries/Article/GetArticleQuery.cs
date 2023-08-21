@@ -3,7 +3,9 @@ using TheWayToGerman.Core.Cqrs.Responses;
 
 namespace TheWayToGerman.Core.Cqrs.Queries.Article;
 
-public class GetArticlesQuery :IQuery<GetArticlesQueryResponse>
+public class GetArticlesQuery :IQuery<IEnumerable<GetArticlesQueryResponse>>
 {
-    public Guid ID { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public Guid CategoryID { get; set; }
 }

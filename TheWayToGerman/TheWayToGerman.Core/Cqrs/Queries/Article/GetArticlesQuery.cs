@@ -5,7 +5,6 @@ namespace TheWayToGerman.Core.Cqrs.Queries.Article;
 
 public class GetArticleQuery:IQuery<GetArticleQueryResponse>
 {
-    public string Title { get; set;  }
-    public string Description { get; set; }
-    public IEnumerable<Guid> Categories { get; set; }
+    public Guid ID { get; set; }
+
 }

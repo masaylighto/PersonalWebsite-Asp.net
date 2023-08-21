@@ -103,7 +103,7 @@ public class UserRepository : IUserRepository
         try
         {
 
-            var result = PostgresDBContext.Users.AsEnumerable().Where(predictate.Compile()).Page(pageSize, pageNumber).Select(selector);
+            var result = PostgresDBContext.Users.Where(predictate).Page(pageSize, pageNumber).Select(selector);
             return Result<IEnumerable<T>>.From(result);
         }
         catch (Exception ex)

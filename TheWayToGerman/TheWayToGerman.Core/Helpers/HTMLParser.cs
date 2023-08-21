@@ -28,12 +28,12 @@ public class HTMLParser
         }
        
     }
-    public IEnumerable<Guid> ReplaceImgSrcContent()
+    public IEnumerable<string> ReplaceImgSrcContent()
     {     
         var images = HtmlDoc.DocumentNode.SelectNodes("//img");
         foreach (var img in images)
         {           
-            Guid imageReplacement = Guid.NewGuid();
+            string imageReplacement = Guid.NewGuid().ToString();
             img.SetAttributeValue("src", imageReplacement.ToString());
             yield return imageReplacement;
         }       
