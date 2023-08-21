@@ -46,7 +46,7 @@ public class ArticlesHandler
         return HTMLParser.GetHtml();
    }
    
-   public async Task<Result<IEnumerable<Guid>>> SeparateImage() 
+   public async Task<Result<IEnumerable<string>>> SeparateImage() 
    {
         int proccessedImageIndex = 0;
         var imagesContents = HTMLParser.GetImgSrcContent();

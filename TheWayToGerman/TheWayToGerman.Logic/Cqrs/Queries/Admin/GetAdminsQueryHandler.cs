@@ -3,6 +3,7 @@ using Core.DataKit.Result;
 using Core.Expressions;
 using FluentValidation;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using TheWayToGerman.Core.Cqrs.Queries;
 using TheWayToGerman.Core.Entities;
@@ -34,7 +35,8 @@ public class GetAdminsQueryHandler : QueryHandler<GetAdminsQuery, IEnumerable<Ge
         Expression<Func<User, bool>> filter = (User user) => user.UserType == UserType.Admin;
         if (request.Name is not null)
         {
-            filter = filter.And(User => User.Name.Contains(request.Name, StringComparison.InvariantCultureIgnoreCase));
+            string searchPattern = $"%{request.Name.ToLower()}%";
+            filter = filter.And(User =>  EF.Functions.Like(User.Name.ToLower(), searchPattern));
         }
         return UnitOfWork.UserRespository.GetUsers(filter, (user) => user.Adapt<GetAdminsQueryResponse>(), request.PageSize, request.PageNumber);
     }
