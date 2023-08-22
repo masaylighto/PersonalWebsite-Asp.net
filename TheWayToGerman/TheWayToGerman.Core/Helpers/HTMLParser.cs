@@ -34,17 +34,21 @@ public class HTMLParser
         foreach (var img in images)
         {           
             string imageReplacement = Guid.NewGuid().ToString();
-            img.SetAttributeValue("src", imageReplacement.ToString());
+            img.SetAttributeValue("src", imageReplacement);
             yield return imageReplacement;
         }       
     }
     public IEnumerable<string> GetImgSrcContent()
     {
-        var images = HtmlDoc.DocumentNode.SelectNodes("//img");
-        foreach (var img in images)
+        foreach (var img in GetImages())
         {          
             yield return img.GetAttributeValue("src",null);
         }
+    }
+    public IEnumerable<HtmlNode> GetImages()
+    {
+        return HtmlDoc.DocumentNode.SelectNodes("//img");
+       
     }
     public Result<string> GetHtml()
     {

@@ -69,7 +69,7 @@ public class CreateArticleCommandHandler : CommandHandler<CreateArticleCommand, 
         ArticlesHandler.LoadArticleContent(request.Content);
 
         var seperatedImageResult = await ArticlesHandler.SeparateImage();        
-        if (seperatedImageResult.ContainError())
+        if (seperatedImageResult.IsNotOk())
         {
             Log.Error(seperatedImageResult.GetError());
             return seperatedImageResult.GetError();
@@ -90,7 +90,6 @@ public class CreateArticleCommandHandler : CommandHandler<CreateArticleCommand, 
             Id = ID,
             Auther = autherResult.GetData(),
             Category = categoryResult.GetData(),
-            Images = seperatedImageResult.GetData().Select(x=>new Image { Path = x }).ToList(),
         };
 
         var result = await UnitOfWork.ArticleRepository.AddAsync(article);
@@ -98,7 +97,11 @@ public class CreateArticleCommandHandler : CommandHandler<CreateArticleCommand, 
         {
             return result.GetError();
         }
-
+        var saveResult=await UnitOfWork.SaveAsync();
+        if (saveResult.ContainError())
+        {
+            return saveResult.GetError();
+        }
         return new CreateArticleCommandResponse() { Id = ID };
     }
     

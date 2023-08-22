@@ -34,6 +34,6 @@ public class GetArticlesQueryHandler : QueryHandler<GetArticlesQuery, IEnumerabl
             string serachPattern = $"%{request.Description.ToLower()}%";
             predicate.And(x => EF.Functions.Like(x.Content.ToLower(), serachPattern) || EF.Functions.Like(x.Overview.ToLower(), serachPattern));
         }
-        return UnitOfWork.ArticleRepository.Get(predicate, x => x.Adapt<GetArticlesQueryResponse>());
+        return UnitOfWork.ArticleRepository.Get(predicate, x => new GetArticlesQueryResponse() { ID =x.Id,Summary=x.Overview,Title=x.Title});
     }
 }

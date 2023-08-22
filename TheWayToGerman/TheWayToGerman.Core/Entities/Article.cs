@@ -7,5 +7,4 @@ public class Article : BaseEntity
     public required string Content { get; set; }
     public required User Auther { get; set; }
     public required Category Category { get; set; }
-    public List<Image> Images { get; set; } = new List<Image>();
 }

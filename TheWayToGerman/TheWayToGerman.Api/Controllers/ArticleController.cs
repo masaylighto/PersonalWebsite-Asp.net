@@ -64,10 +64,10 @@ namespace TheWayToGerman.Api.Controllers
              return Ok(result);
          }
          [HttpGet]
-         [Route("{id}")]
-         public async Task<ActionResult> GetArticle([FromQuery] GetArticleQuery command)
+         [Route("{ID:guid}")]
+         public async Task<ActionResult> GetArticle(Guid ID)
          {        
-             var result = await Mediator.Send(command);
+             var result = await Mediator.Send(new GetArticleQuery { ID = ID });
              if (result.IsInternalError())
              {
                  return Problem(result.GetErrorMessage());
@@ -76,7 +76,7 @@ namespace TheWayToGerman.Api.Controllers
              {
                  return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status400BadRequest);
              }
-             return Ok(result);
+             return Ok(result.GetData());
          }
     }
 }

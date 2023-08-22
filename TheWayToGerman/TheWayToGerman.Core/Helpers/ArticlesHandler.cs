@@ -1,18 +1,8 @@
 ﻿using Core.DataKit;
 using Core.DataKit.Result;
 using Core.DataKit.ReturnWrapper;
-using Microsoft.AspNetCore.Mvc;
-using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Text.Unicode;
-using System.Threading.Tasks;
-using TheWayToGerman.Core.Configuration;
-using TheWayToGerman.Core.Entities;
 using TheWayToGerman.Core.Helpers.Interfaces;
-using TheWayToGerman.Core.Loggers;
 
 namespace TheWayToGerman.Core.Helpers;
 
@@ -45,31 +35,69 @@ public class ArticlesHandler
    {
         return HTMLParser.GetHtml();
    }
-   
-   public async Task<Result<IEnumerable<string>>> SeparateImage() 
+   protected async Task<Result<Dictionary<string, string>>> GetImageFromStorage(IEnumerable<string> imagesPaths)
+    {
+        Dictionary<string, string> images = new Dictionary<string, string>(imagesPaths.Count());
+        foreach (var imagePath in imagesPaths)
+        {
+            var imageContent = await Storage.LoadAsync(imagePath);
+            if (imageContent.ContainError())
+            {
+                return imageContent.GetError();
+            }
+            images.Add(imagePath, Encoding.UTF8.GetString(imageContent.GetData()));
+        }
+        return images;
+    }
+   public async Task<State> ReMergeImage()
+   {
+        try
+        {
+            var  storedImagesResult = await GetImageFromStorage(HTMLParser.GetImgSrcContent());
+            if (storedImagesResult.ContainError())
+            {
+                return storedImagesResult.GetError();
+            }
+            var storedImages = storedImagesResult.GetData();
+            foreach (var img in HTMLParser.GetImages())
+            {
+               var imageID = img.GetAttributeValue("src", null);
+               img.SetAttributeValue("src",storedImages[imageID]);
+            }
+            return new OK();
+        }
+        catch (Exception ex)
+        {
+            return ex;
+        }
+       
+    }
+   public async Task<State> SeparateImage() 
    {
         int proccessedImageIndex = 0;
-        var imagesContents = HTMLParser.GetImgSrcContent();
-        var imagesIDs = HTMLParser.ReplaceImgSrcContent();       
+        //don't remove ToList, first method get img src and second method replace it, so they work on the same field if they are not consoldate to list and keep on being enumrable they will be race condition
+        var imagesContents = HTMLParser.GetImgSrcContent().ToList();
+        var imagesIDs = HTMLParser.ReplaceImgSrcContent().ToList();       
         try
         {        
             for (; proccessedImageIndex < imagesContents.Count(); proccessedImageIndex++)
             {
-                string imageID = imagesIDs.ElementAt(proccessedImageIndex).ToString();             
+                string imageID = imagesIDs.ElementAt(proccessedImageIndex);             
                 string imageContent = imagesContents.ElementAt(proccessedImageIndex);
                 var imageBytes = Encoding.UTF8.GetBytes(imageContent);
+
                 var result = await Storage.SaveAsync(imageBytes, imageID);                
                 if (result.IsNotOk())
                 {
                     throw result.GetError();
                 }
             }
-            return Result.From(imagesIDs);
+            return new OK();
         }
         catch (Exception ex)
         {
             // if failed to save file, then delete all the saved file and return error
-            var state = await DeleteImages(imagesIDs.Take(proccessedImageIndex).Select(x=>x.ToString()));
+            var state = await DeleteImages(imagesIDs.Take(proccessedImageIndex));
             state = state + ex;
             return state.GetError();
         }     

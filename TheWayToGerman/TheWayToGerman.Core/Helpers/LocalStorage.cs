@@ -39,7 +39,7 @@ public class LocalStorage : IStorage
     public async Task<Result<byte[]>> LoadAsync(string filePath)
     {
         string fullPath = $"{LocalStorageConfiguration.PathPrefix}/{filePath}";
-        if (!File.Exists(filePath))
+        if (!File.Exists(fullPath))
         {
             return new FileNotFoundException($"{filePath} not exist");
         }
@@ -58,13 +58,13 @@ public class LocalStorage : IStorage
     {
         
         string fullPath = $"{LocalStorageConfiguration.PathPrefix}/{filePath}";
-        if (File.Exists(filePath))
+        if (File.Exists(fullPath))
         {
-            return new FileAlreadyExistException($"{filePath} already exist");
+            return new FileAlreadyExistException($"{fullPath} already exist");
         }
         try
         {
-            File.WriteAllBytes(filePath, fileContent);
+            File.WriteAllBytes(fullPath, fileContent);
             return new OK();
         }
         catch (Exception ex)

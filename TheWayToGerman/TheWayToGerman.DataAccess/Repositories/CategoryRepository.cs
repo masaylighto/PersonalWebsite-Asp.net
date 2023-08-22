@@ -83,7 +83,7 @@ public class CategoryRepository : ICategoryRepository
     {
         try
         {
-            return await PostgresDBContext.Categories.FirstOrDefaultAsync(predictate);
+            return await PostgresDBContext.Categories.FirstAsync(predictate);
         }
         catch (Exception ex)
         {

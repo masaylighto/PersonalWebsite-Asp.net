@@ -54,7 +54,7 @@ public class ArticleRepository : IArticleRepository
     {
         try
         {
-            return await PostgresDBContext.Articles.FirstOrDefaultAsync(x => x.Id == Id);
+            return await PostgresDBContext.Articles.FirstAsync(x => x.Id == Id);
         }
         catch (Exception ex)
         {
@@ -70,7 +70,7 @@ public class ArticleRepository : IArticleRepository
         {
             try
             {
-                return PostgresDBContext.Articles.Any(predictate);
+                return PostgresDBContext.Articles.Include(x=>x.Category).Any(predictate);
             }
             catch (Exception ex)
             {
