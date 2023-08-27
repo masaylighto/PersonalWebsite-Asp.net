@@ -12,7 +12,7 @@ using TheWayToGerman.DataAccess.Interfaces;
 
 namespace TheWayToGerman.Logic.Cqrs.Queries;
 
-public class GetArticlesQueryHandler : QueryHandler<GetArticlesQuery, IEnumerable<GetArticlesQueryResponse>>
+public class GetArticlesQueryHandler : QueryHandler<GetArticlesQuery, IAsyncEnumerable<GetArticlesQueryResponse>>
 {
     public IUnitOfWork UnitOfWork { get; }
 
@@ -21,7 +21,7 @@ public class GetArticlesQueryHandler : QueryHandler<GetArticlesQuery, IEnumerabl
         UnitOfWork = unitOfWork;
     }
 
-    protected override Result<IEnumerable<GetArticlesQueryResponse>> Fetch(GetArticlesQuery request, CancellationToken cancellationToken)
+    protected override Result<IAsyncEnumerable<GetArticlesQueryResponse>> Fetch(GetArticlesQuery request, CancellationToken cancellationToken)
     {
         Expression<Func<Article, bool>> predicate = (article) => true;
         if (request.Title is not null)
@@ -34,6 +34,6 @@ public class GetArticlesQueryHandler : QueryHandler<GetArticlesQuery, IEnumerabl
             string serachPattern = $"%{request.Description.ToLower()}%";
             predicate.And(x => EF.Functions.Like(x.Content.ToLower(), serachPattern) || EF.Functions.Like(x.Overview.ToLower(), serachPattern));
         }
-        return UnitOfWork.ArticleRepository.Get(predicate, x => new GetArticlesQueryResponse() { ID =x.Id,Summary=x.Overview,Title=x.Title});
+        return UnitOfWork.ArticleRepository.GetAsync(predicate, x => new GetArticlesQueryResponse() { ID =x.Id,Summary=x.Overview,Title=x.Title});
     }
 }

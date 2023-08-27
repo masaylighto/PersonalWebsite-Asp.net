@@ -5,7 +5,7 @@ using TheWayToGerman.Core.Enums;
 
 namespace TheWayToGerman.Core.Cqrs.Queries.Category;
 
-public class GetCategoriesQuery : IQuery<IEnumerable<GetCategoriesQueryResponse>>
+public class GetCategoriesQuery : IQuery<IAsyncEnumerable<GetCategoriesQueryResponse>>
 {
     public string? Name { get; set; }
     public Language? Language { get; set; }

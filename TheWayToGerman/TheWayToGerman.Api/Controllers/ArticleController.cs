@@ -61,7 +61,7 @@ namespace TheWayToGerman.Api.Controllers
              {
                  return Problem(result.GetErrorMessage(), statusCode: StatusCodes.Status400BadRequest);
              }
-             return Ok(result);
+             return Ok(result.GetData());
          }
          [HttpGet]
          [Route("{ID:guid}")]

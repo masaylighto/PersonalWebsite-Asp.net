@@ -25,7 +25,7 @@ public class GetArticleQueryHandler : QueryHandlerAsync<GetArticleQuery,GetArtic
 
     protected override async Task<Result<GetArticleQueryResponse>> Fetch(GetArticleQuery request, CancellationToken cancellationToken)
     {
-        var articleResult=await UnitOfWork.ArticleRepository.GetAsync(request.ID);
+        var articleResult = await UnitOfWork.ArticleRepository.GetAsync(request.ID);
         if (articleResult.ContainError())
         {
             return articleResult.GetError();

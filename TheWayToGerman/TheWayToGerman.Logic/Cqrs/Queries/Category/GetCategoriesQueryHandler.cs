@@ -11,7 +11,7 @@ using TheWayToGerman.DataAccess.Interfaces;
 
 namespace TheWayToGerman.Logic.Cqrs.Queries;
 
-public class GetCategoriesQueryHandler : QueryHandler<GetCategoriesQuery, IEnumerable<GetCategoriesQueryResponse>>
+public class GetCategoriesQueryHandler : QueryHandler<GetCategoriesQuery, IAsyncEnumerable<GetCategoriesQueryResponse>>
 {
     public IUnitOfWork UnitOfWork { get; }
 
@@ -20,7 +20,7 @@ public class GetCategoriesQueryHandler : QueryHandler<GetCategoriesQuery, IEnume
         UnitOfWork = unitOfWork;
     }
 
-    protected override Result<IEnumerable<GetCategoriesQueryResponse>> Fetch(GetCategoriesQuery request, CancellationToken cancellationToken)
+    protected override Result<IAsyncEnumerable<GetCategoriesQueryResponse>> Fetch(GetCategoriesQuery request, CancellationToken cancellationToken)
     {
         Expression<Func<Category, bool>> filter = (Category entity) => true;
         if (request.Name is not null)
@@ -31,6 +31,6 @@ public class GetCategoriesQueryHandler : QueryHandler<GetCategoriesQuery, IEnume
         {
             filter = filter.And(entity => entity.Language == request.Language);
         }
-        return UnitOfWork.CategoriesRepository.Get(filter, (user) => user.Adapt<GetCategoriesQueryResponse>());
+        return UnitOfWork.CategoriesRepository.GetAsync(filter, (user) => user.Adapt<GetCategoriesQueryResponse>());
     }
 }

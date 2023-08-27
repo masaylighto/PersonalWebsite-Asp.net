@@ -1,6 +1,7 @@
 ﻿using Core.DataKit;
 using Core.DataKit.Result;
 using Core.DataKit.ReturnWrapper;
+using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using TheWayToGerman.Core.Helpers.Interfaces;
 
@@ -102,7 +103,20 @@ public class ArticlesHandler
             return state.GetError();
         }     
    }
-    public async Task<State> DeleteImages(IEnumerable<string> paths)
+    public async Task<State> DeleteOldImage()
+    {
+        try
+        {
+            var imagesIds = HTMLParser.GetImgSrcContent().ToList();
+            await DeleteImages(imagesIds);
+            return new OK();
+        }
+        catch (Exception ex)
+        {
+            return ex;
+        }  
+    }
+    protected async Task<State> DeleteImages(IEnumerable<string> paths)
     {   
         State result = new OK();
         foreach (var image in paths)

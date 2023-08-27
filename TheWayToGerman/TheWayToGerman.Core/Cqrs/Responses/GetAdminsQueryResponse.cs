@@ -1,4 +1,6 @@
-﻿namespace TheWayToGerman.Core.Cqrs.Queries;
+﻿using TheWayToGerman.Core.Entities;
+
+namespace TheWayToGerman.Core.Cqrs.Queries;
 
 public class GetAdminsQueryResponse
 {
@@ -8,4 +10,11 @@ public class GetAdminsQueryResponse
     public string Username { get; set; }
 
     public string Email { get; set; }
+    public static GetAdminsQueryResponse From(User user)=> new GetAdminsQueryResponse()
+    {
+        Email = user.Email,
+        Id = user.Id,
+        Name = user.Name,
+        Username = user.Username
+    };
 }

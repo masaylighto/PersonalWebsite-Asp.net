@@ -98,13 +98,13 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public Result<IEnumerable<T>> GetUsers<T>(Expression<Func<User, bool>> predictate, Func<User, T> selector, int pageSize, int pageNumber)
+    public Result<IAsyncEnumerable<T>> GetUsers<T>(Expression<Func<User, bool>> predictate, Func<User, T> selector, int pageSize, int pageNumber)
     {
         try
         {
-
+          
             var result = PostgresDBContext.Users.Where(predictate).Page(pageSize, pageNumber).Select(selector);
-            return Result<IEnumerable<T>>.From(result);
+            return Result<IAsyncEnumerable<T>>.From(result);
         }
         catch (Exception ex)
         {

@@ -2,6 +2,8 @@
 using Core.DataKit.Exceptions;
 using Core.DataKit.MockWrapper;
 using Core.DataKit.Result;
+using Core.DataKit.ReturnWrapper;
+using Core.LinqExtensions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using TheWayToGerman.Core.Database;
@@ -23,7 +25,7 @@ public class ArticleRepository : IArticleRepository
         DateTimeProvider = dateTimeProvider;
         Log = log;
     }
-    public async Task<Result<OK>> AddAsync(Article article)
+    public async Task<State> AddAsync(Article article)
     {
         try
         {            
@@ -37,7 +39,7 @@ public class ArticleRepository : IArticleRepository
         }
     }
 
-    public Result<IEnumerable<T>> Get<T>(Expression<Func<Article, bool>> predictate, Func<Article, T> selector)
+    public Result<IAsyncEnumerable<T>> GetAsync<T>(Expression<Func<Article, bool>> predictate, Func<Article, T> selector)
     {
         try
         {
@@ -76,6 +78,23 @@ public class ArticleRepository : IArticleRepository
             {
                 Log.Error(ex);
                 return new InternalErrorException("failed to check if Article exist");
+            }
+        });
+    }
+
+    public async Task<State> UpdateAsync(Article article)
+    {
+        return await Task.Run<State>(() =>
+        {
+            try
+            {
+                 PostgresDBContext.Articles.Update(article);
+                 return new OK();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+                return new InternalErrorException("update article failed");
             }
         });
     }

@@ -1,5 +1,6 @@
 ﻿
 using Core.Cqrs.Handlers;
+using Core.DataKit;
 using Core.DataKit.Result;
 using Core.LinqExtensions;
 using FluentValidation;
@@ -16,49 +17,43 @@ using TheWayToGerman.DataAccess.Interfaces;
 using Entities=TheWayToGerman.Core.Entities;
 namespace TheWayToGerman.Logic.Cqrs.Commands.Article;
 
-public class CreateArticleCommandHandler : CommandHandler<CreateArticleCommand, CreateArticleCommandResponse>
+public class UpdateArticleCommandHandler : CommandHandler<UpdateArticleCommand, OK>
 {
     public IUnitOfWork UnitOfWork { get; }
     public ArticlesHandler ArticlesHandler { get; }
     public ILog Log { get; }
 
-    class CommandValidator : AbstractValidator<CreateArticleCommand>
+    class CommandValidator : AbstractValidator<UpdateArticleCommand>
     {
         public CommandValidator()
         {
+            RuleFor(x => x.ID).NotEmpty();
             RuleFor(x => x.Title).MinimumLength(1);
-            RuleFor(x => x.Overview).MinimumLength(5);
+            RuleFor(x => x.Overview).MinimumLength(20);
             RuleFor(x => x.Content).MinimumLength(100);
             RuleFor(x => x.CategoryID).NotEmpty();
         }
     }
-    public CreateArticleCommandHandler(IUnitOfWork unitOfWork, ArticlesHandler articlesHandler,ILog log)
+    public UpdateArticleCommandHandler(IUnitOfWork unitOfWork, ArticlesHandler articlesHandler,ILog log)
     {
         Validator = new CommandValidator();
         UnitOfWork = unitOfWork;
         ArticlesHandler = articlesHandler;
         Log = log;
     }
-    protected override async Task<Result<CreateArticleCommandResponse>> Execute(CreateArticleCommand request, CancellationToken cancellationToken)
+    protected override async Task<Result<OK>> Execute(UpdateArticleCommand request, CancellationToken cancellationToken)
     {
 
         Guid ID = Guid.NewGuid();
-        var isAlreadyExist = await UnitOfWork.ArticleRepository.IsExistAsync(x => request.Title==x.Title & x.Category.Id == request.CategoryID);
-        if (isAlreadyExist.ContainError())
+        var oldArticleResult = await UnitOfWork.ArticleRepository.GetAsync(request.ID);
+        if (oldArticleResult.ContainError())
         {
-            return isAlreadyExist.GetError();
+            return oldArticleResult.GetError();
         }
+        var oldArticle = oldArticleResult.GetData();
 
-        if (isAlreadyExist.GetData())
-        {
-            return new UniqueFieldException("Article already Exist");
-        }
-
-        var autherResult = await UnitOfWork.UserRespository.GetAsync(x => x.Id == request.AutherID);
-        if (autherResult.ContainError())
-        {
-            return autherResult.GetError();
-        }
+        ArticlesHandler.LoadArticleContent(oldArticle.Content);
+        await ArticlesHandler.DeleteOldImage();
 
         var categoryResult = await UnitOfWork.CategoriesRepository.GetAsync(x => x.Id == request.CategoryID);
         if (categoryResult.ContainError())
@@ -88,11 +83,11 @@ public class CreateArticleCommandHandler : CommandHandler<CreateArticleCommand, 
             Overview = request.Overview,
             Content = articleContentResult.GetData(),
             Id = ID,
-            Auther = autherResult.GetData(),
+            Auther = oldArticle.Auther,
             Category = categoryResult.GetData(),
         };
 
-        var result = await UnitOfWork.ArticleRepository.AddAsync(article);
+        var result = await UnitOfWork.ArticleRepository.UpdateAsync(article);
         if (result.IsNotOk())
         {
             return result.GetError();
@@ -102,7 +97,7 @@ public class CreateArticleCommandHandler : CommandHandler<CreateArticleCommand, 
         {
             return saveResult.GetError();
         }
-        return new CreateArticleCommandResponse() { Id = ID };
+        return new OK();
     }
     
 }

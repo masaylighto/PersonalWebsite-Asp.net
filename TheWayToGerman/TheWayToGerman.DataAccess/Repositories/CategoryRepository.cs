@@ -2,6 +2,7 @@
 using Core.DataKit.Exceptions;
 using Core.DataKit.MockWrapper;
 using Core.DataKit.Result;
+using Core.LinqExtensions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using TheWayToGerman.Core.Database;
@@ -66,7 +67,7 @@ public class CategoryRepository : ICategoryRepository
     }
 
 
-    public Result<IEnumerable<T>> Get<T>(Expression<Func<Category, bool>> predictate, Func<Category, T> selector)
+    public Result<IAsyncEnumerable<T>> GetAsync<T>(Expression<Func<Category, bool>> predictate, Func<Category, T> selector)
     {
         try
         {

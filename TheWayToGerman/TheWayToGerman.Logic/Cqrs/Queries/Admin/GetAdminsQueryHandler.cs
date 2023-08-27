@@ -12,7 +12,7 @@ using TheWayToGerman.DataAccess.Interfaces;
 
 namespace TheWayToGerman.Logic.Cqrs.Queries;
 
-public class GetAdminsQueryHandler : QueryHandler<GetAdminsQuery, IEnumerable<GetAdminsQueryResponse>>
+public class GetAdminsQueryHandler : QueryHandler<GetAdminsQuery, IAsyncEnumerable<GetAdminsQueryResponse>>
 {
     public IUnitOfWork UnitOfWork { get; }
 
@@ -30,7 +30,7 @@ public class GetAdminsQueryHandler : QueryHandler<GetAdminsQuery, IEnumerable<Ge
         UnitOfWork = unitOfWork;
     }
 
-    protected override Result<IEnumerable<GetAdminsQueryResponse>> Fetch(GetAdminsQuery request, CancellationToken cancellationToken)
+    protected override Result<IAsyncEnumerable<GetAdminsQueryResponse>> Fetch(GetAdminsQuery request, CancellationToken cancellationToken)
     {
         Expression<Func<User, bool>> filter = (User user) => user.UserType == UserType.Admin;
         if (request.Name is not null)
@@ -38,6 +38,9 @@ public class GetAdminsQueryHandler : QueryHandler<GetAdminsQuery, IEnumerable<Ge
             string searchPattern = $"%{request.Name.ToLower()}%";
             filter = filter.And(User =>  EF.Functions.Like(User.Name.ToLower(), searchPattern));
         }
-        return UnitOfWork.UserRespository.GetUsers(filter, (user) => user.Adapt<GetAdminsQueryResponse>(), request.PageSize, request.PageNumber);
+        return UnitOfWork.UserRespository.GetUsers(filter,
+            GetAdminsQueryResponse.From,
+            request.PageSize,
+            request.PageNumber);
     }
 }
