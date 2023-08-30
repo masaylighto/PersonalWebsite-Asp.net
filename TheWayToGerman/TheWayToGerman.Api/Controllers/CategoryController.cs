@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TheWayToGerman.Core.Cqrs.Commands;
+using TheWayToGerman.Core.Cqrs.Queries.Category;
 using TheWayToGerman.Core.Helpers;
 
 namespace TheWayToGerman.Api.Controllers;
@@ -30,7 +31,7 @@ public class CategoryController : ControllerBase
         return Ok(result.GetData());
     }
     [HttpGet]
-    public async Task<ActionResult> GetCategories([FromBody] CreateCategoryCommand userCommand)
+    public async Task<ActionResult> GetCategories([FromQuery] GetCategoriesQuery userCommand)
     {
         var result = await Mediator.Send(userCommand);
         if (result.IsInternalError())

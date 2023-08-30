@@ -56,7 +56,7 @@ public class AdminController : ControllerBase
     }
     [HttpGet]
     [Authorize(AuthPolicies.OwnerPolicy)]
-    public async Task<ActionResult> GetAdmins(GetAdminsQuery userCommand)
+    public async Task<ActionResult> GetAdmins([FromQuery]GetAdminsQuery userCommand)
     {
         var result = await Mediator.Send(userCommand);
         if (result.IsInternalError())

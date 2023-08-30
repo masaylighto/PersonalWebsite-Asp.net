@@ -22,11 +22,7 @@ public class GetCategoriesQueryHandler : QueryHandler<GetCategoriesQuery, IAsync
 
     protected override Result<IAsyncEnumerable<GetCategoriesQueryResponse>> Fetch(GetCategoriesQuery request, CancellationToken cancellationToken)
     {
-        Expression<Func<Category, bool>> filter = (Category entity) => true;
-        if (request.Name is not null)
-        {
-            filter = filter.And(entity => EF.Functions.ILike(entity.Name,$"%{request.Name}%"));
-        }
+        Expression<Func<Category, bool>> filter = (Category entity) => true;   
         if (request.Language is not null)
         {
             filter = filter.And(entity => entity.Language == request.Language);
