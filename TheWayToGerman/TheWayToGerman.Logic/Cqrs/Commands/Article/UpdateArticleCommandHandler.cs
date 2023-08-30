@@ -44,7 +44,7 @@ public class UpdateArticleCommandHandler : CommandHandler<UpdateArticleCommand, 
     protected override async Task<Result<OK>> Execute(UpdateArticleCommand request, CancellationToken cancellationToken)
     {
 
-        Guid ID = Guid.NewGuid();
+        
         var oldArticleResult = await UnitOfWork.ArticleRepository.GetAsync(request.ID);
         if (oldArticleResult.ContainError())
         {
@@ -77,17 +77,13 @@ public class UpdateArticleCommandHandler : CommandHandler<UpdateArticleCommand, 
             return articleContentResult.GetError();
         }
 
-        Entities.Article article = new()
-        {
-            Title = request.Title,
-            Overview = request.Overview,
-            Content = articleContentResult.GetData(),
-            Id = ID,
-            Auther = oldArticle.Auther,
-            Category = categoryResult.GetData(),
-        };
+        oldArticle.Title = request.Title;
+        oldArticle.Overview = request.Overview;
+        oldArticle.Content = articleContentResult.GetData();
+        oldArticle.Auther = oldArticle.Auther;
+        oldArticle.Category = categoryResult.GetData();      
 
-        var result = await UnitOfWork.ArticleRepository.UpdateAsync(article);
+        var result = UnitOfWork.ArticleRepository.SetStateToUpdate(oldArticle);
         if (result.IsNotOk())
         {
             return result.GetError();

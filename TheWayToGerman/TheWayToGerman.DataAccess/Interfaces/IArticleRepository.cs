@@ -11,7 +11,7 @@ public interface IArticleRepository
 {
     public Task<Result<bool>> IsExistAsync(Func<Article, bool> predictate);
     public Task<State> AddAsync(Article article);
-    public Task<State> UpdateAsync(Article article);
+    public State SetStateToUpdate(Article article);
     public Result<IAsyncEnumerable<T>> GetAsync<T>(Expression<Func<Article, bool>> predictate, Func<Article, T> selector);
     public Task<Result<Article>> GetAsync(Guid Id);
 }

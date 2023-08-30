@@ -43,7 +43,7 @@ public class ArticleRepository : IArticleRepository
     {
         try
         {
-            return Result.From(PostgresDBContext.Articles.Where(predictate).Select(selector));
+            return Result.From(PostgresDBContext.Articles.Where(predictate).Select(selector).GetAsyncEnumerator());
         }
         catch (Exception ex)
         {
@@ -82,20 +82,17 @@ public class ArticleRepository : IArticleRepository
         });
     }
 
-    public async Task<State> UpdateAsync(Article article)
-    {
-        return await Task.Run<State>(() =>
+    public State SetStateToUpdate(Article article)
+    {      
+        try
         {
-            try
-            {
-                 PostgresDBContext.Articles.Update(article);
-                 return new OK();
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
-                return new InternalErrorException("update article failed");
-            }
-        });
+                PostgresDBContext.Entry<Article>(article).State = EntityState.Modified;
+                return new OK();
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex);
+            return new InternalErrorException("update article failed");
+        }      
     }
 }
