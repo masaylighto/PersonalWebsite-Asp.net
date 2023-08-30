@@ -43,7 +43,7 @@ public class ArticleRepository : IArticleRepository
     {
         try
         {
-            return Result.From(PostgresDBContext.Articles.Where(predictate).Select(selector).GetAsyncEnumerator());
+            return Result.From(PostgresDBContext.Articles.Where(predictate).Select(selector));
         }
         catch (Exception ex)
         {
