@@ -21,9 +21,9 @@ public class LocalStorage : IStorage
     public async Task<State> DeleteAsync(string filePath)
     {     
         string fullPath = $"{LocalStorageConfiguration.PathPrefix}/{filePath}";
-        if (!File.Exists(filePath))
+        if (!File.Exists(fullPath))
         {
-            return new FileNotFoundException($"{filePath} not exist");
+            return new FileNotFoundException($"{fullPath} not exist");
         }
         try
         {
