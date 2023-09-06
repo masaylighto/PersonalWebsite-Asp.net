@@ -88,6 +88,7 @@ public class CreateArticleCommandHandler : CommandHandler<CreateArticleCommand, 
             Overview = request.Overview,
             Content = articleContentResult.GetData(),
             Id = ID,
+            Pircture=request.Picture,
             Auther = autherResult.GetData(),
             Category = categoryResult.GetData(),
         };

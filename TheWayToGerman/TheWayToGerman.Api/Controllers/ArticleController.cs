@@ -50,7 +50,7 @@ namespace TheWayToGerman.Api.Controllers
             return Ok();
         }
         [HttpGet]
-         public async Task<ActionResult> GetArticles([FromBody] GetArticlesQuery command)
+         public async Task<ActionResult> GetArticles([FromQuery] GetArticlesQuery command)
          {            
              var result = await Mediator.Send(command);
              if (result.IsInternalError())
