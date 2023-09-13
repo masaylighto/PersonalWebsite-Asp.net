@@ -35,7 +35,11 @@ Lib contain there own readme file in there folders
    - 4.4 Api: Controllers, DTO, Response Object and middleware
 ### Design Decision Changes (that happen durring the works)
 1.Remove detailed diagram for every function  as the are the same almost just a crud, i create general diagram for the dataflow instead to shorten the time
-2.Unit-test deleted. because i already test the entire logic with integration test and i develop this site a lone and don't have time to add more useless test( as the app is small and just crud application nothing much to be tested)
+
+
+2.Unit-test deleted. because i already test the entire logic with integration test and i develop this site alone and I don't have the time to add more useless test( as this app is small and its just crud application nothing much to be tested)
+
+
 3.DTO remove and use mediator Request instead of it. as it make more indirection and the app is simple all dto where just mapped into request so dto where unnecessary
 ### Build The Project Requests
 1. dotnet 7
