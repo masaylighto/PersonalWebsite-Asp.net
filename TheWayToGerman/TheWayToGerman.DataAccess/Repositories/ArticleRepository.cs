@@ -39,11 +39,11 @@ public class ArticleRepository : IArticleRepository
         }
     }
 
-    public Result<IAsyncEnumerable<T>> GetAsync<T>(Expression<Func<Article, bool>> predictate, Func<Article, T> selector)
+    public Result<IAsyncEnumerable<T>> GetAsync<T>(Expression<Func<Article, bool>> predictate, Func<Article, T> selector, int pageNumber, int pageSize)
     {
         try
         {
-            return Result.From(PostgresDBContext.Articles.Where(predictate).Select(selector));
+            return Result.From(PostgresDBContext.Articles.Where(predictate).Page(pageSize,pageNumber).OrderByDescending(x=>x.CreateDate).Select(selector));
         }
         catch (Exception ex)
         {
@@ -86,7 +86,7 @@ public class ArticleRepository : IArticleRepository
     {      
         try
         {
-                PostgresDBContext.Entry<Article>(article).State = EntityState.Modified;
+                PostgresDBContext.Entry(article).State = EntityState.Modified;
                 return new OK();
         }
         catch (Exception ex)

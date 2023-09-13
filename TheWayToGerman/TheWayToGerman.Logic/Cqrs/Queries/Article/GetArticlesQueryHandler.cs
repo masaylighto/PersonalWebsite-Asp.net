@@ -1,9 +1,11 @@
 ﻿using Core.Cqrs.Handlers;
 using Core.DataKit.Result;
 using Core.Expressions;
+using FluentValidation;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using TheWayToGerman.Core.Cqrs.Commands.Article;
 using TheWayToGerman.Core.Cqrs.Queries.Article;
 using TheWayToGerman.Core.Cqrs.Queries.Category;
 using TheWayToGerman.Core.Cqrs.Responses;
@@ -16,9 +18,19 @@ public class GetArticlesQueryHandler : QueryHandler<GetArticlesQuery, IAsyncEnum
 {
     public IUnitOfWork UnitOfWork { get; }
 
+    class CommandValidator : AbstractValidator<GetArticlesQuery>
+    {
+        public CommandValidator()
+        {
+            RuleFor(x => x.PageLength).GreaterThanOrEqualTo(1);
+            RuleFor(x => x.PageNumber).GreaterThanOrEqualTo(1);
+            
+        }
+    }
     public GetArticlesQueryHandler(IUnitOfWork unitOfWork)
     {
         UnitOfWork = unitOfWork;
+        Validator = new CommandValidator();
     }
 
     protected override Result<IAsyncEnumerable<GetArticlesQueryResponse>> Fetch(GetArticlesQuery request, CancellationToken cancellationToken)
@@ -34,6 +46,6 @@ public class GetArticlesQueryHandler : QueryHandler<GetArticlesQuery, IAsyncEnum
             string serachPattern = $"%{request.Description.ToLower()}%";
             predicate.And(x => EF.Functions.Like(x.Content.ToLower(), serachPattern) || EF.Functions.Like(x.Overview.ToLower(), serachPattern));
         }
-        return UnitOfWork.ArticleRepository.GetAsync(predicate, x => new GetArticlesQueryResponse() { ID =x.Id,Summary=x.Overview,Title=x.Title});
+        return UnitOfWork.ArticleRepository.GetAsync(predicate, GetArticlesQueryResponse.From, request.PageNumber, request.PageLength);
     }
 }

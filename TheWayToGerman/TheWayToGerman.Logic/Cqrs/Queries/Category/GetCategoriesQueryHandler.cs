@@ -27,6 +27,6 @@ public class GetCategoriesQueryHandler : QueryHandler<GetCategoriesQuery, IAsync
         {
             filter = filter.And(entity => entity.Language == request.Language);
         }
-        return UnitOfWork.CategoriesRepository.GetAsync(filter, (user) => user.Adapt<GetCategoriesQueryResponse>());
+        return UnitOfWork.CategoriesRepository.GetAsync(filter, (categroy) => categroy.Adapt<GetCategoriesQueryResponse>());
     }
 }

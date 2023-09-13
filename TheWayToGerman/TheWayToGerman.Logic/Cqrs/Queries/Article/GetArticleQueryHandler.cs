@@ -52,11 +52,7 @@ public class GetArticleQueryHandler : QueryHandlerAsync<GetArticleQuery,GetArtic
 
         var modifiedArticle = modifiedArticleResult.GetData();
         article.Content = modifiedArticle;
-        return new GetArticleQueryResponse { 
-           Content = modifiedArticle,
-           ID = article.Id,
-           Overview = article.Overview,
-           Title=article.Title
-        };
+        return GetArticleQueryResponse.From(article);
+
     }
 }

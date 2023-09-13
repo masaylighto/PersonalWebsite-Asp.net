@@ -9,8 +9,9 @@ public static class IEnumerableExtension
             WhatToDo(item);
         }
     }
-    public static IEnumerable<Entity> Page<Entity>(this IEnumerable<Entity> source, int pageSize, int pageNumber = 0)
+    public static IEnumerable<Entity> Page<Entity>(this IEnumerable<Entity> source, int pageSize, int pageNumber = 1)
     {
         return source.Skip((pageNumber - 1) * pageSize).Take(pageSize);
     }
+
 }
