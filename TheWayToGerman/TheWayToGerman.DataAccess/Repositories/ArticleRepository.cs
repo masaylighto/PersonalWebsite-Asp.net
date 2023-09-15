@@ -63,7 +63,7 @@ public class ArticleRepository : IArticleRepository
     {
         try
         {
-            return await PostgresDBContext.Articles.FirstAsync(x => x.Id == Id);
+            return await PostgresDBContext.Articles.Include(x=>x.Auther).Include(x=>x.Category).FirstAsync(x => x.Id == Id);
         }
         catch (Exception ex)
         {
