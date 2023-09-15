@@ -43,7 +43,14 @@ public class ArticleRepository : IArticleRepository
     {
         try
         {
-            return Result.From(PostgresDBContext.Articles.Where(predictate).Page(pageSize,pageNumber).OrderByDescending(x=>x.CreateDate).Select(selector));
+            return Result.From(PostgresDBContext.Articles.
+                 Include(x=>x.Auther)
+                .Include(x=>x.Category)
+                .Where(predictate)
+                .Page(pageSize,pageNumber)
+                .OrderByDescending(x=>x.CreateDate)
+                .Select(selector)
+                );
         }
         catch (Exception ex)
         {
