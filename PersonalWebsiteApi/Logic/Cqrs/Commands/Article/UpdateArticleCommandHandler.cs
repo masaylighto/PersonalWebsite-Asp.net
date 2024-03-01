@@ -5,8 +5,6 @@ using Core.DataKit.Result;
 using Core.LinqExtensions;
 using FluentValidation;
 using HtmlAgilityPack;
-using Serilog;
-using PersonalWebsiteApi.Core.Cqrs.Commands.Admin;
 using PersonalWebsiteApi.Core.Cqrs.Commands.Article;
 using PersonalWebsiteApi.Core.Cqrs.Responses;
 using PersonalWebsiteApi.Core.Entities;

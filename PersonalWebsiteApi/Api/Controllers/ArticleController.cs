@@ -1,11 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PersonalWebsiteApi.Core.Cqrs.Commands.Admin;
 using PersonalWebsiteApi.Core.Cqrs.Commands.Article;
 using PersonalWebsiteApi.Core.Cqrs.Queries.Article;
 using PersonalWebsiteApi.Core.Helpers;
-using PersonalWebsiteApi.Core.ModelBinders.Models;
 
 namespace PersonalWebsiteApi.Api.Controllers
 {
@@ -20,9 +18,8 @@ namespace PersonalWebsiteApi.Api.Controllers
         }
         [HttpPost]
         [Authorize(AuthPolicies.AdminsAndOwners)]
-        public async Task<ActionResult> CreateArticle([FromBody] CreateArticleCommand command, UserAuthClaim UserAuthClaims)
+        public async Task<ActionResult> CreateArticle([FromBody] CreateArticleCommand command)
         {
-            command.AutherID = UserAuthClaims.ID;
             var result = await Mediator.Send(command);
             if (result.IsInternalError())
             {

@@ -3,9 +3,6 @@ using Core.Cqrs.Handlers;
 using Core.DataKit.Result;
 using Core.LinqExtensions;
 using FluentValidation;
-using HtmlAgilityPack;
-using Serilog;
-using PersonalWebsiteApi.Core.Cqrs.Commands.Admin;
 using PersonalWebsiteApi.Core.Cqrs.Commands.Article;
 using PersonalWebsiteApi.Core.Cqrs.Responses;
 using PersonalWebsiteApi.Core.Entities;
@@ -54,7 +51,7 @@ public class CreateArticleCommandHandler : CommandHandler<CreateArticleCommand, 
             return new UniqueFieldException("Article already Exist");
         }
 
-        var autherResult = await UnitOfWork.UserRespository.GetAsync(x => x.Id == request.AutherID);
+        var autherResult = await UnitOfWork.UserRespository.GetAsync();
         if (autherResult.ContainError())
         {
             return autherResult.GetError();

@@ -22,5 +22,5 @@ services:
      ASPNETCORE_ENVIRONMENT: "Production"  
     build:
       context: .
-      dockerfile: PersonalWebsiteApi/PersonalWebsiteApi.Api/Dockerfile
+      dockerfile: PersonalWebsiteApi/Api/Dockerfile
     

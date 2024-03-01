@@ -35,7 +35,7 @@ public class CreateFirstOwnerCommandHandler : CommandHandler<CreateFirstOwnerCom
     }
     protected override async Task<Result<OK>> Execute(CreateFirstOwnerCommand request, CancellationToken cancellationToken)
     {
-        var result = await UnitOfWork.UserRespository.IsUserExistAsync(x => x.UserType == UserType.Owner);
+        var result = await UnitOfWork.UserRespository.IsOwnerExistAsync();
         if (result.IsDataType<OK>())
         {
             return new UniqueFieldException("there should be only one owner to the system");
@@ -46,8 +46,7 @@ public class CreateFirstOwnerCommandHandler : CommandHandler<CreateFirstOwnerCom
         }
         User user = request.Adapt<User>();
         user.SetPassword(request.Password);
-        user.UserType = Core.Enums.UserType.Owner;
-        var addResult = await UnitOfWork.UserRespository.AddUserAsync(user);
+        var addResult = await UnitOfWork.UserRespository.AddAsync(user);
         if (addResult.ContainError())
         {
             return addResult.GetError();

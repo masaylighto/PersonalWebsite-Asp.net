@@ -11,11 +11,11 @@ namespace PersonalWebsiteApi.DataAccess.Repositories;
 internal class UnitOfWork : IUnitOfWork
 {
     public PostgresDBContext PostgresDBContext { get; }
-    public IUserRepository UserRespository { get; set; }
+    public IOwnerRepository UserRespository { get; set; }
     public ICategoryRepository CategoriesRepository { get; set; }
     public IArticleRepository ArticleRepository { get; set; }
     public ILog Log { get; }
-    public UnitOfWork(PostgresDBContext postgresDBContext, IUserRepository userRespository, ICategoryRepository categoriesRepository, IArticleRepository articleRepository, ILog log)
+    public UnitOfWork(PostgresDBContext postgresDBContext, IOwnerRepository userRespository, ICategoryRepository categoriesRepository, IArticleRepository articleRepository, ILog log)
     {
         PostgresDBContext = postgresDBContext;
         UserRespository = userRespository;

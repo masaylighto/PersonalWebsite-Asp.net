@@ -6,12 +6,10 @@ using PersonalWebsiteApi.Core.Entities;
 
 namespace PersonalWebsiteApi.DataAccess.Interfaces;
 
-public interface IUserRepository
+public interface IOwnerRepository
 {
-    public Task<Result<User>> GetAsync(Func<User, bool> predictate);
-    public Task<Result<OK>> IsUserExistAsync(Expression<Func<User, bool>> predictate);
-    public Task<Result<OK>> DeleteAdminById(Guid Id);
-    public Result<IAsyncEnumerable<T>> GetUsers<T>(Expression<Func<User, bool>> predictate, Func<User, T> selector, int pageSize, int pageNumber);
-    public Task<Result<Guid>> AddUserAsync(User user);
-    public Task<Result<OK>> UpdateUserAsync(User user, Func<User, bool> predictate);
+    public Task<Result<User>> GetAsync();
+    public Task<Result<OK>> IsOwnerExistAsync();
+    public Task<Result<Guid>> AddAsync(User user);
+    public Task<Result<OK>> UpdateAsync(User user);
 }

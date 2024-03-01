@@ -2,7 +2,6 @@
 using Bogus;
 using System.Net.Http.Json;
 using PersonalWebsiteApi.Core.Cqrs.Commands;
-using PersonalWebsiteApi.Core.Cqrs.Commands.Admin;
 
 namespace IntegrationTest.Endpoints;
 public class OwnerTest
@@ -39,64 +38,8 @@ public class OwnerTest
 
 
 
-    [Fact]
-    public async Task UpdateOwner_DuplicateUserName_ShouldReturnHttpBadRequest()
-    {
-        //prepare
-        await client.Authenticate();
-        CreateAdminCommand CreateAdminDto = new()
-        {
-            Email = Faker.Internet.Email(),
-            Name = Faker.Name.FullName(),
-            Password = Faker.Internet.Password(8),
-            Username = Faker.Internet.UserName(),
-
-        };
-        UpdateOwnerInformationCommand updateUserInformationDTO2 = new()
-        {
-            Email = Faker.Internet.Email(),
-            Name = Faker.Name.FullName(),
-            Password = Faker.Internet.Password(8),
-            Username = CreateAdminDto.Username,
-
-        };
-
-        //execute
-        await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(CreateAdminDto), HttpMethod.Post);
-
-        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO2), HttpMethod.Put);
-        //validate
-        Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
-    }
-    [Fact]
-    public async Task UpdateOwner_DuplicateEmail_ShouldReturnHttpBadRequest()
-    {
-        //prepare
-        await client.Authenticate();
-        CreateAdminCommand CreateAdminDTO = new()
-        {
-            Email = Faker.Internet.Email(),
-            Name = Faker.Name.FullName(),
-            Password = Faker.Internet.Password(8),
-            Username = Faker.Internet.UserName(),
-
-        };
-        UpdateOwnerInformationCommand updateUserInformationDTO = new()
-        {
-            Email = CreateAdminDTO.Email,
-            Name = Faker.Name.FullName(),
-            Password = Faker.Internet.Password(8),
-            Username = Faker.Internet.UserName(),
-
-        };
-
-        //execute
-        await client.SendAsync("api/v1/Admin", Helper.CreateJsonContent(CreateAdminDTO), HttpMethod.Post);
-
-        var result = await client.SendAsync("api/v1/Owner", Helper.CreateJsonContent(updateUserInformationDTO), HttpMethod.Put);
-        //validate
-        Assert.Equal(System.Net.HttpStatusCode.BadRequest, result.StatusCode);
-    }
+  
+  
     [Fact]
     public async Task UpdateOwner_PasswordLessThan8Char_ShouldReturnHttpBadRequest()
     {
@@ -253,7 +196,7 @@ public class OwnerTest
     public async Task AddOwner_PasswordLessThan8Char_ShouldReturnHttpBadRequest()
     {
         //prepare
-        CreateAdminCommand createOwnerDTO = new()
+        CreateFirstOwnerCommand createOwnerDTO = new()
         {
             Email = Faker.Internet.Email(),
             Name = Faker.Name.FullName(),

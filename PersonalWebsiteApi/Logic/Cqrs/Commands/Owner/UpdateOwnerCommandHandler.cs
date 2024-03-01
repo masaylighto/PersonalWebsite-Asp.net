@@ -35,7 +35,7 @@ public class UpdateOwnerCommandHandler : CommandHandler<UpdateOwnerInformationCo
     {
         User user = request.Adapt<User>();
         user.SetPassword(request.Password);
-        var getOwnerResult = await UnitOfWork.UserRespository.UpdateUserAsync(user, x => x.UserType == Core.Enums.UserType.Owner);
+        var getOwnerResult = await UnitOfWork.UserRespository.UpdateAsync(user);
         if (getOwnerResult.ContainError())
         {
             return getOwnerResult.GetError();

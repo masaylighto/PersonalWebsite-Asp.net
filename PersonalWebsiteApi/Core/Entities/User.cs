@@ -22,7 +22,6 @@ public class User : BaseEntity
     public required string Email { get; set; }
     [Required]
     public string? Password { get; protected set; }
-    public UserType UserType { get; set; } = UserType.Admin;
     public bool IsPasswordNullOrEmpty()
     {
         return Password is null || Password.Length == 0;

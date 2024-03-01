@@ -5,7 +5,7 @@ namespace PersonalWebsiteApi.DataAccess.Interfaces;
 
 public interface IUnitOfWork
 {
-    IUserRepository UserRespository { get; set; }
+    IOwnerRepository UserRespository { get; set; }
     IArticleRepository ArticleRepository { get; set; }
     ICategoryRepository CategoriesRepository { get; set; }
     Task<Result<OK>> SaveAsync();

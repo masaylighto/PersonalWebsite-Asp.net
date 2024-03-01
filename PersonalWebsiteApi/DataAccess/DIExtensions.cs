@@ -9,7 +9,7 @@ public static class DIExtensions
 {
     public static void AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IOwnerRepository, OwnerRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IArticleRepository, ArticleRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();

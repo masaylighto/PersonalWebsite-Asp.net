@@ -43,7 +43,6 @@ public class LoginController : ControllerBase
 
         var result = AuthService.GenerateToken
                         (
-                            (ClaimTypes.Role, user.UserType.ToString()),
                             (Constants.UserIDKey, user.Id.ToString()),
                             (Constants.UserNameKey, user.Name)
                         );
