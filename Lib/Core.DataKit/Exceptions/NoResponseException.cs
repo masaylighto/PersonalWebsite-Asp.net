@@ -17,9 +17,4 @@ public class NoResponseException : Exception
     public NoResponseException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
-    public override void GetObjectData(SerializationInfo info, StreamingContext context)
-    {
-        base.GetObjectData(info, context);
-        // Deserialize fields here, if you ever add any.
-    }
 }

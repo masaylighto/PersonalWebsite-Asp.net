@@ -1,8 +1,8 @@
 ﻿#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 using Bogus;
 using System.Net.Http.Json;
-using TheWayToGerman.Core.Cqrs.Commands;
-using TheWayToGerman.Core.Enums;
+using PersonalWebsiteApi.Core.Cqrs.Commands;
+using PersonalWebsiteApi.Core.Enums;
 
 namespace IntegrationTest.Endpoints;
 

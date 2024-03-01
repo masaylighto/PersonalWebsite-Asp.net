@@ -11,10 +11,10 @@ services:
       POSTGRES_USER: "KrqaJOvXGPmLBOPmNIVJ"
 
 
-  thewaytogerman.api:
+  PersonalWebsiteApi.api:
     depends_on:
     - postgresql
-    image: thewaytogermanapi
+    image: PersonalWebsiteApiapi
     restart: on-failure
     ports:    
       - 5080:80
@@ -22,5 +22,5 @@ services:
      ASPNETCORE_ENVIRONMENT: "Production"  
     build:
       context: .
-      dockerfile: TheWayToGerman/TheWayToGerman.Api/Dockerfile
+      dockerfile: PersonalWebsiteApi/PersonalWebsiteApi.Api/Dockerfile
     

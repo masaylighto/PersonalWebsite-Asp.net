@@ -5,10 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using TheWayToGerman.Core.Cqrs.Commands;
-using TheWayToGerman.Core.Cqrs.Queries;
-using TheWayToGerman.Core.Database;
-using TheWayToGerman.Logic.Authentication;
+using PersonalWebsiteApi.Core.Cqrs.Commands;
+using PersonalWebsiteApi.Core.Cqrs.Queries;
+using PersonalWebsiteApi.Core.Database;
+using PersonalWebsiteApi.Logic.Authentication;
 
 namespace IntegrationTest;
 

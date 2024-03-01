@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Json;
-using TheWayToGerman.Core.Cqrs.Queries;
-using TheWayToGerman.Logic.Authentication;
+using PersonalWebsiteApi.Core.Cqrs.Queries;
+using PersonalWebsiteApi.Logic.Authentication;
 
 namespace IntegrationTest.Endpoints;
 

@@ -1,9 +1,9 @@
 ### Status
-[![Deploy to Amazon ECS](https://github.com/masaylighto/TheWayToGerman-Asp.net/actions/workflows/AwsProduction.yml/badge.svg)](https://github.com/masaylighto/TheWayToGerman-Asp.net/actions/workflows/AwsProduction.yml)
+[![Deploy to Amazon ECS](https://github.com/masaylighto/PersonalWebsiteApi-Asp.net/actions/workflows/AwsProduction.yml/badge.svg)](https://github.com/masaylighto/PersonalWebsiteApi-Asp.net/actions/workflows/AwsProduction.yml)
 ### Production Service
-[TheWayToGerman](https://www.derwegzumdeutsch.land/)
+[PersonalWebsiteApi](https://www.derwegzumdeutsch.land/)
 ### Related Projects
-[FrontEnd](https://github.com/masaylighto/TheWayToGerman-SolidJS) Written in SolidJs.
+[FrontEnd](https://github.com/masaylighto/PersonalWebsiteApi-SolidJS) Written in SolidJs.
 ### Description 
 This Website made to provide information about legal immigration to germany 
 ### Before you start
@@ -28,7 +28,7 @@ Lib contain there own readme file in there folders
    - 1.3. DataKit: offer class that handle data like data wrapper (Result Struct)
 2. Diagram: Contain Diagram for website features 
 1. 3. Test: Contain Unit-test and Integration-test 
-1. 4. TheWayToGerman: Contain the main Code and seperated to the following
+1. 4. PersonalWebsiteApi: Contain the main Code and seperated to the following
    - 4.1 Core: Contain Core Stuff like Entities,DBContext etc..
    - 4.2 DataAccess: Represent the data access layer and contains repostiores
    - 4.3 Logic: Command And Queries Handlers, Services and anything related to Business logic
