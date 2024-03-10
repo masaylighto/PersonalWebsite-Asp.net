@@ -29,7 +29,7 @@ public interface IGenericHttpClient
     /// <param name="content">the request content</param>
     /// <param name="HTTPContentBuilder">specify how request content will be serialized</param>
     /// <returns></returns>
-    public Task<Result<ResponseWrapper<ReturnType>>> PostAsync<RequestContent,ReturnType>(Request<RequestContent,ReturnType> request) where ReturnType : class where RequestContent : class;
+    public Task<Result<ResponseWrapper<SuccessReturn, ErrorReturn>>> PostAsync<RequestContent,SuccessReturn, ErrorReturn>(Request<RequestContent,SuccessReturn,ErrorReturn> request) where SuccessReturn : class where ErrorReturn : class where RequestContent : class;
     /// <summary>
     ///  Make PUT HTTP Request 
     /// </summary>
@@ -40,7 +40,7 @@ public interface IGenericHttpClient
     /// <param name="content">the request content</param>
     /// <param name="HTTPContentBuilder">specify how request content will be serialized</param>
     /// <returns></returns>
-    public Task<Result<ResponseWrapper<ReturnType>>> PutAsync<RequestContent,ReturnType>(Request<RequestContent,ReturnType> request) where ReturnType : class where RequestContent : class;
+    public Task<Result<ResponseWrapper<SuccessReturn, ErrorReturn>>> PutAsync<RequestContent, SuccessReturn, ErrorReturn>(Request<RequestContent, SuccessReturn, ErrorReturn> request) where SuccessReturn : class where ErrorReturn : class where RequestContent : class;
     /// <summary>
     ///  Make Delete HTTP Request 
     /// </summary>
@@ -51,7 +51,7 @@ public interface IGenericHttpClient
     /// <param name="content">the request content</param>
     /// <param name="HTTPContentBuilder">specify how request content will be serialized</param>
     /// <returns></returns>
-    public Task<Result<ResponseWrapper<ReturnType>>> DeleteAsync<RequestContent,ReturnType>(Request<RequestContent,ReturnType> request) where ReturnType : class where RequestContent : class;
+    public Task<Result<ResponseWrapper<SuccessReturn, ErrorReturn>>> DeleteAsync<RequestContent, SuccessReturn, ErrorReturn>(Request<RequestContent, SuccessReturn, ErrorReturn> request) where SuccessReturn : class where ErrorReturn : class where RequestContent : class;
     /// <summary>
     ///  Make GET HTTP Request 
     /// </summary>
@@ -62,5 +62,5 @@ public interface IGenericHttpClient
     /// <param name="content">the request content</param>
     /// <param name="HTTPContentBuilder">specify how request content will be serialized</param>
     /// <returns></returns>
-    public Task<Result<ResponseWrapper<ReturnType>>> GetAsync<RequestContent,ReturnType>(Request<RequestContent,ReturnType> request) where ReturnType : class where RequestContent : class;
+    public Task<Result<ResponseWrapper<SuccessReturn, ErrorReturn>>> GetAsync<RequestContent, SuccessReturn, ErrorReturn>(Request<RequestContent, SuccessReturn, ErrorReturn> request) where SuccessReturn : class where ErrorReturn : class where RequestContent : class;
 }

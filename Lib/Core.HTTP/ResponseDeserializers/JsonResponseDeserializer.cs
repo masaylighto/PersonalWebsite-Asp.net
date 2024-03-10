@@ -2,24 +2,46 @@
 using Core.DataKit.Result;
 using Core.HTTP.Interfaces;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 
 namespace Core.HTTP.ResponseDeserializers;
 
-public class JsonResponseDeserializer<ReturnType> : IResponseDeserializer<ReturnType>
+public class JsonResponseDeserializer<SuccessReturn, ErrorReturn> : IResponseDeserializer<SuccessReturn, ErrorReturn> where SuccessReturn : class where ErrorReturn : class
 {
-    public async Task<ReturnType?> Deserialize(HttpResponseMessage httpResponseMessage)
+    public async Task<ResponseWrapper<SuccessReturn, ErrorReturn>> Deserialize(HttpResponseMessage httpResponseMessage)
     {
-        
-            using MemoryStream stream = new MemoryStream();
-            await httpResponseMessage.Content.CopyToAsync(stream);
-            if (stream.Length==0)
+       
+        using var stream = await httpResponseMessage.Content.ReadAsStreamAsync();       
+        var response = new ResponseWrapper<SuccessReturn, ErrorReturn>()
+        {
+            IsSuccess = httpResponseMessage.IsSuccessStatusCode,
+            StatusCode = httpResponseMessage.StatusCode
+        };
+        if (stream.Length==0)
+        {
+            return response;
+        }
+        try
+        {
+            var options = new JsonSerializerOptions
             {
-                return default;              
+                PropertyNameCaseInsensitive = true
+            };
+            if (!httpResponseMessage.IsSuccessStatusCode)
+            {
+                response.Error = await JsonSerializer.DeserializeAsync<ErrorReturn>(stream, options);
+                return response;
             }
-            var result = await JsonSerializer.DeserializeAsync<ReturnType>(stream);
-            return result;
-
-
+            response.Success = await JsonSerializer.DeserializeAsync<SuccessReturn>(stream, options);
+            return response;
+        }
+        catch (Exception ex)
+        {   
+            var bytes= new byte[stream.Length];
+            stream.Read(bytes, 0, (int)stream.Length);     
+            var responseContent = Encoding.UTF8.GetString(bytes);
+            throw new Exception($"ResponseContent {responseContent}",ex);
+        }
     }
 }

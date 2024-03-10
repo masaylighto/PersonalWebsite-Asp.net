@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace Core.HTTP
 {
-    public class ResponseWrapper<ReturnType> where ReturnType:class
+    public class ResponseWrapper<SuccessReturn,ErrorReturn> where SuccessReturn:class where ErrorReturn:class
     {
-        public ReturnType? Response { get; set; }
+        public SuccessReturn? Success { get; set; }
+        public ErrorReturn? Error { get; set; }
+        public bool IsSuccess { get; set; }
         public HttpStatusCode StatusCode { get; set; }
     }
 }

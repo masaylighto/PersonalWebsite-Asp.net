@@ -33,18 +33,14 @@ public class GenericHttpClient : IGenericHttpClient
     {
         HttpClient.BaseAddress = new Uri(baseUrl);
     }
-    async Task<Result<ResponseWrapper<ReturnType>>> SendAsync<ReturnType>(HttpRequestMessage httpRequestMessage, IResponseDeserializer<ReturnType> deserializationStrategy) where ReturnType : class
+    async Task<Result<ResponseWrapper<SuccessReturn,ErrorReturn>>> SendAsync<SuccessReturn, ErrorReturn>(HttpRequestMessage httpRequestMessage, IResponseDeserializer<SuccessReturn, ErrorReturn> deserializationStrategy) where SuccessReturn : class where ErrorReturn : class
     {
         try
         {
             //send request -> receive response  -> try to serialize data. return either the data or exception that hold the detail of the error
             var response = await HttpClient.SendAsync(httpRequestMessage);        
             var responseDeserialized = await deserializationStrategy.Deserialize(response);
-            return new ResponseWrapper<ReturnType>() 
-            {
-                Response = responseDeserialized,
-                StatusCode = response.StatusCode,
-            };
+            return responseDeserialized;
         }
         catch (Exception ex)
         {
@@ -72,7 +68,8 @@ public class GenericHttpClient : IGenericHttpClient
         }
         return httpRequestMessage;
     }
-    public async Task<Result<ResponseWrapper<ReturnType>>> PostAsync<RequestContent,ReturnType>(Request<RequestContent,ReturnType> request) where ReturnType : class where RequestContent : class
+    public async Task<Result<ResponseWrapper<SuccessReturn, ErrorReturn>>> PostAsync<RequestContent, SuccessReturn, ErrorReturn>(Request<RequestContent, SuccessReturn, ErrorReturn> request) where SuccessReturn : class where ErrorReturn : class where RequestContent : class
+    /// <summary>
     {
         //build request if created send if not return the error
         var requestContent = await BuildMessageContent(request.Endpoint, HttpMethod.Post, request.Content, request.HTTPContentBuilder);
@@ -84,7 +81,8 @@ public class GenericHttpClient : IGenericHttpClient
         return await SendAsync(httpRequestMessage, request.ResponseDeserializer);
     }
 
-    public async Task<Result<ResponseWrapper<ReturnType>>> PutAsync<RequestContent,ReturnType>(Request<RequestContent,ReturnType> request) where ReturnType : class where RequestContent : class
+    public async Task<Result<ResponseWrapper<SuccessReturn, ErrorReturn>>> PutAsync<RequestContent, SuccessReturn, ErrorReturn>(Request<RequestContent, SuccessReturn, ErrorReturn> request) where SuccessReturn : class where ErrorReturn : class where RequestContent : class
+    /// <summary>
     {
         //build request if created send if not return the error
         var requestContent = await BuildMessageContent(request.Endpoint, HttpMethod.Put, request.Content, request.HTTPContentBuilder);
@@ -96,7 +94,8 @@ public class GenericHttpClient : IGenericHttpClient
         return await SendAsync(httpRequestMessage, request.ResponseDeserializer);
     }
 
-    public async Task<Result<ResponseWrapper<ReturnType>>> DeleteAsync<RequestContent,ReturnType>(Request<RequestContent,ReturnType> request) where ReturnType : class where RequestContent : class
+    public async Task<Result<ResponseWrapper<SuccessReturn, ErrorReturn>>> DeleteAsync<RequestContent, SuccessReturn, ErrorReturn>(Request<RequestContent, SuccessReturn, ErrorReturn> request) where SuccessReturn : class where ErrorReturn : class where RequestContent : class
+    /// <summary>
     {
         //build request if created send if not return the error
         var requestContent = await BuildMessageContent(request.Endpoint, HttpMethod.Delete, request.Content, request.HTTPContentBuilder);
@@ -108,7 +107,8 @@ public class GenericHttpClient : IGenericHttpClient
         return await SendAsync(httpRequestMessage, request.ResponseDeserializer);
     }
 
-    public async Task<Result<ResponseWrapper<ReturnType>>> GetAsync<RequestContent,ReturnType>(Request<RequestContent,ReturnType> request) where ReturnType : class where RequestContent : class
+    public async Task<Result<ResponseWrapper<SuccessReturn, ErrorReturn>>> GetAsync<RequestContent, SuccessReturn, ErrorReturn>(Request<RequestContent, SuccessReturn, ErrorReturn> request) where SuccessReturn : class where ErrorReturn : class where RequestContent : class
+    /// <summary>
     {
         //build request if created send if not return the error
         var requestContent = await BuildMessageContent(request.Endpoint, HttpMethod.Get, request.Content, request.HTTPContentBuilder);
