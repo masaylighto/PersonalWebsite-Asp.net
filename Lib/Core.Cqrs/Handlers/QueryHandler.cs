@@ -6,7 +6,7 @@ using Cqrs.Handlers;
 
 namespace Core.Cqrs.Handlers;
 
-public abstract class QueryHandler<Query, Response> : BaseHandler<Query, Response> where Query : IQuery<Response>
+public abstract class QueryHandlerAsync<Query, Response> : BaseHandler<Query, Response> where Query : IQuery<Response>
 {
     protected override async Task<Result<Response>> Execute(Query request, CancellationToken cancellationToken)
     {

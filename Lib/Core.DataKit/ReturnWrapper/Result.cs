@@ -1,5 +1,9 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field warning. data in this class has ErrorExist to express if they are null
 
+using Core.DataKit.Exceptions;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+
 namespace Core.DataKit.Result;
 /// <summary>
 /// Wrapper for values. it can implicitly receive a value or an exception or if the value is null it will set ArgumentNullException instead of it
@@ -26,16 +30,20 @@ public class Result<DataType>
     protected Exception Error { get; set; }
     protected bool IsError { get; set; }
     //Polymorphism Method    
-    public bool IsErrorOfType<Type>() => Error is Type;
+    public bool IsErrorType<Type>() => Error is Type && ContainError();
+
+    public bool IsInternalError() => Error is InternalErrorException && ContainError();
+    public bool IsDataType<Type>() => Data is Type && ContainData();
     public bool ContainError() => IsError;
-    public bool ContainData() => Data is not null;
+    public bool ContainData() => !IsError;
     public DataType GetData() => Data;
     public Exception GetError() => Error;
-    public void SetData(DataType? data)
+    public string GetErrorMessage() => Error.Message;
+    public void SetData(DataType? data, [CallerMemberName] string? callerName = "")
     {
         if (data is null)
         {
-            SetError(new ArgumentNullException(nameof(data), $"{nameof(Result)} Received null data"));
+            SetError(new ArgumentNullException(nameof(data), $"{nameof(Result)} Received null data in {callerName}"));
             return;
         }
         Data = data;
@@ -51,8 +59,9 @@ public class Result<DataType>
     //Implict Conversation  
     public static implicit operator Result<DataType>(DataType? data)
     {
+        string? callerMethod = (new StackTrace()).GetFrame(1)?.GetMethod()?.Name;
         Result<DataType> result = new();
-        result.SetData(data);
+        result.SetData(data, callerMethod);
         return result;
     }
     public static implicit operator Result<DataType>(Exception error)
@@ -60,5 +69,26 @@ public class Result<DataType>
         Result<DataType> result = new();
         result.SetError(error);
         return result;
+    }
+    public static Result<DataType> From(DataType? data)
+    {
+        Result<DataType> result = new();
+        result.SetData(data);
+        return result;
+    }
+    public static Result<DataType> operator + (Result<DataType> a, Exception b)
+    {
+        return new AggregateException(new Exception[] {
+            a.Error,
+            b
+        });
+    }
+
+}
+public class Result
+{
+    public static Result<DataType> From<DataType>(DataType? data)
+    {
+        return Result<DataType>.From(data);
     }
 }

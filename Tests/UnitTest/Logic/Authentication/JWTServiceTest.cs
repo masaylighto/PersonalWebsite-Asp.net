@@ -1,9 +1,9 @@
 ﻿
 
-using Core.DataKit.MockWrapper;
-using TheWayToGerman.Logic.Authentication;
-using Moq;
 using Bogus;
+using Core.DataKit.MockWrapper;
+using Moq;
+using TheWayToGerman.Logic.Authentication;
 
 namespace UnitTest.Logic.Authentication;
 
@@ -11,7 +11,7 @@ public class JWTServiceTest
 {
     readonly Faker FakeData = new Faker();
     readonly IAuthService JwtService;
-    readonly IMock<IDateTimeProvider> DateTimeMoq = MoqAble.CreateDateTimeProvider(DateTime.Now,DateTime.UtcNow);
+    readonly IMock<IDateTimeProvider> DateTimeMoq = MoqAble.CreateDateTimeProvider(DateTime.Now, DateTime.UtcNow);
     public JWTServiceTest()
     {
         JwtService = CreateJwtService(DateTimeMoq);
@@ -21,16 +21,18 @@ public class JWTServiceTest
         return new JwtService(new AuthConfig()
         {
             MinutesToExpire = 15,
-            TokenKey = "sadfsfsdgdfhfgjkl"
+            SigningKey = "sadfsfsdgdfhfgjkl",
+            Audience = "SomeAudience",
+            Issuer = "SomeIssuer"
         }, DateTimeMoq.Object);
     }
     [Fact]
     public void GenerateToken_NoClaims_ReturnArgumentNullException()
     {
         //execute
-        var result=  JwtService.GenerateToken();
+        var result = JwtService.GenerateToken();
         //validate        
-        Assert.True(result.IsErrorOfType<ArgumentNullException>());
+        Assert.True(result.IsErrorType<ArgumentNullException>());
     }
     [Fact]
     public void GenerateToken_ClaimsExist_ReturnStringToken()
@@ -38,7 +40,7 @@ public class JWTServiceTest
         //Prepare
         string username = FakeData.Internet.UserName();
         //execute
-        var result = JwtService.GenerateToken(username);
+        var result = JwtService.GenerateToken((nameof(username), username));
         //validate        
         Assert.True(result.ContainData());
     }
@@ -47,11 +49,11 @@ public class JWTServiceTest
     {
         //Prepare
         string username = FakeData.Internet.UserName();
-        var tokenResult = JwtService.GenerateToken(username);
+        var tokenResult = JwtService.GenerateToken((nameof(username), username));
 
         //execute
         var decryptResult = JwtService.DecryptToken(tokenResult.GetData());
-        
+
         //validate
         Assert.True(decryptResult.ContainData());
         Assert.True(decryptResult.GetData().IsValid);
@@ -61,11 +63,11 @@ public class JWTServiceTest
     {
         //Prepare
         string username = FakeData.Internet.UserName();
-        var tokenResult = JwtService.GenerateToken(username);
+        var tokenResult = JwtService.GenerateToken((nameof(username), username));
         var JwtServiceExpiredDate = CreateJwtService(MoqAble.CreateDateTimeProvider(DateTime.Now.AddMinutes(16), DateTime.UtcNow.AddMinutes(16))); // to set a fake time 
         //execute
         var decryptResult = JwtServiceExpiredDate.DecryptToken(tokenResult.GetData());
-       
+
         //validate
         Assert.True(decryptResult.ContainData());
         Assert.False(decryptResult.GetData().IsValid);
@@ -75,21 +77,21 @@ public class JWTServiceTest
     {
         //Prepare
         string username = FakeData.Internet.UserName();
-        var tokenResult = JwtService.GenerateToken(username);
+        var tokenResult = JwtService.GenerateToken((nameof(username), username));
 
         //execute
         var decryptResult = JwtService.DecryptToken(tokenResult.GetData());
 
         //validate
         Assert.True(decryptResult.ContainData());
-        Assert.Equal(decryptResult.GetData()!.Claims!.FirstOrDefault()!.Value,username);
+        Assert.Equal(decryptResult.GetData()!.Claims!.FirstOrDefault()!.Value, username);
     }
     [Fact]
     public void CheckIfTokenContainClaims_CheckNotAddedClaim_ReturnFalse()
     {
         //Prepare
         string username = FakeData.Internet.UserName();
-        var tokenResult = JwtService.GenerateToken(username);
+        var tokenResult = JwtService.GenerateToken((nameof(username), username));
 
         //execute
         var decryptResult = JwtService.DecryptToken(tokenResult.GetData());

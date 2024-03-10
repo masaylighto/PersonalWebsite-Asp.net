@@ -1,0 +1,397 @@
+{
+	"info": {
+		"_postman_id": "74c52792-b740-43ea-80a3-30a0c3068f5a",
+		"name": "TheWayToGerman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24181825"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Authunticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"token\", jsonData.jwtToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{OwnerUserName}}\",\r\n  \"password\": \"{{OwnerPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5021/api/v1/login/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5021",
+							"path": [
+								"api",
+								"v1",
+								"login",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Owner",
+			"item": [
+				{
+					"name": "Owner",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"masaylighto\",\r\n  \"email\":\"www.masaylighto@gmail.com\",\r\n  \"name\":\"mohammedassad\",\r\n  \"password\": \"8PS33gotf24a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5021/api/v1/Owner",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5021",
+							"path": [
+								"api",
+								"v1",
+								"Owner"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Owner",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{OwnerUserName}}\",\r\n  \"email\":\"DerWegZumDeutschland@gmail.com\",\r\n  \"name\":\"DerWegZumDeutschland\", \r\n  \"password\": \"{{OwnerPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5021/api/v1/Owner",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5021",
+							"path": [
+								"api",
+								"v1",
+								"Owner"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"masaylighto3\",\r\n  \"email\":\"www.masaylighto3@gmail.com\",\r\n  \"name\":\"mohammedAssad\",\r\n  \"password\": \"8PS33gotf24a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5021/api/v1/Admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5021",
+							"path": [
+								"api",
+								"v1",
+								"Admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"masaylighto2\",\r\n  \"email\":\"www.masaylighto2@gmail.com\",\r\n  \"name\":\"mohammed\",\r\n  \"password\": \"8PS33gotf24a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5021/api/v1/Admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5021",
+							"path": [
+								"api",
+								"v1",
+								"Admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"id\":\"e1b8b601-21fe-4ab8-ab02-cea793d578be\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5021/api/v1/Admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5021",
+							"path": [
+								"api",
+								"v1",
+								"Admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5021/api/v1/Admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5021",
+							"path": [
+								"api",
+								"v1",
+								"Admin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5021/api/v1/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5021",
+					"path": [
+						"api",
+						"v1",
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,53 @@
+name: Deploy to Amazon ECS
+on:
+  push:
+    branches:
+      - master
+      - develop
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+          
+      - name: Build
+        run: dotnet build TheWayToGerman.sln
+        
+      - name: Test
+        run: dotnet test TheWayToGerman.sln
+  deploy:
+    name: deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+          
+      - name: Create SSH Key File      
+        run: |        
+          echo "${{ secrets.EC2_SSH_KEY }}" >> ../key.pem
+          sudo chmod 600 ../key.pem
+      - name: Prepare for Deployment
+        run: |  
+          ssh -o StrictHostKeyChecking=no -i ../key.pem  ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}  "mkdir -p ~/${{ secrets.Target }}/ ;  rm ~/${{ secrets.Target }}/* -rf"
+       
+      - name: Deploy code to EC2 instance
+        run: |  
+         rsync -v -Pav -e "ssh -o StrictHostKeyChecking=no -i ../key.pem  " . ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:~/${{ secrets.Target }}/
+         
+      - name: Run code on EC2 instance
+        run: |  
+         ssh -o StrictHostKeyChecking=no -i ../key.pem  ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}  "cd ~/${{ secrets.Target }}/ ; sudo docker-compose -p "the_way_to_german_api" up --build -d"
+       
+      - name: Remove SSH Key File     
+        run:  sudo rm  ../key.pem           
+

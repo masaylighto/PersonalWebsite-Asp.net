@@ -29,7 +29,7 @@ public interface IGenericHttpClient
     /// <param name="content">the request content</param>
     /// <param name="HTTPContentBuilder">specify how request content will be serialized</param>
     /// <returns></returns>
-    public Task<Result<ReturnType>> PostAsync<ReturnType, RequestContent>(string endPoint, IResponseDeserializer<ReturnType> responseDeserializer, RequestContent? content = default, IRequestContentBuilder<RequestContent>? HTTPContentBuilder = null) where ReturnType : class where RequestContent : class;
+    public Task<Result<ReturnType>> PostAsync<ReturnType, RequestContent>(Request<ReturnType, RequestContent> request) where ReturnType : class where RequestContent : class;
     /// <summary>
     ///  Make PUT HTTP Request 
     /// </summary>
@@ -40,7 +40,7 @@ public interface IGenericHttpClient
     /// <param name="content">the request content</param>
     /// <param name="HTTPContentBuilder">specify how request content will be serialized</param>
     /// <returns></returns>
-    public Task<Result<ReturnType>> PutAsync<ReturnType, RequestContent>(string endPoint, IResponseDeserializer<ReturnType> responseDeserializer, RequestContent? content = default, IRequestContentBuilder<RequestContent>? HTTPContentBuilder = null) where ReturnType : class where RequestContent : class;
+    public Task<Result<ReturnType>> PutAsync<ReturnType, RequestContent>(Request<ReturnType, RequestContent> request) where ReturnType : class where RequestContent : class;
     /// <summary>
     ///  Make Delete HTTP Request 
     /// </summary>
@@ -51,7 +51,7 @@ public interface IGenericHttpClient
     /// <param name="content">the request content</param>
     /// <param name="HTTPContentBuilder">specify how request content will be serialized</param>
     /// <returns></returns>
-    public Task<Result<ReturnType>> DeleteAsync<ReturnType, RequestContent>(string endPoint, IResponseDeserializer<ReturnType> responseDeserializer, RequestContent? content = default, IRequestContentBuilder<RequestContent>? HTTPContentBuilder = null) where ReturnType : class where RequestContent : class;
+    public Task<Result<ReturnType>> DeleteAsync<ReturnType, RequestContent>(Request<ReturnType, RequestContent> request) where ReturnType : class where RequestContent : class;
     /// <summary>
     ///  Make GET HTTP Request 
     /// </summary>
@@ -62,5 +62,5 @@ public interface IGenericHttpClient
     /// <param name="content">the request content</param>
     /// <param name="HTTPContentBuilder">specify how request content will be serialized</param>
     /// <returns></returns>
-    public Task<Result<ReturnType>> GetAsync<ReturnType, RequestContent>(string endPoint, IResponseDeserializer<ReturnType> responseDeserializer, RequestContent? content = default, IRequestContentBuilder<RequestContent>? HTTPContentBuilder = null) where ReturnType : class where RequestContent : class;
+    public Task<Result<ReturnType>> GetAsync<ReturnType, RequestContent>(Request<ReturnType, RequestContent> request) where ReturnType : class where RequestContent : class;
 }

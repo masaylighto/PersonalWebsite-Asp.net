@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Api\**" />
+    <EmbeddedResource Remove="Api\**" />
+    <None Remove="Api\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
@@ -26,14 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Api\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\TheWayToGerman.Api\TheWayToGerman.Api.csproj" />
-    <ProjectReference Include="..\..\TheWayToGerman.Core\TheWayToGerman.Core.csproj" />
-    <ProjectReference Include="..\..\TheWayToGerman.DataAccess\TheWayToGerman.DataAccess.csproj" />
-    <ProjectReference Include="..\..\TheWayToGerman.Logic\TheWayToGerman.Logic.csproj" />
+    <ProjectReference Include="..\..\TheWayToGerman\TheWayToGerman.Api\TheWayToGerman.Api.csproj" />
+    <ProjectReference Include="..\..\TheWayToGerman\TheWayToGerman.Core\TheWayToGerman.Core.csproj" />
+    <ProjectReference Include="..\..\TheWayToGerman\TheWayToGerman.DataAccess\TheWayToGerman.DataAccess.csproj" />
+    <ProjectReference Include="..\..\TheWayToGerman\TheWayToGerman.Logic\TheWayToGerman.Logic.csproj" />
   </ItemGroup>
 
 </Project>
