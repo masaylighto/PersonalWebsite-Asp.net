@@ -5,10 +5,10 @@ using Core.HTTP.ResponseDeserializers;
 
 namespace Core.HTTP;
 
-public class Request<ReturnType, RequestContent> where ReturnType : class where RequestContent : class
+public class Request<RequestContent,ReturnType> where ReturnType : class where RequestContent : class
 {
-    public required string Endpoint { get; set; }
-    public IResponseDeserializer<ReturnType> ResponseDeserializer { get; set; } = new JsonResponseDeserializer<ReturnType>();
-    public RequestContent? Content { get; set; }
-    public IRequestContentBuilder<RequestContent>? HTTPContentBuilder { get; set; }
+    public virtual required string Endpoint { get; set; }
+    public virtual IResponseDeserializer<ReturnType> ResponseDeserializer { get; set; } = new JsonResponseDeserializer<ReturnType>();
+    public virtual RequestContent? Content { get; set; }
+    public virtual IRequestContentBuilder<RequestContent>? HTTPContentBuilder { get; set; }
 }

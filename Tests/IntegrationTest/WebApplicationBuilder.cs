@@ -9,15 +9,17 @@ using PersonalWebsiteApi.Core.Cqrs.Commands;
 using PersonalWebsiteApi.Core.Cqrs.Queries;
 using PersonalWebsiteApi.Core.Database;
 using PersonalWebsiteApi.Logic.Authentication;
+using Core.HTTP;
+using Core.HTTP.Interfaces;
 
 namespace IntegrationTest;
 
 public static class WebApplicationBuilder
 {
-    public static HttpClient ApiClient()
+    public static IGenericHttpClient ApiClient()
     {
-        return new WebApplicationFactory<Program>().WithWebHostBuilder(HostConfiguration).CreateClient();
-
+        var httpclient= new WebApplicationFactory<Program>().WithWebHostBuilder(HostConfiguration).CreateClient();
+        return new GenericHttpClient(httpclient);
     }
     static void HostConfiguration(IWebHostBuilder webHostBuilder)
     {
@@ -34,78 +36,7 @@ public static class WebApplicationBuilder
             services.AddDbContextPool<PostgresDBContext>((x) =>
             {
                 x.UseInMemoryDatabase(memoryInstanceName);
-
             });
-
         });
-
-    }
-    public static async Task Authenticate(this HttpClient httpClient, string username = "masaylighto", string password = "8PS33gotf24a")
-    {
-        await httpClient.AddFirstOwner();
-        var dto = new AuthenticationQuery() { Username = username, Password = password };
-        var request = JsonConvert.SerializeObject(dto);
-
-
-        using var result = await httpClient.PostAsync("api/v1/login/auth", new StringContent(request, new MediaTypeHeaderValue("application/json")));
-
-        var response = await result.Content.ReadAsStringAsync();
-
-        try
-        {
-            var json = JsonConvert.DeserializeObject<AuthToken>(response);
-            if (json is null)
-            {
-                throw new Exception($" failed to parse authentication request's response");
-            }
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", json.JwtToken);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($" the http response {response} : the error {ex.Message} ");
-        }
-
-    }
-    public static async Task AddFirstOwner(this HttpClient httpClient, string Username = "masaylighto", string Password = "8PS33gotf24a")
-    {
-        //prepare
-        CreateFirstOwnerCommand createfirstOwnerDTO = new()
-        {
-            Email = "masaylighto@gmail.com",
-            Name = "mohammed",
-            Password = Password,
-            Username = Username,
-        };
-        await httpClient.SendAsync("api/v1/Owner", Helper.CreateJsonContent(createfirstOwnerDTO), HttpMethod.Post);
-
-    }
-    public static async Task<HttpResponseMessage> SendAsync(this HttpClient httpClient, string url, HttpContent content, HttpMethod method)
-    {
-        var requestMessage = new HttpRequestMessage()
-        {
-            RequestUri = new Uri(httpClient.BaseAddress + url),
-            Content = content,
-            Method = method
-        };
-        requestMessage.Headers.Authorization = httpClient.DefaultRequestHeaders.Authorization; // this fake client act very wired 
-        return await httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead);
-    }
-    public static async Task<T> SendAsync<T>(this HttpClient httpClient, string url, HttpContent content, HttpMethod method)
-    {
-        var requestMessage = new HttpRequestMessage()
-        {
-            RequestUri = new Uri(httpClient.BaseAddress + url),
-            Content = content,
-            Method = method
-        };
-        requestMessage.Headers.Authorization = httpClient.DefaultRequestHeaders.Authorization; // this fake client act very wired 
-        var response = await httpClient.SendAsync(url, content, method);
-        if (response is null)
-        {
-            throw new Exception("failed to send request");
-
-        }
-
-        return await response.Content.ReadFromJsonAsync<T>() ?? throw new Exception("failed to read request response");
     }
 }

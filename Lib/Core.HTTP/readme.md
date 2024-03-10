@@ -12,19 +12,19 @@ Provide HTTPClient
           - ```JwtAuthStrategy```
 
 
-      - ```PostAsync<ReturnType, RequestContent>(Request<ReturnType,RequestContent> request)```: Preform HTTP Request Of Type POST and it take the following parameter 
+      - ```PostAsync<RequestContent,ReturnType>(Request<ReturnType,RequestContent> request)```: Preform HTTP Request Of Type POST and it take the following parameter 
           - ```request```: request details
 
 
-      - ```PutAsync<ReturnType, RequestContent>(Request<ReturnType,RequestContent> request)``` : Preform HTTP Request Of Type POST and it take the following parameter
+      - ```PutAsync<RequestContent,ReturnType>(Request<ReturnType,RequestContent> request)``` : Preform HTTP Request Of Type POST and it take the following parameter
           - ```request```: request details
 
 
-      - ```GetAsync<ReturnType, RequestContent>(Request<ReturnType,RequestContent> request)``` : Preform HTTP Request Of Type POST and it take the following parameter
+      - ```GetAsync<RequestContent,ReturnType>(Request<ReturnType,RequestContent> request)``` : Preform HTTP Request Of Type POST and it take the following parameter
           - ```request```: request detail      
 
 
-      - ```DeleteAsync<ReturnType, RequestContent>(Request<ReturnType,RequestContent> request)``` : Preform HTTP Request Of Type POST and it take the following parameter
+      - ```DeleteAsync<RequestContent,ReturnType>(Request<ReturnType,RequestContent> request)``` : Preform HTTP Request Of Type POST and it take the following parameter
           - ```request```: request details
 
      

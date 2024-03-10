@@ -38,7 +38,7 @@ public class Result<DataType>
     public bool ContainData() => !IsError;
     public DataType GetData() => Data;
     public Exception GetError() => Error;
-    public string GetErrorMessage() => Error.Message;
+    public string GetErrorMessage() => $"Error Message: {Error.Message}.   Internal Error Message: {Error?.InnerException?.Message}";
     public void SetData(DataType? data, [CallerMemberName] string? callerName = "")
     {
         if (data is null)
